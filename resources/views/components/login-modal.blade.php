@@ -58,7 +58,7 @@
                         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login
                         to your account</button>
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                        Not registered? <a href="{{ route('register') }}"
+                        Not registered? <a href="#" data-modal-target="registration-modal" data-modal-toggle="registration-modal" data-modal-hide="authentication-modal"
                             class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
                     </div>
                 </form>
@@ -66,3 +66,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    var $targetEl = document.getElementById('authentication-modal');
+
+        var loginModal = new Modal($targetEl, []);
+        function openRegistrationModal() {
+            loginModal.hide()
+        }
+</script>

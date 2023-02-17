@@ -29,6 +29,7 @@
     @yield('content')
 
     <x-login-modal />
+    <x-register-modal />
 
     <x-footer />
 </body>
