@@ -1,6 +1,6 @@
 <x-modal-new id="registration-modal">
 	<div class="relative h-full w-full max-w-2xl md:h-auto">
-		<div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+		<div class="relative rounded-sm bg-white shadow dark:bg-gray-700">
 			<x-modal-header>
 				{{ config('constants.HEADER_TITLE.REGISTER') }}
 			</x-modal-header>

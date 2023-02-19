@@ -13,6 +13,19 @@
 	<title>WebSys Project</title>
 
 	<link
+		href="https://fonts.googleapis.com"
+		rel="preconnect"
+	>
+	<link
+		crossorigin
+		href="https://fonts.gstatic.com"
+		rel="preconnect"
+	>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,700;1,300&display=swap"
+		rel="stylesheet"
+	>
+	<link
 		href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css"
 		rel="stylesheet"
 	/>
@@ -21,6 +34,9 @@
 	></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"
+	></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
 	></script>
 
 	<script>
@@ -43,6 +59,11 @@
 
 	@yield('content')
 
+	<x-hero />
+	<x-features />
+	<x-services />
+	<x-stats />
+	<x-team-section />
 	<x-login-modal />
 	<x-register-modal />
 

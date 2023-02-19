@@ -16,7 +16,7 @@
 	            border-gray-300
 	            text-gray-900
 	            text-sm
-	            rounded-lg
+	            rounded-sm
 	            focus:ring-blue-500
 	            focus:border-blue-500
 	            block

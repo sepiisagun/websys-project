@@ -1,6 +1,6 @@
 <x-modal-new id="authentication-modal">
 	<div class="relative h-full w-full max-w-md md:h-auto">
-		<div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+		<div class="relative rounded-sm bg-white shadow dark:bg-gray-700">
 			<x-modal-header>
 				{{ config('constants.HEADER_TITLE.LOGIN') }}
 			</x-modal-header>

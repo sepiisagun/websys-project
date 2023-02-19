@@ -5,6 +5,7 @@
 <a
 	{{ $attributes->merge([
 	    'class' => '
+				btn
 	            py-2.5
 	            px-5
 	            mx-2
@@ -13,7 +14,6 @@
 	            text-gray-900
 	            focus:outline-none
 	            bg-white
-	            rounded-lg
 	            border
 	            border-gray-200
 	            hover:bg-gray-100
