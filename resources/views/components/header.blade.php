@@ -4,16 +4,18 @@
 	<div class="container mx-auto flex flex-wrap items-center justify-between">
 		<a
 			class="flex items-center"
-			href="https://flowbite.com/"
+			href="https://flowbite.com"
 		>
 			<img
-				alt="sometitle"
+				alt="somelogo"
 				class="mr-3 h-6 sm:h-9"
 				src="https://flowbite.com/docs/images/logo.svg"
 			/>
 			<span
 				class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
-			>sometitle</span>
+			>
+				{{ config('app.name') }}
+			</span>
 		</a>
 		<div class="flex md:order-2">
 			@auth
@@ -36,7 +38,7 @@
 							class="mr-2 h-8 w-8 rounded-full"
 							src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
 						>
-						{{ Str::title(Auth::user()->name . ' sagun') }}
+						{{ Str::title(Auth::user()->name . ' ') }}
 						<svg
 							aria-hidden="true"
 							class="mx-1.5 h-4 w-4"
@@ -65,71 +67,71 @@
 							aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton"
 							class="py-2 text-sm text-gray-700 dark:text-gray-200"
 						>
+							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
+								<li>
+									<x-profile-link
+										href="{{ $link['link'] ? route($link['link']) : '#' }}"
+									>
+										{{ $link['label'] }}
+									</x-profile-link>
+								</li>
+							@endforeach
 							<li>
-								<a
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-									href="{{ route('profile.edit') }}"
-								>Profile</a>
-							</li>
-							<li>
-								<a
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-									href="#"
-								>Settings</a>
-							</li>
-							<li>
-								<a
-									class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-									href="#"
-								>Earnings</a>
+								<x-profile-link
+									href="{{ route('logout') }}"
+									onclick="event.preventDefault(); this.closest('form').submit();"
+                                    class="rounded-lg px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+								>
+									{{ config('constants.FORM_LABELS.LOGOUT') }}
+								</x-profile-link>
 							</li>
 						</ul>
-						<div class="py-2">
-							<a
-								class="rounded-lg px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-								href="{{ route('logout') }}"
-								onclick="event.preventDefault(); this.closest('form').submit();"
-							>
-								Log out
-							</a>
-						</div>
 					</div>
+
 				</form>
 			@else
-				<div class="flex md:order-2">
-					<a
-						class="mr-3 space-x-7 rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0"
-						data-modal-target="authentication-modal"
-						data-modal-toggle="authentication-modal"
-						href="#"
-					>
-						Log in
-					</a>
-					<button
-						aria-controls="mobile-menu-2"
-						aria-expanded="false"
-						class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
-						data-collapse-toggle="mobile-menu-2"
-						type="button"
-					>
-						<span class="sr-only">Open main menu</span>
-						<svg
-							aria-hidden="true"
-							class="h-6 w-6"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								clip-rule="evenodd"
-								d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-								fill-rule="evenodd"
-							></path>
-						</svg>
-					</button>
-				</div>
+				<a
+					class="btn mr-3 space-x-7 bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0"
+					data-modal-target="authentication-modal"
+					data-modal-toggle="authentication-modal"
+					href="#"
+				>
+					{{ config('constants.FORM_LABELS.LOGIN') }}
+				</a>
 			@endauth
-
+			<button
+				aria-controls="mobile-menu-2"
+				aria-expanded="false"
+				class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+				data-collapse-toggle="mobile-menu-2"
+				type="button"
+			>
+				<span class="sr-only">Open main menu</span>
+				<svg
+					class="h-6 w-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						clip-rule="evenodd"
+						d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+						fill-rule="evenodd"
+					></path>
+				</svg>
+				<svg
+					class="hidden h-6 w-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						clip-rule="evenodd"
+						d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+						fill-rule="evenodd"
+					></path>
+				</svg>
+			</button>
 			{{-- Light / Dark mode --}}
 			<button
 				class="rounded-lg p-2.5 text-sm text-gray-500 hover:bg-inherit focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-inherit dark:focus:ring-gray-700"
@@ -169,31 +171,15 @@
 			<ul
 				class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-gray-900"
 			>
-				<li>
-					<a
-						aria-current="page"
-						class="block rounded-lg bg-blue-700 py-2 pl-3 pr-4 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700"
-						href="#"
-					>Booking</a>
-				</li>
-				<li>
-					<a
-						class="block rounded-lg py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white"
-						href="#"
-					>About Us</a>
-				</li>
-				<li>
-					<a
-						class="block rounded-lg py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white"
-						href="#"
-					>Services</a>
-				</li>
-				<li>
-					<a
-						class="block rounded-lg py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white"
-						href="#"
-					>Contact</a>
-				</li>
+				@foreach (config('constants.NAV_LINKS') as $link)
+					<li>
+						<x-nav-link
+							href="{{ $link['link'] ? route($link['link']) : '#' }}"
+						>
+							{{ $link['label'] }}
+						</x-nav-link>
+					</li>
+				@endforeach
 			</ul>
 		</div>
 	</div>
