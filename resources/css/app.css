@@ -10,13 +10,21 @@ body{
 }
 
 .btn {
-    @apply shadow-md py-3 px-6 rounded-md transition duration-300
+    @apply shadow-md py-3 px-6 rounded-md transition duration-300;
 }
 
 .btn-blue{
-    @apply bg-blue-800 text-white
+    @apply bg-blue-800 text-white;
 }
 
 .btn-white{
-    @apply bg-white text-black
+    @apply bg-white text-black;
+}
+
+.btn-teal{
+    @apply bg-teal-800 text-white;
+}
+
+.text-teal-color{
+    color: #DBE8E7;
 }

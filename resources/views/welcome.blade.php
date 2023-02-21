@@ -61,7 +61,8 @@
 
 	<x-hero />
 	<x-features />
-	<x-services />
+	<x-testimonials />
+	<x-listings-cta />
 	<x-stats />
 	<x-team-section />
 	<x-login-modal />

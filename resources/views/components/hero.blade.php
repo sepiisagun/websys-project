@@ -5,8 +5,10 @@
 		<div
 			class="absolute flex h-[500px] max-h-[500px] w-full flex-col justify-center rounded-t-lg bg-black/50 text-center text-gray-200"
 		>
-			<h1 class="px-5 text-5xl font-bold sm:text-6xl md:text-7xl lg:text-8xl"> LIVE
-				<span class="text-blue-300">THERE </span>
+			<h1
+				class="px-5 text-5xl font-bold text-white sm:text-6xl md:text-7xl lg:text-8xl"
+			> LIVE
+				<span class="text-teal-color">THERE </span>
 			</h1>
 			<p class="text-white-800 px-6 text-lg">
 				Book unique homes & experience a city like a local.
@@ -15,7 +17,7 @@
 			{{-- div for buttons --}}
 			<div class="mt-8 flex flex-wrap justify-center gap-6 px-6">
 				<button
-					class="btn btn-blue hover:bg-white hover:text-black"
+					class="btn btn-teal hover:bg-white hover:text-black"
 					type="button"
 				>Book Now</button>
 				<button

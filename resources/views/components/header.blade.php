@@ -56,7 +56,7 @@
 
 					<!-- Dropdown menu -->
 					<div
-						class="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+						class="z-15 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
 						id="dropdownAvatarName"
 					>
 						<div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -91,7 +91,7 @@
 				</form>
 			@else
 				<a
-					class="btn mr-3 space-x-7 bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0"
+					class="btn mr-3 space-x-7 btn-teal px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
 					data-modal-target="authentication-modal"
 					data-modal-toggle="authentication-modal"
 					href="#"

@@ -184,45 +184,9 @@ return [
             'rating' => 5,
         ],
     ],
-    'SERVICES_CARD' => [
-        'TITLE' => 'Services you can trust',
-        'DESCRIPTION' => 'We want your experience with Airbnb to be easy and enjoyable. Here’s how we’re working to help make you feel secure and protected:',
-    ],
-    'SERVICES_ITEMS' => [
-        'ONE' => [
-            'label' => 'Accounts',
-            'description' => 'Verified personal profiles and listings',
-        ],
-        'TWO' => [
-            'label' => 'Communication',
-            'description' => 'Smart messaging for Hosts and guests to safely communicate with confidence',
-        ],
-        'THREE' => [
-            'label' => 'Trusted Platform',
-            'description' => 'A trusted platform for collecting and transferring payments',
-        ],
-        'FOUR' => [
-            'label' => '24/7 Support',
-            'description' => 'Got questions? Get answers in our Help Center.',
-        ],
-    ],
-    'SERVICES_IMAGE' => [
-        'ONE' => [
-            'src' => '/img/icon1.png',
-            'alt' => 'one'
-        ],
-        'TWO' => [
-            'src' => '/img/icon2.png',
-            'alt' => 'two'
-        ],
-        'THREE' => [
-            'src' => '/img/icon3.png',
-            'alt' => 'three'
-        ],
-        'FOUR' => [
-            'src' => '/img/icon4.png',
-            'alt' => 'four'
-        ],
+    'LISTINGS_CARD' => [
+        'TITLE' => 'Explore our Airbnb Listings',
+        'DESCRIPTION' => 'Find homes you would never have know to search for.',
     ],
     'STATS_ITEMS' => [
         0 => [
@@ -250,23 +214,15 @@ return [
             'alt' => 'one',
         ],
         1 => [
-            'name' => 'Leslie Alexander',
+            'name' => 'Roberta Casas',
             'title' => 'Co-Founder / CEO',
-            'image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            'image' => 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png',
             'alt' => 'one',
         ],
-        2 => [
-            'name' => 'Leslie Alexander',
-            'title' => 'Co-Founder / CEO',
-            'image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            'alt' => 'one',
-        ],
-        3 => [
-            'name' => 'Leslie Alexander',
-            'title' => 'Co-Founder / CEO',
-            'image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            'alt' => 'one',
-        ],
+    ],
+    'TESTIMONIAL_CARD' => [
+        'TITLE' => 'Satisfied Clients',
+        'DESCRIPTION' => 'We want your experience with Airbnb to be easy and enjoyable. Check what our customers say about us:',
     ],
     'TESTIMONIAL_ITEMS' => [
         0 => [

@@ -1,4 +1,4 @@
-<div class="bg-slate-900 py-24 sm:py-32">
+<div class="sm:py-25 bg-teal-900 py-24">
 	<div
 		class="mx-auto grid max-w-7xl gap-y-20 gap-x-8 px-6 lg:px-8 xl:grid-cols-3">
 		<div class="max-w-2xl">
@@ -10,7 +10,7 @@
 			</p>
 		</div>
 		<ul
-			class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
+			class="ml-20 grid gap-x-5 gap-y-8 sm:grid-cols-2 sm:gap-y-12 xl:col-span-2"
 			role="list"
 		>
 			@foreach (config('constants.TEAM_ITEMS') as $item)
