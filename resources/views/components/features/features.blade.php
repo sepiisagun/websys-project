@@ -14,7 +14,7 @@
 				class="mt-3 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-8"
 			>
 				@foreach (config('constants.FEATURE_ITEMS') as $item)
-					<x-feature-item :item="$item" />
+					<x-features.feature-item :item="$item" />
 				@endforeach
 			</div>
 		</div>

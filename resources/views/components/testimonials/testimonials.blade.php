@@ -17,7 +17,7 @@
 			class="mt-2 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-4 lg:grid-cols-4 lg:gap-x-8"
 		>
 			@foreach (config('constants.TESTIMONIAL_ITEMS') as $item)
-				<x-testimonial-item :item="$item" />
+				<x-testimonials.testimonial-item :item="$item" />
 			@endforeach
 		</dl>
 	</div>

@@ -10,7 +10,7 @@
         </div>
         <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             @foreach (config('constants.FOOTER_TABS') as $link)
-				<x-footer-link :item="$link" />
+				<x-footer.footer-link :item="$link" />
 			@endforeach
         </div>
     </div>
@@ -21,9 +21,9 @@
         </span>
         <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             @foreach (config('constants.FOOTER_SOCIALS') as $link)
-                <x-footer-socials :d="$link['icon']" href="{{ $link['link'] ? route($link['link']) : '#' }}">
+                <x-footer.footer-socials :d="$link['icon']" href="{{ $link['link'] ? route($link['link']) : '#' }}">
                     {{ $link['label'] }}
-                </x-footer-socials>
+                </x-footer.footer-socials>
             @endforeach
         </div>
     </div>

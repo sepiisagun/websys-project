@@ -55,20 +55,20 @@
 </head>
 
 <body>
-	<x-header />
+	<x-header.header />
 
 	@yield('content')
 
 	<x-hero />
-	<x-features />
-	<x-testimonials />
-	<x-listings-cta />
-	<x-stats />
-	<x-team-section />
-	<x-login-modal />
-	<x-register-modal />
+	<x-features.features />
+	<x-stats.stats />
+	<x-testimonials.testimonials />
+	<x-carousel.listings-cta />
+	<x-team.team-section />
+	<x-modals.login-modal />
+	<x-modals.register-modal />
 
-	<x-footer />
+	<x-footer.footer />
 </body>
 
 <script>

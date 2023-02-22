@@ -1,4 +1,4 @@
-@props(['messages'])
+@props(['messages' => ''])
 
 @if ($messages)
 	<ul
