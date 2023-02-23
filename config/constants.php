@@ -257,5 +257,19 @@ return [
             'image' => 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png',
             'alt' => 'joseph',
         ],
+    ],
+    'CAROUSEL_ITEMS' => [
+        0 => [
+            'name' => 'First Image',
+            'image' => '/img/card1.png' 
+        ],
+        1 => [
+            'name' => 'Second Image',
+            'image' => '/img/card2.png' 
+        ],
+        2 => [
+            'name' => 'Third Image',
+            'image' => '/img/card3.png' 
+        ],
     ]
 ];

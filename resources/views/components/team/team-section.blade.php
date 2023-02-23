@@ -14,7 +14,7 @@
 			role="list"
 		>
 			@foreach (config('constants.TEAM_ITEMS') as $item)
-				<x-team-item :item="$item" />
+				<x-team.team-item :item="$item" />
 			@endforeach
 		</ul>
 	</div>

@@ -30,65 +30,15 @@
 				<!-- Carousel wrapper -->
 				<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
 					<!-- Item 1 -->
-					<div
-						class="hidden duration-700 ease-in-out"
-						data-carousel-item
-					>
-						<span
-							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-semibold text-white dark:text-gray-800 sm:text-3xl"
-						>First Slide</span>
-						<img
-							alt="..."
-							class="absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-							src="/img/card1.png"
-						>
-					</div>
-					<!-- Item 2 -->
-					<div
-						class="hidden duration-700 ease-in-out"
-						data-carousel-item
-					>
-						<img
-							alt="..."
-							class="absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-							src="/img/card2.png"
-						>
-					</div>
-					<!-- Item 3 -->
-					<div
-						class="hidden duration-700 ease-in-out"
-						data-carousel-item
-					>
-						<img
-							alt="..."
-							class="absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-							src="/img/card3.png"
-						>
-					</div>
+					@foreach (config('constants.CAROUSEL_ITEMS') as $item)
+						<x-carousel.carousel-item :item="$item"/>
+					@endforeach
 				</div>
 				<div
 					class="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
-					<button
-						aria-current="false"
-						aria-label="Slide 1"
-						class="h-3 w-3 rounded-full"
-						data-carousel-slide-to="0"
-						type="button"
-					></button>
-					<button
-						aria-current="false"
-						aria-label="Slide 2"
-						class="h-3 w-3 rounded-full"
-						data-carousel-slide-to="1"
-						type="button"
-					></button>
-					<button
-						aria-current="false"
-						aria-label="Slide 3"
-						class="h-3 w-3 rounded-full"
-						data-carousel-slide-to="2"
-						type="button"
-					></button>
+					@foreach (config('constants.CAROUSEL_ITEMS') as $item)
+						<x-carousel.carousel-button />
+					@endforeach
 				</div>
 
 				<!-- Slider controls -->

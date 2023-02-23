@@ -1,11 +1,11 @@
-<x-modal-new id="registration-modal">
+<x-modals.modal-new id="registration-modal">
 	<div class="relative h-full w-full max-w-2xl md:h-auto">
 		<div class="relative rounded-sm bg-white shadow dark:bg-gray-700">
-			<x-modal-header>
+			<x-modals.modal-header>
 				{{ config('constants.HEADER_TITLE.REGISTER') }}
-			</x-modal-header>
-			<x-close-button data-modal-hide="registration-modal" />
-			<x-modal-body>
+			</x-modals.modal-header>
+			<x-forms.close-button data-modal-hide="registration-modal" />
+			<x-modals.modal-body>
 				<x-auth-session-status
 					:status="session('status')"
 					class="mb-4"
@@ -17,11 +17,11 @@
 					@csrf
 					<div class="mb-6 grid gap-6 md:grid-cols-2">
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('First Name')"
 								for="firstName"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('firstName')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -32,14 +32,14 @@
 								required
 								type="text"
 							/>
-							<x-input-error :messages="$errors->get('firstName')" />
+							<x-forms.input-error :messages="$errors->get('firstName')" />
 						</div>
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Last Name')"
 								for="lastName"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('lastName')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -50,24 +50,24 @@
 								required
 								type="text"
 							/>
-							<x-input-error :messages="$errors->get('lastName')" />
+							<x-forms.input-error :messages="$errors->get('lastName')" />
 						</div>
 						<div>
 							<div class="relative max-w-sm">
-								<x-input-label
+								<x-forms.input-label
 									:value="__('Birth Date')"
 									for="birthdate"
 								/>
-								<x-datepicker id="birthdate" />
-								<x-input-error :messages="$errors->get('birthdate')" />
+								<x-forms.datepicker id="birthdate" />
+								<x-forms.input-error :messages="$errors->get('birthdate')" />
 							</div>
 						</div>
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Phone Number')"
 								for="phoneNumber"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('phoneNumber')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -79,15 +79,15 @@
 								required
 								type="tel"
 							/>
-							<x-input-error :messages="$errors->get('phoneNumber')" />
+							<x-forms.input-error :messages="$errors->get('phoneNumber')" />
 						</div>
 					</div>
 					<div class="mb-6">
-						<x-input-label
+						<x-forms.input-label
 							:value="__('Address')"
 							for="address"
 						/>
-						<x-text-input
+						<x-forms.text-input
 							:class="$errors->get('address')
 							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 							    : 'block mt-1 w-full'"
@@ -97,15 +97,15 @@
 							required
 							type="text"
 						/>
-						<x-input-error :messages="$errors->get('address')" />
+						<x-forms.input-error :messages="$errors->get('address')" />
 					</div>
 					<div class="mb-6 grid gap-6 md:grid-cols-2">
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Email')"
 								for="email"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('email')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -116,14 +116,14 @@
 								required
 								type="email"
 							/>
-							<x-input-error :messages="$errors->get('email')" />
+							<x-forms.input-error :messages="$errors->get('email')" />
 						</div>
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Username')"
 								for="username"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('username')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -133,14 +133,14 @@
 								required
 								type="text"
 							/>
-							<x-input-error :messages="$errors->get('username')" />
+							<x-forms.input-error :messages="$errors->get('username')" />
 						</div>
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Password')"
 								for="password"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('password')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -151,14 +151,14 @@
 								required
 								type="password"
 							/>
-							<x-input-error :messages="$errors->get('password')" />
+							<x-forms.input-error :messages="$errors->get('password')" />
 						</div>
 						<div>
-							<x-input-label
+							<x-forms.input-label
 								:value="__('Confirm Password')"
 								for="password_confirmation"
 							/>
-							<x-text-input
+							<x-forms.text-input
 								:class="$errors->get('password_confirmation')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
@@ -169,7 +169,7 @@
 								required
 								type="password"
 							/>
-							<x-input-error :messages="$errors->get('password_confirmation')" />
+							<x-forms.input-error :messages="$errors->get('password_confirmation')" />
 						</div>
 					</div>
 					<div class="mb-6 flex items-start">
@@ -182,27 +182,27 @@
 								value=""
 							>
 						</div>
-						<x-input-label
+						<x-forms.input-label
 							class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
 							for="remember"
 						>
 							{{ config('constants.FORM_LABELS.AGREE_T&C') }}
-						</x-input-label>
+						</x-forms.input-label>
 					</div>
 					<div class="mb-6 flex items-end">
-						<x-primary-button>
+						<x-forms.primary-button>
 							{{ config('constants.BUTTON_LABELS.SUBMIT') }}
-						</x-primary-button>
-						<x-cancel-button
+						</x-forms.primary-button>
+						<x-forms.cancel-button
 							data-modal-hide="registration-modal"
 							data-modal-target="authentication-modal"
 							data-modal-toggle="authentication-modal"
 						>
 							{{ config('constants.BUTTON_LABELS.CANCEL') }}
-						</x-cancel-button>
+						</x-forms.cancel-button>
 					</div>
 				</form>
-			</x-modal-body>
+			</x-modals.modal-body>
 		</div>
 	</div>
-</x-modal-new>
+</x-modals.modal-new>

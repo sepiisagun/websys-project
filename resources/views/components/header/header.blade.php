@@ -69,21 +69,19 @@
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
 								<li>
-									<x-profile-link
-										href="{{ $link['link'] ? route($link['link']) : '#' }}"
-									>
+									<x-header.profile-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
 										{{ $link['label'] }}
-									</x-profile-link>
+									</x-header.profile-link>
 								</li>
 							@endforeach
 							<li>
-								<x-profile-link
+								<x-header.profile-link
+									class="rounded-lg px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800"
 									href="{{ route('logout') }}"
 									onclick="event.preventDefault(); this.closest('form').submit();"
-                                    class="rounded-lg px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800"
 								>
 									{{ config('constants.FORM_LABELS.LOGOUT') }}
-								</x-profile-link>
+								</x-header.profile-link>
 							</li>
 						</ul>
 					</div>
@@ -91,7 +89,7 @@
 				</form>
 			@else
 				<a
-					class="btn mr-3 space-x-7 btn-teal px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
+					class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
 					data-modal-target="authentication-modal"
 					data-modal-toggle="authentication-modal"
 					href="#"
@@ -173,11 +171,9 @@
 			>
 				@foreach (config('constants.NAV_LINKS') as $link)
 					<li>
-						<x-nav-link
-							href="{{ $link['link'] ? route($link['link']) : '#' }}"
-						>
+						<x-header.nav-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
 							{{ $link['label'] }}
-						</x-nav-link>
+						</x-header.nav-link>
 					</li>
 				@endforeach
 			</ul>
