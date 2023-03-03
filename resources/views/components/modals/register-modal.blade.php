@@ -22,64 +22,65 @@
 								for="firstName"
 							/>
 							<x-forms.text-input
-								:class="$errors->get('firstName')
+								:class="$errors->get('first_name')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
-								:value="old('firstName')"
-								id="firstName"
-								name="firstName"
+								:value="old('first_name')"
+								id="first_name"
+								name="first_name"
 								placeholder="John"
 								required
 								type="text"
 							/>
-							<x-forms.input-error :messages="$errors->get('firstName')" />
+							<x-forms.input-error :messages="$errors->get('first_name')" />
 						</div>
 						<div>
 							<x-forms.input-label
 								:value="__('Last Name')"
-								for="lastName"
+								for="last_name"
 							/>
 							<x-forms.text-input
-								:class="$errors->get('lastName')
+								:class="$errors->get('last_name')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
-								:value="old('lastName')"
-								id="lastName"
-								name="lastName"
+								:value="old('last_name')"
+								id="last_name"
+								name="last_name"
 								placeholder="Doe"
 								required
 								type="text"
 							/>
-							<x-forms.input-error :messages="$errors->get('lastName')" />
+							<x-forms.input-error :messages="$errors->get('last_name')" />
 						</div>
 						<div>
 							<div class="relative max-w-sm">
 								<x-forms.input-label
 									:value="__('Birth Date')"
-									for="birthdate"
+									for="birth_date"
 								/>
-								<x-forms.datepicker id="birthdate" />
-								<x-forms.input-error :messages="$errors->get('birthdate')" />
+								<x-forms.datepicker id="birth_date" name="birth_date" :value="old('birth_date')" type="text" required/>
+								<x-icons.datepicker-icon />
+								<x-forms.input-error :messages="$errors->get('birth_date')" />
 							</div>
 						</div>
 						<div>
 							<x-forms.input-label
 								:value="__('Phone Number')"
-								for="phoneNumber"
+								for="phone_number"
 							/>
 							<x-forms.text-input
-								:class="$errors->get('phoneNumber')
+								:class="$errors->get('phone_number')
 								    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 								    : 'block mt-1 w-full'"
-								:value="old('phoneNumber')"
-								id="phoneNumber"
-								name="phoneNumber"
-								pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
-								placeholder="0912-345-6789"
+								:value="old('phone_number')"
+								id="phone_number"
+								name="phone_number"
+								pattern="[0-9]{11}"
+								placeholder="09123456789"
 								required
 								type="tel"
 							/>
-							<x-forms.input-error :messages="$errors->get('phoneNumber')" />
+							<x-forms.input-error :messages="$errors->get('phone_number')" />
 						</div>
 					</div>
 					<div class="mb-6">

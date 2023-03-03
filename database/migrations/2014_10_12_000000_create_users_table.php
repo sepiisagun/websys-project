@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->integer('age');
-            $table->integer('phoneNumber');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->date('birth_date');
+            $table->string('phone_number');
             $table->string('address');
-            $table->enum('accountType', ['RENTEE,RENTER,ADMIN']);
+            $table->enum('role', ['RENTEE','RENTER'])->default('RENTEE');
+            $table->string('image_path');
             $table->rememberToken();
             $table->timestamps();
         });

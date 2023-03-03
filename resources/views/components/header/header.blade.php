@@ -36,9 +36,9 @@
 						<img
 							alt="user photo"
 							class="mr-2 h-8 w-8 rounded-full"
-							src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
+							src="/img/{{ Auth::user()->image_path }}"
 						>
-						{{ Str::title(Auth::user()->name . ' ') }}
+						{{ Str::title(Auth::user()->first_name . ' ' . Auth::user()->last_name) }}
 						<svg
 							aria-hidden="true"
 							class="mx-1.5 h-4 w-4"
@@ -56,7 +56,7 @@
 
 					<!-- Dropdown menu -->
 					<div
-						class="z-15 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+						class="z-15 hidden w-44 divide-y divide-gray-100 rounded-md bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
 						id="dropdownAvatarName"
 					>
 						<div class="px-4 py-3 text-sm text-gray-900 dark:text-white">

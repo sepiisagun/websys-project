@@ -18,16 +18,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        // 'username',
-        'name',
+        'username',
         'email',
         'password',
-        // 'firstName',
-        // 'lastName',
-        // 'age',
-        // 'phoneNumber',
-        // 'address',
-        // 'accountType',
+        'first_name',
+        'last_name',
+        'birth_date',
+        'phone_number',
+        'address',
+        'role',
+        'image_path',
     ];
 
     /**
@@ -47,5 +47,36 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth_date' => 'date:d-m-Y',
     ];
+
+    /**
+     * Get all of the houses for the 2014_10_12_000000_create_users_table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function houses()
+    {
+        return $this->hasMany(House::class);
+    }
+
+    /**
+     * Get all of the reservations for the 2014_10_12_000000_create_users_table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reservations()
+    {
+        return $this->hasMany(Reserv::class);
+    }
+
+    /**
+     * Get all of the ratings for the 2014_10_12_000000_create_users_table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
