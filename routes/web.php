@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\FallbackController;
+use App\Http\Controllers\HousesController;
 use App\Http\Controllers\ProfileController;
+use App\Models\House;
+use App\Models\Rating;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +20,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $houses = House::inRandomOrder()->take(4)->get();
+    foreach($houses as $key=>$house) {
+        $rating = Rating::where('house_id', $house->id)->avg('rating');
+        $houses[$key]->rating = $rating;
+    }
+    return view('homepage.index', ['houses' => $houses]);
+})->name('homepage');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('homepage.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -28,4 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('house', HousesController::class);
+
 require __DIR__.'/auth.php';
+
+Route::fallback(FallbackController::class);

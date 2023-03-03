@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Faker\Factory as Maker;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -17,12 +19,20 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $fakerPH = Maker::create('en_PH');
+        $fakerPH->addProvider(new \Mmo\Faker\LoremSpaceProvider($fakerPH));
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'username' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->email(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'password' => Hash::make('Test1234'),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'birth_date' => $this->faker->date('Y-m-d'),
+            'phone_number' => $fakerPH->mobileNumber(),
+            'address' => $fakerPH->municipality().', '.$fakerPH->province(),
+            'image_path' => $fakerPH->loremSpace('face', public_path('img'), 640, 480, false),
         ];
     }
 

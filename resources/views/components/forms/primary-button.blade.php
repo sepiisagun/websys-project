@@ -7,9 +7,7 @@
 	    'type' => 'submit',
 	    'class' => '
 				btn
-	            text-white
-	            bg-blue-700
-	            hover:bg-blue-800
+				btn-teal
 	            focus:ring-4
 	            focus:outline-none
 	            focus:ring-blue-300

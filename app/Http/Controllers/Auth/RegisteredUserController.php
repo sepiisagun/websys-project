@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,23 +31,29 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // 'before:-18 years' validation fo date
         $request->validate([
-            // 'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
-            'name' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            // 'firstName' => ['required', 'string', 'max:255'],
-            // 'lastName' => ['required', 'string', 'max:255'],
-            // 'age' => ['required', 'integer', 'min:16', 'max:100',],
-            // 'phoneNumber' => ['required', 'integer', 'digits:10'],
-            // 'address' => ['required', 'string', 'max:255'],
-            // 'accountType' => ['required', 'in:RENTEE,RENTER,ADMIN']
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'birth_date' => ['required', 'date_format:d/m/Y'],
+            'phone_number' => ['required', 'numeric', 'digits:11'],
+            'address' => ['required', 'string', 'max:255'],
+            // 'role' => ['required', 'in:RENTEE,RENTER,ADMIN']
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'birth_date' => Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d'),
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'role' => "RENTEE",
         ]);
 
         event(new Registered($user));
