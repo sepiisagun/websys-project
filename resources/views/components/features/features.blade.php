@@ -5,7 +5,7 @@
 		class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-16 gap-x-8 py-5 px-5 sm:px-7 sm:py-10 lg:max-w-7xl lg:grid-cols-1 lg:px-8">
 		<div class="mx-auto max-w-2xl py-8 sm:py-12 lg:py-15 lg:max-w-none ">
 			<h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-				{{config('constants.FEATURE_CARD.TITLE')}}
+				{{ config('constants.FEATURE_CARD.TITLE') }}
 			</h2>
 			<p class="text-white-500 py-5">
 				{{ config('constants.FEATURE_CARD.DESCRIPTION') }}
