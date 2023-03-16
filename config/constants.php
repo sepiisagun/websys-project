@@ -38,23 +38,11 @@ return [
     'NAV_LINKS' => [
         'Home' => [
             'label' => 'Home',
-            'link' => '',
+            'link' => 'homepage',
         ],
-        'Company' => [
-            'label' => 'Company',
-            'link' => '',
-        ],
-        'Marketplace' => [
-            'label' => 'Marketplace',
-            'link' => '',
-        ],
-        'Features' => [
-            'label' => 'Features',
-            'link' => '',
-        ],
-        'Team' => [
-            'label' => 'Team',
-            'link' => '',
+        'Listings' => [
+            'label' => 'Listings',
+            'link' => 'house.index',
         ],
         'Contact' => [
             'label' => 'Contact',

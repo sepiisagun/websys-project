@@ -38,7 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('house', HousesController::class);
+Route::prefix('/house')->group(function(){
+    Route::get('/create', [HousesController::class, 'create']) ->name('house.create');
+    Route::get('/listings', [HousesController::class, 'index']) -> name('house.index');
+    Route::get('/{id}', [HousesController::class, 'show']) ->name('house.show');
+    Route::get('/edit/{id}', [HousesController::class, 'edit']) ->name('house.edit');
+});
 
 require __DIR__.'/auth.php';
 

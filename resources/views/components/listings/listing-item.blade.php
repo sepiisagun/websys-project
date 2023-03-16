@@ -10,8 +10,7 @@
 			<div
 				class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
 				<a class="btn-teal inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-					href="{{ route(" house.show", $item->id) }}"
-					>
+					href="{{ route("house.show", $item->id) }}">
 					{{ config('constants.FORM_LABELS.READ_MORE') }}
 					<svg aria-hidden="true" class="ml-2 -mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20"
 						xmlns="http://www.w3.org/2000/svg">
@@ -24,8 +23,8 @@
 			</div>
 		</div>
 		<div class="p-5">
-			<a href="#">
-				<h6 class="mb-5 block align-top text-xs font-medium tracking-tight text-teal-400">
+			<a href="{{ route("house.show", $item->id) }}">
+				<h6 class="mb-5 block h-10 align-top text-xs font-medium tracking-tight text-teal-400">
 					{{ $item['address'] }}
 				</h6>
 				<h5 class="text-1xl block align-middle font-bold tracking-tight text-gray-900 dark:text-black">
