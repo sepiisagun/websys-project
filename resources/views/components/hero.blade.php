@@ -3,9 +3,9 @@
 	<div class="relative h-[500px]">
 		{{-- overlay --}}
 		<div
-			class="absolute flex h-[500px] max-h-[500px] w-full flex-col justify-center rounded-t-lg bg-black/50 text-center text-gray-200"
-		>
-			<h1
+			class="absolute flex h-[500px] max-h-[500px] w-full flex-col justify-center bg-black/50 text-center text-gray-200"
+			>
+			<h1 
 				class="px-5 text-5xl font-bold text-white sm:text-6xl md:text-7xl lg:text-8xl"
 			> LIVE
 				<span class="text-teal-color">THERE </span>
@@ -16,22 +16,22 @@
 
 			{{-- div for buttons --}}
 			<div class="mt-8 flex flex-wrap justify-center gap-6 px-6">
-				<button
-					class="btn btn-teal hover:bg-white hover:text-black"
+				<button 
+					class="btn btn-teal hover:bg-white hover:text-black" 
 					type="button"
 				>Book Now</button>
-				<button
-					class="btn btn-white hover:bg-gray-800 hover:text-white"
+				<button 
+					class="btn btn-white hover:bg-gray-800 hover:text-white" 
 					type="button"
-				>Learn about
-					Airbnb</button>
+				>Learn More</button>
 			</div>
 		</div>
 
 		{{-- for cover img --}}
-		<div
-			class="h-[500px] w-full rounded-t-lg bg-cover bg-fixed bg-no-repeat"
-			style="background-image: url('./img/cover.png');"
-		></div>
+		<div 
+			class="h-[500px] w-full bg-cover bg-fixed bg-no-repeat" 
+			style="background-image: url('./img/cover.png');">
+		</div>
 	</div>
 </div>
+

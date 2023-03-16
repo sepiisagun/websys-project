@@ -1,5 +1,5 @@
 <nav
-	class="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-2.5 dark:border-gray-600 dark:bg-gray-900 sm:px-4"
+	class="float z-20 w-full border-b px-2 py-2.5 dark:border-gray-600 dark:bg-gray-900 sm:px-4"
 >
 	<div class="container mx-auto flex flex-wrap items-center justify-between">
 		<a

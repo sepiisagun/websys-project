@@ -59,8 +59,9 @@
 
 	@yield('content')
 
+	<x-modals.login-modal />
+	<x-modals.register-modal />
+
 	<x-footer.footer />
 </body>
-
-
 </html>

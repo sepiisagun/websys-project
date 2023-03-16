@@ -1,3 +1,7 @@
+@props([
+	"items"
+])
+
 <div class="bg-slate-100">
 	<div
 		class="gap-y-15 mx-auto grid max-w-2xl grid-cols-2 items-center gap-x-8 py-10 px-5 sm:grid-cols-1 sm:gap-y-12 sm:px-7 lg:max-w-7xl lg:grid-cols-2 lg:px-8 lg:py-10"
@@ -30,13 +34,13 @@
 				<!-- Carousel wrapper -->
 				<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
 					<!-- Item 1 -->
-					@foreach (config('constants.CAROUSEL_ITEMS') as $item)
+					@foreach ($items as $item)
 						<x-carousel.carousel-item :item="$item"/>
 					@endforeach
 				</div>
 				<div
 					class="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
-					@foreach (config('constants.CAROUSEL_ITEMS') as $item)
+					@foreach ($items as $item)
 						<x-carousel.carousel-button />
 					@endforeach
 				</div>
