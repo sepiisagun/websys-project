@@ -2,6 +2,7 @@ import './bootstrap';
 import 'flowbite';
 // import { Tabs } from 'flowbite';
 import { Modal } from 'flowbite';
+import _ from 'lodash';
 
 import Alpine from 'alpinejs';
 

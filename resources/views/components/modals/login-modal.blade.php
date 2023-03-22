@@ -1,6 +1,6 @@
 <x-modals.modal-new id="authentication-modal">
 	<div class="relative h-full w-full max-w-md md:h-auto">
-		<div class="relative rounded-sm bg-white shadow dark:bg-gray-700">
+		<div class="backd relative rounded-sm bg-white shadow dark:bg-gray-700">
 			<x-modals.modal-header>
 				{{ config('constants.HEADER_TITLE.LOGIN') }}
 			</x-modals.modal-header>
@@ -9,10 +9,6 @@
 				data-modal-hide="authentication-modal"
 			/>
 			<x-modals.modal-body class="lg:px-8">
-				{{-- <x-auth-session-status
-					:status="session('status')"
-					class="mb-4"
-				/> --}}
 				<form
 					action="{{ route('login') }}"
 					class="space-y-6"

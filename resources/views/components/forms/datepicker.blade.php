@@ -3,6 +3,7 @@
 	'name',
 	'disabled' => false,
 	'required' => false,
+	'value' => ''
 ])
 
 <x-icons.datepicker-icon />
@@ -17,6 +18,7 @@
 	datepicker-format="dd/mm/yyyy"
 	id="{{ $id }}"
 	name="{{ $name }}"
+	value="{{ $value }}"
 	{{ $disabled ? 'disabled' : '' }}
 	{{ $required ? 'required' : '' }}
 >

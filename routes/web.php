@@ -3,7 +3,10 @@
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HousesController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReservationsController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\RatingsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservationController;
 use App\Models\House;
 use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
@@ -22,16 +25,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $houses = House::inRandomOrder()->take(4)->get();
-    foreach($houses as $key=>$house) {
+    foreach ($houses as $key => $house) {
         $rating = Rating::where('house_id', $house->id)->avg('rating');
         $houses[$key]->rating = $rating;
     }
     return view('homepage.index', ['houses' => $houses]);
 })->name('homepage');
-
-Route::get('/dashboard', function () {
-    return view('homepage.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,10 +38,29 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// House Related Routes
 Route::get('/house/listings', [HousesController::class, 'index'])->name('house.index');
 Route::resource('/house', HousesController::class);
 
-Route::resource('/reserve', ReservationsController::class);
-require __DIR__.'/auth.php';
+//Reservation Related Routes
+Route::resource('/reserve', ReservationController::class);
 
-Route::fallback(FallbackController::class);
+// Rating Related Routes
+Route::get('/house/rate/{reservationId}', [RatingController::class, 'create'])->name('house.rate');
+Route::post('/rate/{houseId}/{reservationId}', [RatingController::class, 'store'])->name('rate.submit');
+Route::resource('rate', RatingController::class);
+
+// Account Related Routes
+Route::get('/dashboard/{id}', [UserController::class, 'show'])->name('account.dashboard');
+Route::get('/settings/{id}', [UserController::class, 'edit'])->name('account.settings');
+Route::prefix('/account')->group(function () {
+    Route::get('/edit/credentials/{id}', [UserController::class, 'editCredentials'])->name('account.editCredentials');
+    Route::get('/edit/user/{id}', [UserController::class, 'editUserInfo'])->name('account.editInfo');
+    Route::patch('/update/credentials', [UserController::class, 'updateCredentials'])->name('account.updateCredentials');
+    Route::patch('/update/user', [UserController::class, 'updateUserInfo'])->name('account.updateInfo');
+});
+Route::resource('account', UserController::class);
+
+require __DIR__ . '/auth.php';
+
+Route::fallback(FallbackController::class)->name('fallback');

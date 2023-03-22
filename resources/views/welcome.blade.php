@@ -55,13 +55,32 @@
 </head>
 
 <body>
-	<x-header.header />
+	<div class="flex h-screen flex-col justify-between">
+		<x-header.header />
 
-	@yield('content')
+		<div class="h-fit w-full">
+			@yield('content')
+
+		</div>
+
+		<x-footer.footer />
+	</div>
 
 	<x-modals.login-modal />
 	<x-modals.register-modal />
 
-	<x-footer.footer />
 </body>
+
 </html>
+
+<script>
+	var $targetEl = document.getElementById('authentication-modal');
+	var options = {
+		placement: 'center',
+		backdrop: 'dynamic',
+		backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+		closable: true,
+	};
+
+	var loginModal = new Modal($targetEl, options);
+</script>

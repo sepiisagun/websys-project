@@ -65,3 +65,10 @@ svg:hover {
     padding: 10px;
 }
 
+div.rating {
+    display: inline-block;
+}
+  
+input.rating {
+    display: none;
+}

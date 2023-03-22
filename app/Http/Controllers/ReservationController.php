@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class ReservationsController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.

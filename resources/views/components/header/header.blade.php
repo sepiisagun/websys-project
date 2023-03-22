@@ -1,15 +1,13 @@
-<nav
-	class="float z-20 w-full px-2 py-2.5 dark:bg-zinc-900 sm:px-4"
->
+<nav class="float z-20 w-full px-2 py-2.5 dark:bg-zinc-900 sm:px-4">
 	<div class="container mx-auto flex flex-wrap items-center justify-between">
 		<a
 			class="flex items-center"
-			href="https://flowbite.com"
+			href="{{ route('homepage') }}"
 		>
 			<img
 				alt="somelogo"
 				class="mr-3 h-6 sm:h-9"
-				src="https://flowbite.com/docs/images/logo.svg"
+				src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
 			/>
 			<span
 				class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -69,7 +67,9 @@
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
 								<li>
-									<x-header.profile-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
+									<x-header.profile-link
+										href="{{ $link['link'] ? route($link['link'], Auth::user()->id) : '#' }}"
+									>
 										{{ $link['label'] }}
 									</x-header.profile-link>
 								</li>
@@ -87,15 +87,25 @@
 					</div>
 
 				</form>
+			@elseif (Str::contains(Request::segment(1), 'login'))
 			@else
-				<a
-					class="btn btn-sky mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300 dark:btn btn-dark md:mr-0"
-					data-modal-target="authentication-modal"
-					data-modal-toggle="authentication-modal"
-					href="#"
-				>
-					{{ config('constants.FORM_LABELS.LOGIN') }}
-				</a>
+				@if (Str::contains(Request::segment(1), 'register'))
+					<a
+						class="btn btn-sky dark:btn btn-dark mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300 md:mr-0"
+						href="{{ route('login') }}"
+					>
+						{{ config('constants.FORM_LABELS.LOGIN') }}
+					</a>
+				@else
+					<a
+						class="btn btn-sky dark:btn btn-dark mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300 md:mr-0"
+						data-modal-target="authentication-modal"
+						data-modal-toggle="authentication-modal"
+						href="#"
+					>
+						{{ config('constants.FORM_LABELS.LOGIN') }}
+					</a>
+				@endif
 			@endauth
 			<button
 				aria-controls="mobile-menu-2"
@@ -167,11 +177,13 @@
 			id="mobile-menu-2"
 		>
 			<ul
-				class="mt-4 flex flex-col rounded-lg border border-neutral-100 bg-zince-50 p-4 dark:border-zinc-900 dark:bg-zinc-900 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-zinc-900"
+				class="bg-zince-50 mt-4 flex flex-col rounded-lg border border-neutral-100 p-4 dark:border-zinc-900 dark:bg-zinc-900 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-zinc-900"
 			>
 				@foreach (config('constants.NAV_LINKS') as $link)
 					<li>
-						<x-header.nav-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
+						<x-header.nav-link
+							href="{{ $link['link'] ? route($link['link']) : '#' }}"
+						>
 							{{ $link['label'] }}
 						</x-header.nav-link>
 					</li>
