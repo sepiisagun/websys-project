@@ -1,4 +1,4 @@
-<div class="sm:py-25 bg-teal-900 py-24">
+<div class="sm:py-25 bg-neutral-900 dark:bg-sky-900 py-24">
 	<div
 		class="mx-auto grid max-w-7xl gap-y-20 gap-x-8 px-6 lg:px-8 xl:grid-cols-3">
 		<div class="max-w-2xl">

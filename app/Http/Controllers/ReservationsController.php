@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ReservationsController extends Controller
 {
@@ -24,7 +25,9 @@ class ReservationsController extends Controller
      */
     public function create()
     {
-        //
+        //create add form
+        $users = User::all();
+        return view('house.reserve-create', compact('users'));
     }
 
     /**

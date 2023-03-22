@@ -13,16 +13,16 @@
 	            w-4
 	            h-4
 	            border
-	            border-gray-300
+	            border-neutral-300
 	            rounded
-	            bg-gray-50
+	            bg-neutral-50
 	            focus:ring-3
 	            focus:ring-blue-300
-	            dark:bg-gray-600
-	            dark:border-gray-500
+	            dark:bg-neutral-600
+	            dark:border-neutral-500
 	            dark:focus:ring-blue-600
-	            dark:ring-offset-gray-800
-	            dark:focus:ring-offset-gray-800',
+	            dark:ring-offset-neutral-800
+	            dark:focus:ring-offset-neutral-800',
 	    'type' => 'checkbox',
 	]) !!}
 	id="{{ $id }}",
