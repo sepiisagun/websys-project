@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Rating;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class HousesController extends Controller
 {
@@ -47,9 +48,23 @@ class HousesController extends Controller
      */
     public function store(Request $request)
     {
-
-
         // 'image_path' => $this->storeImage($request),
+        $house = House::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'capacity' => $request->capacity,
+            'price' => $request->price,
+            'user_id' => Auth::user()->id,
+            'image_path' => $this->storeImage($request),
+        ]);
+        $houses = House::paginate(12);
+        foreach ($houses as $key => $house) {
+            $rating = Rating::where('house_id', $house->id)->avg('rating');
+            $houses[$key]->rating = $rating;
+        }
+
+        return view('house.index', ['houses' => $houses]);
     }
 
     /**
@@ -60,8 +75,11 @@ class HousesController extends Controller
      */
     public function show($id)
     {
+        $avgRating = Rating::where('house_id', $id)->avg('rating');
         return view('house.show', [
-            'item' => House::findOrFail($id)
+            'house' => House::findOrFail($id),
+            'ratings' => Rating::where('house_id', $id)->get(),
+            'avgRating' => $avgRating
         ]);
     }
 
@@ -87,7 +105,21 @@ class HousesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $house = House::find($id);
+        $avgRating = Rating::where('house_id', $id)->avg('rating');
+
+        $house->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'capacity' => $request->capacity,
+            'price' => $request->price
+        ]);
+
+        return view('house.show', [
+            'house' => $house,
+            'avgRating' => $avgRating
+        ]);
     }
 
     /**
@@ -98,7 +130,9 @@ class HousesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        House::destroy($id);
+
+        return redirect(route('house.index'))->with('message', 'House has been deleted.');
     }
 
     // Use function below to store images

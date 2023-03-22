@@ -1,23 +1,24 @@
-@props([
-	"items"
-])
+@props(['items'])
 
-<div class="bg-slate-100">
+<div class="bg-slate-100 dark:bg-neutral-900">
 	<div
 		class="gap-y-15 mx-auto grid max-w-2xl grid-cols-2 items-center gap-x-8 py-10 px-5 sm:grid-cols-1 sm:gap-y-12 sm:px-7 lg:max-w-7xl lg:grid-cols-2 lg:px-8 lg:py-10"
 	>
 		<div>
 			<h2
-				class="mt-5 text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+				class="mt-5 text-center text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl"
 			>
-				{{ config('constants.LISTINGS_CARD.TITLE') }}
+				<span
+					class="bg-gradient-to-r from-neutral-500 to-neutral-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-200 dark:to-blue-500"
+				>{{ config('constants.LISTINGS_CARD.TITLE') }}</span>
+
 			</h2>
-			<p class="mt-4 text-center text-gray-500">
+			<p class="mt-4 text-center text-neutral-500 dark:text-slate-500">
 				{{ config('constants.LISTINGS_CARD.DESCRIPTION') }}
 			</p>
 			<div class="mt-8 flex flex-wrap justify-center gap-6 px-6">
 				<button
-					class="btn btn-teal hover:bg-white hover:text-black"
+					class="btn btn-sky hover:bg-white hover:text-black"
 					type="button"
 				>Explore now!</button>
 			</div>
@@ -35,7 +36,7 @@
 				<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
 					<!-- Item 1 -->
 					@foreach ($items as $item)
-						<x-carousel.carousel-item :item="$item"/>
+						<x-carousel.carousel-item :item="$item" />
 					@endforeach
 				</div>
 				<div
@@ -52,11 +53,11 @@
 					type="button"
 				>
 					<span
-						class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10"
+						class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-neutral-800/30 dark:group-hover:bg-neutral-800/60 dark:group-focus:ring-neutral-800/70 sm:h-10 sm:w-10"
 					>
 						<svg
 							aria-hidden="true"
-							class="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6"
+							class="h-5 w-5 text-white dark:text-neutral-800 sm:h-6 sm:w-6"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -67,7 +68,8 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-							></path>
+							>
+							</path>
 						</svg>
 						<span class="sr-only">Previous</span>
 					</span>
@@ -78,11 +80,11 @@
 					type="button"
 				>
 					<span
-						class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10"
+						class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-neutral-800/30 dark:group-hover:bg-neutral-800/60 dark:group-focus:ring-neutral-800/70 sm:h-10 sm:w-10"
 					>
 						<svg
 							aria-hidden="true"
-							class="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6"
+							class="h-5 w-5 text-white dark:text-neutral-800 sm:h-6 sm:w-6"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -93,7 +95,8 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-							></path>
+							>
+							</path>
 						</svg>
 						<span class="sr-only">Next</span>
 					</span>

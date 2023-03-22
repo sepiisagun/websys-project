@@ -1,4 +1,6 @@
-<footer class="bottom-0 w-full border-t bg-white p-4 dark:bg-gray-900 sm:p-6">
+<footer
+	class="pt-20px bottom-0 mt-auto mb-0 w-full bg-white pb-0 dark:bg-neutral-900 sm:p-6 xl:py-20"
+>
 	<div class="md:flex md:justify-between">
 		<div class="mb-6 md:mb-0">
 			<a
@@ -23,9 +25,12 @@
 			@endforeach
 		</div>
 	</div>
-	<hr class="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
+	<hr
+		class="my-6 border-neutral-200 dark:border-neutral-700 sm:mx-auto lg:my-8" />
 	<div class="sm:flex sm:items-center sm:justify-between">
-		<span class="block text-sm text-gray-500 dark:text-gray-400 sm:text-center">
+		<span
+			class="block text-sm text-neutral-500 dark:text-neutral-400 sm:text-center"
+		>
 			{{ config('constants.FOOTER_COPYRIGHT') }}
 		</span>
 		<div class="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">

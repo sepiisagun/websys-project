@@ -206,6 +206,16 @@
 															href="{{ route('house.destroy', $house->id) }}"
 														>Delete</a>
 													</div>
+													{{-- <div class="flex items-center justify-end mt-4">
+														<form action="{{ route('house.destroy', $house->id) }}" method="POST">
+															@csrf
+															@method('DELETE') 
+															<x-forms.danger-button
+																>
+																{{ __('Delete Property') }}
+															</x-forms.danger-button>
+														</form> 
+													</div> --}}
 												</div>
 											</td>
 										</tr>

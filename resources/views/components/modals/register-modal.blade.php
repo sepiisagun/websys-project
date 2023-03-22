@@ -1,6 +1,6 @@
 <x-modals.modal-new id="registration-modal">
 	<div class="relative h-full w-full max-w-2xl md:h-auto">
-		<div class="relative rounded-sm bg-white shadow dark:bg-gray-700">
+		<div class="relative rounded-sm bg-white shadow dark:bg-neutral-700">
 			<x-modals.modal-header>
 				{{ config('constants.HEADER_TITLE.REGISTER') }}
 			</x-modals.modal-header>
@@ -16,6 +16,7 @@
 					method="POST"
 				>
 					@csrf
+
 					<div class="mb-6 grid gap-6 md:grid-cols-2">
 						<div>
 							<x-forms.input-label
@@ -107,6 +108,24 @@
 						/>
 						<x-forms.input-error :messages="$errors->get('address')" />
 					</div>
+
+					<label
+						class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+						for="role"
+					>Select
+						role</label>
+					<select
+						class="mb-4 block w-full rounded-sm border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+						id="role"
+					>
+						<option
+							disabled
+							selected
+						>Choose your role</option>
+						<option value="RENTEE">Rentee</option>
+						<option value="RENTER">Renter</option>
+					</select>
+
 					<div class="mb-6 grid gap-6 md:grid-cols-2">
 						<div>
 							<x-forms.input-label
@@ -183,7 +202,7 @@
 					<div class="mb-6 flex items-start">
 						<div class="flex h-5 items-center">
 							<input
-								class="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+								class="focus:ring-3 h-4 w-4 rounded border border-neutral-300 bg-neutral-50 focus:ring-blue-300 dark:border-neutral-600 dark:bg-neutral-700 dark:ring-offset-neutral-800 dark:focus:ring-blue-600"
 								id="remember"
 								required
 								type="checkbox"
@@ -191,7 +210,7 @@
 							>
 						</div>
 						<x-forms.input-label
-							class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							class="ml-2 text-sm font-medium text-neutral-900 dark:text-neutral-300"
 							for="remember"
 						>
 							{{ config('constants.FORM_LABELS.AGREE_T&C') }}

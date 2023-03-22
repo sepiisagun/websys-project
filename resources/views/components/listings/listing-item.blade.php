@@ -1,6 +1,4 @@
-@props([
-	'item'
-])
+@props(['item'])
 
 <div class="group relative">
 	<div
@@ -18,7 +16,7 @@
 				class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0"
 			>
 				<a
-					class="btn-teal inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+					class="btn-sky dark:btn-white inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium"
 					href="{{ route('house.show', $item->id) }}"
 				>
 					{{ config('constants.FORM_LABELS.READ_MORE') }}
@@ -42,18 +40,18 @@
 		<div class="p-5">
 			<a href="{{ route('house.show', $item->id) }}">
 				<h6
-					class="mb-5 block h-10 align-top text-xs font-medium tracking-tight text-teal-400"
+					class="mb-5 block align-top text-xs font-medium tracking-tight text-sky-600"
 				>
 					{{ $item['address'] }}
 				</h6>
 				<h5
-					class="text-1xl block align-middle font-bold tracking-tight text-gray-900 dark:text-black"
+					class="text-1xl block align-middle font-bold tracking-tight text-neutral-900 dark:text-white"
 				>
 					{{ $item['name'] }}
 				</h5>
 			</a>
 			<p
-				class="text-md inline-block align-bottom font-normal text-gray-700 dark:text-gray-400"
+				class="text-md inline-block align-bottom font-normal text-neutral-700 dark:text-white"
 			>
 			<div class="mb-1 flex items-center">
 				${{ $item['price'] }}/night |

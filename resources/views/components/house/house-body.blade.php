@@ -1,107 +1,116 @@
-@props([
-	'item'
-])
+@props(['house', 'avgRating'])
 
-<section class="body-font overflow-hidden bg-white text-gray-400">
-	<div class="container mx-auto px-5">
-		<div class="mx-auto flex flex-wrap lg:w-4/5">
-			<div class="mb-6 w-full lg:mb-0 lg:w-1/2 lg:py-6 lg:pr-10">
+<section
+	class="body-font overflow-hidden bg-white text-gray-400 dark:bg-slate-900"
+>
+	<div
+		class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-16 gap-x-8 py-8 px-4 sm:px-6 sm:py-10 lg:max-w-7xl lg:grid-cols-2 lg:px-8"
+	>
+		<div class="max-w-2xl">
 
-				<!--Breadcrumb--->
-				<nav
-					aria-label="Breadcrumb"
-					class="flex pb-12"
+			<!--Title Section--->
+			<h1 class="title-font mb-1 mt-5 text-3xl font-semibold text-black"><span
+					class="bg-gradient-to-r from-slate-600 to-neutral-800 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-200 dark:to-blue-500"
+				>{{ $house['name'] }}</h1></span>
+			<h2 class="title-font text-sm tracking-widest text-black dark:text-slate-400">
+				{{ $house['address'] }}</h2>
+
+			<!--Rating--->
+			<div class="my-10 flex flex-row justify-between">
+				<div class="flex flex-row">
+					@for ($i = 0; $i < 5; $i++)
+						@if ($avgRating >= $i + 1)
+							<x-icons.rating-star>
+								{{ $avgRating + 1 }}
+							</x-icons.rating-star>
+						@else
+							<x-icons.empty-star>
+								{{ $avgRating + 1 }}
+							</x-icons.empty-star>
+						@endif
+					@endfor
+				</div>
+				<p
+					class="cursor-pointer text-base font-normal leading-4 text-gray-700 duration-100 hover:text-gray-800 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 dark:text-slate-400"
 				>
-					<ol class="inline-flex items-center space-x-1 md:space-x-3">
-						<li class="inline-flex items-center">
-							<a
-								class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-teal-600"
-								href="{{ route('homepage') }}"
-							>
-								<svg
-									aria-hidden="true"
-									class="mr-2 h-4 w-4"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-									>
-									</path>
-								</svg>
-								Home
-							</a>
-						</li>
-						<li>
-							<div class="flex items-center">
-								<svg
-									aria-hidden="true"
-									class="h-6 w-6 text-gray-400"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										clip-rule="evenodd"
-										d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-										fill-rule="evenodd"
-									></path>
-								</svg>
-								<a
-									class="ml-1 text-sm font-medium text-gray-700 hover:text-teal-600 md:ml-2"
-									href="{{ route('house.index') }}"
-								>Listings</a>
-							</div>
-						</li>
-						<li aria-current="page">
-							<div class="flex items-center">
-								<svg
-									aria-hidden="true"
-									class="h-6 w-6 text-gray-400"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										clip-rule="evenodd"
-										d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-										fill-rule="evenodd"
-									></path>
-								</svg>
-								<span
-									class="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2"
-								>{{ $item['name'] }}</span>
-							</div>
-						</li>
-					</ol>
-				</nav>
+					22 reviews
+				</p>
+			</div>
 
-				<!--Title Section--->
-				<h1 class="title-font mb-1 text-3xl font-semibold text-black">
-					{{ $item['name'] }}</h1>
-				<h2 class="title-font text-sm tracking-widest text-black">
-					{{ $item['address'] }}</h2>
-
-				<!--Rating--->
-				<div class="my-5 flex flex-row justify-between">
-					<img
-						alt="stars"
-						src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail4-svg1.svg"
-					>
-					<img
-						alt="stars"
-						src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail4-svg1dark.svg"
-					>
-					<p
-						class="cursor-pointer text-base font-normal leading-4 text-gray-700 duration-100 hover:text-gray-800 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 dark:text-black"
-					>
-						22 reviews</p>
+			<div>
+				<div class="border-t border-gray-200 pt-4">
+					<dt class="font-medium text-gray-900 dark:text-white">Description</dt>
+					<dd class="mt-2 text-sm text-gray-500 dark:text-slate-300">
+						{{ $house['description'] }}</dd>
 				</div>
 
-				<!--Description Tabs--->
+				<dl
+					class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8"
+				>
+					<div class="border-t border-gray-200 pt-4">
+						<dt class="font-medium text-gray-900 dark:text-white">Capacity</dt>
+						<dd class="mt-2 text-sm text-gray-500 dark:text-slate-300"">For
+							{{ $house['capacity'] }}
+							persons</dd>
+					</div>
 
-				<div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+					<div class="border-t border-gray-200 pt-4">
+						<dt class="font-medium text-gray-900 dark:text-white">Price</dt>
+						<dd class="mt-2 text-sm text-gray-500 dark:text-slate-300">
+							${{ $house['price'] }}</dd>
+					</div>
+
+				</dl>
+			</div>
+			<!--Total Price, Reserve Button, Wishlist--->
+			<div class="ml-auto flex pt-8">
+				{{-- <span class="title-font font-semibold text-2xl text-black">$58.00</span> --}}
+				<form
+					action="{{ route('reserve.create') }}"
+					method="GET"
+				>
+					@csrf
+					<x-forms.primary-button>
+						{{ __('Reserve') }}
+					</x-forms.primary-button>
+				</form>
+				<button
+					class="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-800 p-0 text-gray-500 hover:border-gray-300"
+				>
+					<svg
+						class="h-5 w-5"
+						fill="white"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<path
+							d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+						>
+						</path>
+					</svg>
+				</button>
+			</div>
+		</div>
+		<!--House Gallery--->
+		<div class="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
+			<div class="grid grid-cols-1 grid-rows-1 gap-2 pt-2">
+
+				<!--Description Tabs--->
+				<div class="mb-4 dark:border-gray-700">
+					<div class="mb-4 dark:border-gray-700">
+						<div class="house-img grid gap-1">
+							<div class="img-container">
+								<img
+									alt=""
+									class="h-500px w-500px rounded-sm"
+									id="imageBox"
+									src="/img/{{ $house['image_path'] }}"
+								>
+							</div>
+
+							{{-- <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
 					<ul
 						class="-mb-px flex flex-wrap text-center text-sm font-medium"
 						data-tabs-toggle="#myTabContent"
@@ -339,7 +348,7 @@
 				<!--Total Price, Reserve Button, Wishlist--->
 				<div class="flex pt-8">
 					{{-- <span class="title-font font-semibold text-2xl text-black">$58.00</span> --}}
-					<button
+							{{-- <button
 						class="ml-auto flex rounded border-0 bg-gray-900 py-2 px-6 text-white hover:bg-gray-600 focus:outline-none"
 					>Reserve</button>
 					<button
@@ -396,6 +405,60 @@
 							src="/img/{{ $item['image_path'] }}"
 						>
 					</figure>
+				</div>
+			</div> --}}
+							<div class="house-small-img">
+								<div class="mx-5 grid grid-cols-5 gap-2 px-5">
+									<div>
+										<img
+											alt=""
+											class="h-auto max-w-full rounded-sm"
+											onclick="myFunction(this)"
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+										>
+									</div>
+									<div>
+										<img
+											alt=""
+											class="h-auto max-w-full rounded-sm"
+											onclick="myFunction(this)"
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+										>
+									</div>
+									<div>
+										<img
+											alt=""
+											class="h-auto max-w-full rounded-sm"
+											onclick="myFunction(this)"
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+										>
+									</div>
+									<div>
+										<img
+											alt=""
+											class="h-auto max-w-full rounded-sm"
+											onclick="myFunction(this)"
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+										>
+									</div>
+									<div>
+										<img
+											alt=""
+											class="h-auto max-w-full rounded-sm"
+											onclick="myFunction(this)"
+											src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+										>
+									</div>
+								</div>
+							</div>
+						</div>
+						<script>
+							function myFunction(smallImg) {
+								var fullImg = document.getElementById("imageBox");
+								fullImg.src = smallImg.src;
+							}
+						</script>
+					</div>
 				</div>
 			</div>
 		</div>

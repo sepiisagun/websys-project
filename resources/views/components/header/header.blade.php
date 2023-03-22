@@ -1,6 +1,4 @@
-<nav
-	class="float z-20 w-full border-b px-2 py-2.5 dark:border-gray-600 dark:bg-gray-900 sm:px-4"
->
+<nav class="float z-20 w-full px-2 py-2.5 dark:bg-zinc-900 sm:px-4">
 	<div class="container mx-auto flex flex-wrap items-center justify-between">
 		<a
 			class="flex items-center"
@@ -27,7 +25,7 @@
 					@csrf
 
 					<button
-						class="flex items-center rounded-full text-sm font-medium text-gray-900 hover:text-blue-600 focus:ring-4 focus:ring-gray-100 dark:text-white dark:hover:text-blue-500 dark:focus:ring-gray-700 md:mr-0"
+						class="flex items-center rounded-full text-sm font-medium text-neutral-900 hover:text-neutral-600 focus:ring-4 focus:ring-neutral-100 dark:text-white dark:hover:text-sky-300 dark:focus:ring-neutral-700 md:mr-0"
 						data-dropdown-toggle="dropdownAvatarName"
 						id="dropdownAvatarNameButton"
 						type="button"
@@ -56,16 +54,16 @@
 
 					<!-- Dropdown menu -->
 					<div
-						class="z-20 hidden w-44 divide-y divide-gray-100 rounded-md bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+						class="z-20 hidden w-44 divide-y divide-neutral-100 rounded-md bg-white shadow dark:divide-neutral-600 dark:bg-neutral-700"
 						id="dropdownAvatarName"
 					>
-						<div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+						<div class="px-4 py-3 text-sm text-neutral-900 dark:text-white">
 							<div class="font-medium">Pro User</div>
 							<div class="truncate">{{ Auth::user()->email }}</div>
 						</div>
 						<ul
 							aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton"
-							class="py-2 text-sm text-gray-700 dark:text-gray-200"
+							class="py-2 text-sm text-neutral-700 dark:text-neutral-200"
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
 								<li>
@@ -78,7 +76,7 @@
 							@endforeach
 							<li>
 								<x-header.profile-link
-									class="rounded-lg px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+									class="rounded-lg px-4 text-sm font-medium text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-4 focus:ring-neutral-300 dark:text-white dark:hover:bg-neutral-700 dark:focus:ring-neutral-800"
 									href="{{ route('logout') }}"
 									onclick="event.preventDefault(); this.closest('form').submit();"
 								>
@@ -93,14 +91,14 @@
 			@else
 				@if (Str::contains(Request::segment(1), 'register'))
 					<a
-						class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
+						class="btn btn-sky dark:btn btn-dark mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300 md:mr-0"
 						href="{{ route('login') }}"
 					>
 						{{ config('constants.FORM_LABELS.LOGIN') }}
 					</a>
 				@else
 					<a
-						class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
+						class="btn btn-sky dark:btn btn-dark mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300 md:mr-0"
 						data-modal-target="authentication-modal"
 						data-modal-toggle="authentication-modal"
 						href="#"
@@ -112,7 +110,7 @@
 			<button
 				aria-controls="mobile-menu-2"
 				aria-expanded="false"
-				class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+				class="inline-flex items-center rounded-lg p-2 text-sm text-neutral-500 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:ring-neutral-600 md:hidden"
 				data-collapse-toggle="mobile-menu-2"
 				type="button"
 			>
@@ -144,7 +142,7 @@
 			</button>
 			{{-- Light / Dark mode --}}
 			<button
-				class="rounded-lg p-2.5 text-sm text-gray-500 hover:bg-inherit focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-inherit dark:focus:ring-gray-700"
+				class="rounded-lg p-2.5 text-sm text-neutral-500 hover:bg-inherit focus:outline-none focus:ring-neutral-200 dark:text-white dark:hover:bg-inherit dark:focus:ring-neutral-700"
 				id="theme-toggle"
 				type="button"
 			>
@@ -179,7 +177,7 @@
 			id="mobile-menu-2"
 		>
 			<ul
-				class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-gray-900"
+				class="bg-zince-50 mt-4 flex flex-col rounded-lg border border-neutral-100 p-4 dark:border-zinc-900 dark:bg-zinc-900 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-zinc-900"
 			>
 				@foreach (config('constants.NAV_LINKS') as $link)
 					<li>
