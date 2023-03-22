@@ -1,5 +1,5 @@
 @props([
-	'value'
+	'value' => null
 ])
 
 <label

@@ -31,11 +31,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
             RateLimiter::hit($request->throttleKey());
 
             return redirect('/login')
                 ->withErrors(['email' => __('auth.failed')])
+                ->withInput()
                 ->with(['email' => $request->email]);
         }
 

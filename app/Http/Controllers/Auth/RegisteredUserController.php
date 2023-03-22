@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -32,17 +34,23 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // 'before:-18 years' validation fo date
-        $request->validate([
-            'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        $validator = Validator::make($request->all(), [
+            'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'birth_date' => ['required', 'date_format:d/m/Y'],
             'phone_number' => ['required', 'numeric', 'digits:11'],
             'address' => ['required', 'string', 'max:255'],
-            // 'role' => ['required', 'in:RENTEE,RENTER,ADMIN']
+            // 'role' => ['required', 'in:RENTEE,RENTER,ADMIN'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/register')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $user = User::create([
             'username' => $request->username,
@@ -54,6 +62,7 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'role' => "RENTEE",
+            // 'image_path' => $this->storeImage($request),
         ]);
 
         event(new Registered($user));
@@ -61,5 +70,14 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    // Use function below to store images
+    private function storeImage($request)
+    {
+        $newImageName = uniqid() . '-' . Str::replace('.', '_', $request->username) . '.' . $request->file_input->extension();
+        $request->file_input->move(public_path('img'), $newImageName);
+
+        return $newImageName;
     }
 }

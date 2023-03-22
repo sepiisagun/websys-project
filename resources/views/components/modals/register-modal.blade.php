@@ -12,6 +12,7 @@
 				/>
 				<form
 					action="{{ route('register') }}"
+					enctype="multipart/form-data"
 					method="POST"
 				>
 					@csrf
@@ -58,7 +59,13 @@
 									:value="__('Birth Date')"
 									for="birth_date"
 								/>
-								<x-forms.datepicker id="birth_date" name="birth_date" :value="old('birth_date')" type="text" required/>
+								<x-forms.datepicker
+									:value="old('birth_date')"
+									id="birth_date"
+									name="birth_date"
+									required
+									type="text"
+								/>
 								<x-icons.datepicker-icon />
 								<x-forms.input-error :messages="$errors->get('birth_date')" />
 							</div>
@@ -189,6 +196,19 @@
 						>
 							{{ config('constants.FORM_LABELS.AGREE_T&C') }}
 						</x-forms.input-label>
+					</div>
+					<div class="mb-6 flex items-start">
+
+						<label
+							class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+							for="file_input"
+						>Upload file</label>
+						<input
+							class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
+							id="file_input"
+							name="file_input"
+							type="file"
+						>
 					</div>
 					<div class="mb-6 flex items-end">
 						<x-forms.primary-button>

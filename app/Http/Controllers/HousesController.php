@@ -7,6 +7,7 @@ use App\Models\House;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use Illuminate\Support\Str;
 
 class HousesController extends Controller
 {
@@ -18,7 +19,7 @@ class HousesController extends Controller
     public function index()
     {
         $houses = House::paginate(12);
-        foreach($houses as $key=>$house) {
+        foreach ($houses as $key => $house) {
             $rating = Rating::where('house_id', $house->id)->avg('rating');
             $houses[$key]->rating = $rating;
         }
@@ -46,7 +47,9 @@ class HousesController extends Controller
      */
     public function store(Request $request)
     {
-        
+
+
+        // 'image_path' => $this->storeImage($request),
     }
 
     /**
@@ -57,7 +60,7 @@ class HousesController extends Controller
      */
     public function show($id)
     {
-        return view('house.show',[
+        return view('house.show', [
             'item' => House::findOrFail($id)
         ]);
     }
@@ -71,7 +74,7 @@ class HousesController extends Controller
     public function edit($id)
     {
         return view('house.house-edit', [
-            'house' => House::where('id', $id)->first()
+            'house' => House::find($id)
         ]);
     }
 
@@ -96,5 +99,14 @@ class HousesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // Use function below to store images
+    private function storeImage($request)
+    {
+        $newImageName = uniqid() . '-' . Str::replace('/\s+/', '_', $request->name) . '.' . $request->file_input->extension();
+        $request->file_input->move(public_path('img'), $newImageName);
+
+        return $newImageName;
     }
 }

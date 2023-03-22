@@ -1,6 +1,7 @@
 import './bootstrap';
 import 'flowbite';
 import { Modal } from 'flowbite';
+import _ from 'lodash';
 
 import Alpine from 'alpinejs';
 

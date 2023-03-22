@@ -4,12 +4,12 @@
 	<div class="container mx-auto flex flex-wrap items-center justify-between">
 		<a
 			class="flex items-center"
-			href="https://flowbite.com"
+			href="{{ route('homepage') }}"
 		>
 			<img
 				alt="somelogo"
 				class="mr-3 h-6 sm:h-9"
-				src="https://flowbite.com/docs/images/logo.svg"
+				src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
 			/>
 			<span
 				class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -56,7 +56,7 @@
 
 					<!-- Dropdown menu -->
 					<div
-						class="z-15 hidden w-44 divide-y divide-gray-100 rounded-md bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+						class="z-20 hidden w-44 divide-y divide-gray-100 rounded-md bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
 						id="dropdownAvatarName"
 					>
 						<div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -69,7 +69,9 @@
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
 								<li>
-									<x-header.profile-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
+									<x-header.profile-link
+										href="{{ $link['link'] ? route($link['link'], Auth::user()->id) : '#' }}"
+									>
 										{{ $link['label'] }}
 									</x-header.profile-link>
 								</li>
@@ -87,15 +89,25 @@
 					</div>
 
 				</form>
+			@elseif (Str::contains(Request::segment(1), 'login'))
 			@else
-				<a
-					class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
-					data-modal-target="authentication-modal"
-					data-modal-toggle="authentication-modal"
-					href="#"
-				>
-					{{ config('constants.FORM_LABELS.LOGIN') }}
-				</a>
+				@if (Str::contains(Request::segment(1), 'register'))
+					<a
+						class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
+						href="{{ route('login') }}"
+					>
+						{{ config('constants.FORM_LABELS.LOGIN') }}
+					</a>
+				@else
+					<a
+						class="btn btn-teal mr-3 space-x-7 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-0"
+						data-modal-target="authentication-modal"
+						data-modal-toggle="authentication-modal"
+						href="#"
+					>
+						{{ config('constants.FORM_LABELS.LOGIN') }}
+					</a>
+				@endif
 			@endauth
 			<button
 				aria-controls="mobile-menu-2"
@@ -171,7 +183,9 @@
 			>
 				@foreach (config('constants.NAV_LINKS') as $link)
 					<li>
-						<x-header.nav-link href="{{ $link['link'] ? route($link['link']) : '#' }}">
+						<x-header.nav-link
+							href="{{ $link['link'] ? route($link['link']) : '#' }}"
+						>
 							{{ $link['label'] }}
 						</x-header.nav-link>
 					</li>

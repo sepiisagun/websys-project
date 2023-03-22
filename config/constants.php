@@ -50,17 +50,13 @@ return [
         ]
     ],
     'USER_DROPDOWN_LINKS' => [
-        'Profile' => [
-            'label' => 'Profile',
-            'link' => 'profile.edit',
+        'Dashboard' => [
+            'label' => 'Dashboard',
+            'link' => 'account.dashboard',
         ],
         'Settings' => [
             'label' => 'Settings',
-            'link' => '',
-        ],
-        'Earnings' => [
-            'label' => 'Earnings',
-            'link' => '',
+            'link' => 'account.settings',
         ],
     ],
     'FOOTER_TABS' => [
@@ -249,15 +245,15 @@ return [
     'CAROUSEL_ITEMS' => [
         0 => [
             'name' => 'First Image',
-            'image' => '/img/card1.png' 
+            'image' => '/img/card1.png'
         ],
         1 => [
             'name' => 'Second Image',
-            'image' => '/img/card2.png' 
+            'image' => '/img/card2.png'
         ],
         2 => [
             'name' => 'Third Image',
-            'image' => '/img/card3.png' 
+            'image' => '/img/card3.png'
         ],
     ]
 ];

@@ -65,4 +65,10 @@ svg:hover {
     fill: #ff6660;
 }
 
+div.rating {
+    display: inline-block;
+}
   
+input.rating {
+    display: none;
+}
