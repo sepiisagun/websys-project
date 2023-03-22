@@ -14,19 +14,23 @@
 
 			<!--Rating--->
 			<div class="flex flex-row justify-between my-10">
-				@for ($avgRating = 0; $avgRating < 5; $avgRating++) @if ($avgRating>= ($avgRating + 1))
-					<x-icons.rating-star>
-						{{ $avgRating + 1 }}
-					</x-icons.rating-star>
-					@else
-					<x-icons.empty-star>
-						{{ $avgRating + 1 }}
-					</x-icons.empty-star>
-					@endif
+				<div class="flex flex-row">
+					<stars>
+					@for ($i=0; $i < 5; $i++)
+						@if ($avgRating >= ($i + 1))
+							<x-icons.rating-star>
+								{{ $avgRating + 1 }}
+							</x-icons.rating-star>
+						@else 
+							<x-icons.empty-star>
+								{{ $avgRating + 1 }}
+							</x-icons.empty-star>
+						@endif
 					@endfor
-					<p class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-700 hover:underline hover:text-gray-800 dark:text-slate-400
-						duration-100 cursor-pointer">
-						22 reviews</p>
+						<p class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-700 hover:underline hover:text-gray-800 dark:text-slate-400
+							duration-100 cursor-pointer">
+							22 reviews</p>
+				</div>
 			</div>
 
 			<div>
@@ -116,7 +120,7 @@
 							function myFunction(smallImg){
 									var fullImg = document.getElementById("imageBox");
 									fullImg.src = smallImg.src;
-								}
+							}
 						</script>
 					</div>
 				</div>

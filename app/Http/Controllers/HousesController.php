@@ -73,7 +73,7 @@ class HousesController extends Controller
      */
     public function show($id)
     {
-        $avgRating = Rating::where('avgRating', $id);
+        $avgRating = Rating::where('house_id', $id)->avg('rating');
         return view('house.show',[
             'house' => House::findOrFail($id),
             'ratings' => Rating::where('house_id', $id)->get(),
@@ -105,7 +105,7 @@ class HousesController extends Controller
     public function update(Request $request, $id)
     {
         $house = House::find($id);
-        $avgRating = Rating::where('avgRating', $id);
+        $avgRating = Rating::where('house_id', $id)->avg('rating');
 
         $house->update([
             'name' => $request->name,

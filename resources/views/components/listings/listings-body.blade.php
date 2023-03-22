@@ -6,7 +6,7 @@
 		<div class="lg:py-15 mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none">
 
 			{{-- for delete --}}
-			{{-- @if (session()->has('message'))
+			{@if (session()->has('message'))
 			<div class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
 				role="alert">
 				<svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
@@ -20,7 +20,7 @@
 					<span class="font-medium">Success alert!</span> {{ session()->get('message') }}.
 				</div>
 			</div>
-			@endif --}}
+			@endif 
 
 			<h1 class="pt-8 text-center text-4xl font-bold tracking-tight text-gray-900 sm:pt-8 sm:text-4xl lg:pt-10">
 				<span
@@ -37,7 +37,7 @@
 			<div
 				class="mt-12 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-8 dark:text-slate-300">
 				@foreach ($items as $item)
-				<x-listings.listing-item :item="$item" />
+					<x-listings.listing-item :item="$item" />
 				@endforeach
 			</div>
 		</div>
