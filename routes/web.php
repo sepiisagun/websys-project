@@ -3,6 +3,7 @@
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HousesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationsController;
 use App\Models\House;
 use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
@@ -38,13 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('/house')->group(function(){
-    Route::get('/create', [HousesController::class, 'create']) ->name('house.create');
-    Route::get('/listings', [HousesController::class, 'index']) -> name('house.index');
-    Route::get('/{id}', [HousesController::class, 'show']) ->name('house.show');
-    Route::get('/edit/{id}', [HousesController::class, 'edit']) ->name('house.edit');
-});
+Route::get('/house/listings', [HousesController::class, 'index'])->name('house.index');
+Route::resource('/house', HousesController::class);
 
+Route::resource('/reserve', ReservationsController::class);
 require __DIR__.'/auth.php';
 
 Route::fallback(FallbackController::class);

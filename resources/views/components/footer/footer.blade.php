@@ -1,4 +1,4 @@
-<footer class="p-4 bg-white sm:p-6 dark:bg-gray-900">
+<footer class="mt-auto xl:py-20 pt-20px pb-0 mb-0 bottom-0 w-full bg-white sm:p-6 dark:bg-neutral-900">
     <div class="md:flex md:justify-between">
         <div class="mb-6 md:mb-0">
             <a href="https://flowbite.com/" class="flex items-center">
@@ -14,9 +14,9 @@
 			@endforeach
         </div>
     </div>
-    <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+    <hr class="my-6 border-neutral-200 sm:mx-auto dark:border-neutral-700 lg:my-8" />
     <div class="sm:flex sm:items-center sm:justify-between">
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <span class="block text-sm text-neutral-500 sm:text-center dark:text-neutral-400">
             {{ config('constants.FOOTER_COPYRIGHT') }}
         </span>
         <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">

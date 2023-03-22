@@ -7,23 +7,23 @@
 	    'type' => 'submit',
 	    'class' => '
 				btn
-				btn-sky
+				bg-red-700
+                text-white
 	            focus:ring-4
 	            focus:outline-none
-	            focus:ring-blue-300
+	            focus:ring-red-300
+                hover:bg-red-800
 	            font-medium
 	            text-sm
 	            px-5
 	            py-2.5
 	            mx-2
 	            text-center
-				hover:bg-sky-700
-				hover:text-white
-	            dark:bg-white
-				dark:text-black
-	            dark:hover:bg-sky-800
-				dark:hover:text-white
-	            dark:focus:ring-sky-800',
+				hover:bg-sky-600
+	            dark:bg-red-600
+				dark:text-white
+	            dark:hover:bg-red-800
+	            dark:focus:ring-red-900'
 	]) }}
 	onclick="{{ $onclick }}"
 >

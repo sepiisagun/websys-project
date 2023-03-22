@@ -6,7 +6,7 @@
 	'required' => false
 ])
 
-<input
+<textarea
 	{{ $disabled ? 'disabled' : '' }}
 	{{ $required ? 'required' : '' }}
 	{!! $attributes->merge([
@@ -33,4 +33,6 @@
 	id="{{ $id }}",
 	name="{{ $name }}",
 	placeholder="{{ $placeholder }}"
-/>
+>
+{{ $value ?? $slot }}
+</textarea>
