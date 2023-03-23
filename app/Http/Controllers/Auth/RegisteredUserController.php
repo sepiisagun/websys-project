@@ -33,23 +33,27 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // 'before:-18 years' validation fo date
         $validator = Validator::make($request->all(), [
             'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'birth_date' => ['required', 'date_format:d/m/Y'],
+            'birth_date' => ['required', 'date_format:d/m/Y', 'before:-18 years'],
             'phone_number' => ['required', 'numeric', 'digits:11'],
             'address' => ['required', 'string', 'max:255'],
-            // 'role' => ['required', 'in:RENTEE,RENTER,ADMIN'],
+            'role' => ['required', 'in:RENTEE,RENTER,ADMIN'],
+            'image_path' => ['required', 'mimes:jpeg,png,jpg']
         ]);
 
         if ($validator->fails()) {
             return redirect('/register')
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->with([
+                    'status' => 'Danger',
+                    'message' => 'Invalid values!'
+                ]);
         }
 
         $user = User::create([
@@ -61,8 +65,8 @@ class RegisteredUserController extends Controller
             'birth_date' => Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d'),
             'phone_number' => $request->phone_number,
             'address' => $request->address,
-            'role' => "RENTEE",
-            // 'image_path' => $this->storeImage($request),
+            'role' => $request->role,
+            'image_path' => $this->storeImage($request),
         ]);
 
         event(new Registered($user));
@@ -75,8 +79,8 @@ class RegisteredUserController extends Controller
     // Use function below to store images
     private function storeImage($request)
     {
-        $newImageName = uniqid() . '-' . Str::replace('.', '_', $request->username) . '.' . $request->file_input->extension();
-        $request->file_input->move(public_path('img'), $newImageName);
+        $newImageName = uniqid() . '-' . $request->last_name . '_' . Str::replace(' ', '_', $request->first_name) . '.' . $request->image_path->extension();
+        $request->image_path->move(public_path('img'), $newImageName);
 
         return $newImageName;
     }

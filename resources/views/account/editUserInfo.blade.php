@@ -9,6 +9,7 @@
 			</h2>
 			<form
 				action="{{ route('account.updateInfo') }}"
+				enctype="multipart/form-data"
 				method="POST"
 			>
 				@csrf
@@ -26,7 +27,6 @@
 						id="first_name"
 						name="first_name"
 						placeholder="John"
-						required
 						type="text"
 					/>
 					<x-forms.input-error :messages="$errors->get('first_name')" />
@@ -44,7 +44,6 @@
 						id="last_name"
 						name="last_name"
 						placeholder="Doe"
-						required
 						type="text"
 					/>
 					<x-forms.input-error :messages="$errors->get('last_name')" />
@@ -63,7 +62,6 @@
 						name="phone_number"
 						pattern="[0-9]{11}"
 						placeholder="09123456789"
-						required
 						type="tel"
 					/>
 					<x-forms.input-error :messages="$errors->get('phone_number')" />
@@ -80,10 +78,21 @@
 						:value="$user->address"
 						id="address"
 						name="address"
-						required
 						type="text"
 					/>
 					<x-forms.input-error :messages="$errors->get('address')" />
+				</div>
+				<div class="mb-6">
+					<x-forms.input-label
+						:value="__('Profile Picture')"
+						for="image_path"
+					/>
+
+					<x-forms.file-input
+						id="image_path"
+						name="image_path"
+					/>
+					<x-forms.input-error :messages="$errors->get('image_path')" />
 				</div>
 				<div class="mb-6 flex items-end">
 					<x-forms.primary-button>

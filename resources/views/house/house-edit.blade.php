@@ -7,6 +7,7 @@
 				property</h2>
 			<form
 				action="{{ route('house.update', $house) }}"
+				enctype="multipart/form-data"
 				method="POST"
 			>
 				@csrf
@@ -18,13 +19,30 @@
 							for="name"
 						/>
 						<x-forms.text-input
-							class="mt-1 block w-full"
+							:class="$errors->get('name')
+							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+							    : 'block mt-1 w-full'"
+							data-tooltip-placement="bottom"
+							data-tooltip-target="tooltip-light"
+							disabled
 							id="name"
 							name="name"
 							required
 							type="text"
 							value="{{ $house->name }}"
 						/>
+						<x-forms.input-error :messages="$errors->get('name')" />
+						<div
+							class="tooltip invisible absolute z-10 inline-block rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+							id="tooltip-light"
+							role="tooltip"
+						>
+							House name cannot be edited
+							<div
+								class="tooltip-arrow"
+								data-popper-arrow
+							></div>
+						</div>
 					</div>
 					<div>
 						<x-forms.input-label
@@ -32,11 +50,16 @@
 							for="description"
 						/>
 						<x-forms.textarea-input
-							class="mt-1 block w-full"
+							:class="$errors->get('description')
+							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+							    : 'block mt-1 w-full'"
 							id="description"
 							name="description"
 							required
-						>{{ $house->description }}</x-forms.textarea-input>
+						>
+							{{ $house->description }}
+						</x-forms.textarea-input>
+						<x-forms.input-error :messages="$errors->get('description')" />
 					</div>
 					<div>
 						<x-forms.input-label
@@ -44,13 +67,16 @@
 							for="address"
 						/>
 						<x-forms.text-input
-							class="mt-1 block w-full"
+							:class="$errors->get('address')
+							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+							    : 'block mt-1 w-full'"
 							id="address"
 							name="address"
 							required
 							type="text"
 							value="{{ $house->address }}"
 						/>
+						<x-forms.input-error :messages="$errors->get('address')" />
 					</div>
 					<div>
 						<x-forms.input-label
@@ -58,13 +84,18 @@
 							for="capacity"
 						/>
 						<x-forms.text-input
-							class="mt-1 block w-full"
+							:class="$errors->get('capacity')
+							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+							    : 'block mt-1 w-full'"
 							id="capacity"
+							max="15"
+							min="1"
 							name="capacity"
 							required
 							type="number"
 							value="{{ $house->capacity }}"
 						/>
+						<x-forms.input-error :messages="$errors->get('capacity')" />
 					</div>
 					<div>
 						<x-forms.input-label
@@ -72,13 +103,17 @@
 							for="price"
 						/>
 						<x-forms.text-input
-							class="mt-1 block w-full"
+							:class="$errors->get('price')
+							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+							    : 'block mt-1 w-full'"
 							id="price"
+							min="1"
 							name="price"
 							required
 							type="number"
 							value="{{ $house->price }}"
 						/>
+						<x-forms.input-error :messages="$errors->get('price')" />
 					</div>
 
 					<div>
@@ -86,13 +121,11 @@
 							:value="__('Images')"
 							for="image_path"
 						/>
-						<x-forms.text-input
-							class="mt-1 block w-full p-0"
+						<x-forms.file-input
 							id="image_path"
 							name="image_path"
-							type="file"
-							value="{{ $house->image_path }}"
 						/>
+						<x-forms.input-error :messages="$errors->get('image_path')" />
 					</div>
 				</div>
 

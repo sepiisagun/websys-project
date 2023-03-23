@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Rating;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class HousesController extends Controller
 {
@@ -48,7 +50,28 @@ class HousesController extends Controller
      */
     public function store(Request $request)
     {
-        // 'image_path' => $this->storeImage($request),
+        // Create validation and validate $request
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:100', 'unique:' . House::class],
+            'description' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'numeric', 'between:1,15'],
+            'price' => ['required', 'numeric', 'gt:0'],
+            'image_path' => ['required', 'mimes:jpeg,png,jpg']
+        ]);
+
+        // Return create view if validation fails
+        if ($validator->fails()) {
+            return Redirect::route('house.create')
+                ->withErrors($validator)
+                ->withInput()
+                ->with([
+                    'status' => 'Danger',
+                    'message' => 'Invalid values!'
+                ]);
+        }
+
+        // Create house record
         $house = House::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -58,13 +81,15 @@ class HousesController extends Controller
             'user_id' => Auth::user()->id,
             'image_path' => $this->storeImage($request),
         ]);
-        $houses = House::paginate(12);
-        foreach ($houses as $key => $house) {
-            $rating = Rating::where('house_id', $house->id)->avg('rating');
-            $houses[$key]->rating = $rating;
-        }
 
-        return view('house.index', ['houses' => $houses]);
+        // Redirect to house view with details of new record
+        return Redirect::route('house.show', [
+                                'house' => $house,
+                            ])
+                            ->with([
+                                'status' => 'Success',
+                                'message' => 'You have listed a new house.'
+                            ]);
     }
 
     /**
@@ -105,21 +130,60 @@ class HousesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Create validation and validate $request
+        $validator = Validator::make($request->all(), [
+            'description' => ['sometimes', 'required', 'string', 'max:255'],
+            'address' => ['sometimes', 'required', 'string', 'max:255'],
+            'capacity' => ['sometimes', 'required', 'numeric', 'between:1,15'],
+            'price' => ['sometimes', 'required', 'numeric', 'gt:0'],
+            'image_path' => ['sometimes', 'required', 'mimes:jpeg,png,jpg']
+        ]);
+
+        // Return edit view if validation fails
+        if ($validator->fails()) {
+            return Redirect::route('house.edit', $id)
+                ->withErrors($validator)
+                ->withInput()
+                ->with([
+                    'status' => 'Danger',
+                    'message' => 'Invalid values!'
+                ]);
+        }
+
+        // Get house record
         $house = House::find($id);
         $avgRating = Rating::where('house_id', $id)->avg('rating');
 
-        $house->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'address' => $request->address,
-            'capacity' => $request->capacity,
-            'price' => $request->price
-        ]);
+        // Re-assign form values to house record
+        $house->description = $request->description;
+        $house->address = $request->address;
+        $house->capacity = $request->capacity;
+        $house->price = $request->price;
+        $house->image_path = $request->image_path ? $this->storeImage($request) : $house->image_path;
 
-        return view('house.show', [
-            'house' => $house,
-            'avgRating' => $avgRating
-        ]);
+        // Check if there are changes between record and form value
+        if($house->isDirty()) {
+            // Save values if there are changes
+            $house->save();
+
+            // Return house view with updated details
+            return Redirect::route('house.show', [
+                                'house' => $house,
+                                'avgRating' => $avgRating
+                            ])
+                            ->with([
+                                'status' => 'Success',
+                                'message' => 'Your house details has been changed.'
+                            ]);
+        } else {
+            // If no changes, return to dashboard
+            return Redirect::route('account.dashboard', Auth::user()->id)
+                            ->with([
+                                'status' => 'Notice',
+                                'message' => 'You have not made any changes to your listed house.'
+                            ]);
+        }
+        
     }
 
     /**
@@ -132,14 +196,20 @@ class HousesController extends Controller
     {
         House::destroy($id);
 
-        return redirect(route('house.index'))->with('message', 'House has been deleted.');
+        return Redirect::route('account.dashboard', Auth::user()->id)
+                        ->with([
+                            'status' => 'Danger',
+                            'message' => 'House has been deleted.'
+                        ]);
     }
 
     // Use function below to store images
     private function storeImage($request)
     {
-        $newImageName = uniqid() . '-' . Str::replace('/\s+/', '_', $request->name) . '.' . $request->file_input->extension();
-        $request->file_input->move(public_path('img'), $newImageName);
+        // Generate new image name using unique number + user info
+        $newImageName = uniqid() . '-' . Str::replace('/\s+/', '_', $request->name) . '.' . $request->image_path->extension();
+        // Store image in public/img folder
+        $request->image_path->move(public_path('img'), $newImageName);
 
         return $newImageName;
     }

@@ -255,5 +255,11 @@ return [
             'name' => 'Third Image',
             'image' => '/img/card3.png'
         ],
+    ],
+    'RENTER_TABLE_COLUMN_TITLE' => [
+        'house' => 'House Name',
+        'address' => 'Address',
+        'capacity' => 'Capacity',
+        'price' => 'Price',
     ]
 ];
