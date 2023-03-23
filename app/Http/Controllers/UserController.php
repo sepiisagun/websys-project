@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -57,7 +59,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if ($user->role === "RENTER") {
-            $houses = House::where('user_id', $id)->get();
+            $houses = DB::table('houses')
+                        ->where('user_id', $id)
+                        ->paginate(10);
             return view('account.renter', ['houses' => $houses]);
         } else {
             $upcomingReservations = DB::table('reservations')
@@ -159,16 +163,55 @@ class UserController extends Controller
      */
     public function updateUserInfo(Request $request)
     {
+        // Create validation and validate $request
+        $validator = Validator::make($request->all(), [
+            'first_name' => ['sometimes', 'required', 'string', 'max:255'],
+            'last_name' => ['sometimes', 'required', 'string', 'max:255'],
+            'phone_number' => ['sometimes', 'required', 'numeric', 'digits:11'],
+            'address' => ['sometimes', 'required', 'string', 'max:255'],
+            'image_path' => ['sometimes', 'required', 'mimes:jpeg,png,jpg']
+        ]);
+
+        // Return edit view if validation fails
+        if ($validator->fails()) {
+            return Redirect::route('account.editInfo')
+                            ->withErrors($validator)
+                            ->withInput()
+                            ->with([
+                                'status' => 'Danger',
+                                'message' => 'Invalid Values!'
+                            ]);
+        }
+
+        // Get user record
         $user = User::find(Auth::user()->id);
 
+        // Re-assign form values to user record
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->phone_number = $request->phone_number;
         $user->address = $request->address;
+        $user->image_path = $request->image_path ? $this->storeImage($request) : $user->image_path;
 
-        $user->save();
+        // Check if there are changes between record and form value
+        if ($user->isDirty()) {
+            // Save values if there are changes
+            $user->save();
 
-        return Redirect::route('account.editInfo', $user->id)->with('status', 'User Info Updated!');
+            // Return to dashboard with updated values
+            return Redirect::route('account.dashboard', $user->id)
+                            ->with([
+                                'status' => 'Success',
+                                'message' => 'You have edited your info.'
+                            ]);
+            // If no changes, return
+        } else {
+            return Redirect::route('account.settings', $user->id)
+                            ->with([
+                                'status' => 'Notice',
+                                'message' => 'You have not made any changes to your info.'
+                            ]);
+        }
     }
 
     /**
@@ -180,5 +223,16 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // Use function below to store images
+    private function storeImage($request)
+    {
+        // Generate new image name using unique number + user info
+        $newImageName = uniqid() . '-' . $request->last_name . '_' . Str::replace(' ', '_', $request->first_name) . '.' . $request->image_path->extension();
+        // Store image in public/img folder
+        $request->image_path->move(public_path('img'), $newImageName);
+
+        return $newImageName;
     }
 }

@@ -14,9 +14,11 @@
 		<div class="my-6 w-2/5 overflow-hidden bg-white px-6 py-4 shadow-md">
 			<form
 				action="{{ route('register') }}"
+				enctype="multipart/form-data"
 				method="POST"
 			>
 				@csrf
+
 				<div class="mb-6 grid gap-6 md:grid-cols-2">
 					<div>
 						<x-forms.input-label
@@ -108,6 +110,47 @@
 					/>
 					<x-forms.input-error :messages="$errors->get('address')" />
 				</div>
+
+				<div class="mb-6 grid gap-6 md:grid-cols-2">
+					<div>
+						<x-forms.input-label
+							:value="__('Select account type')"
+							for="role"
+						/>
+						<select
+							class="mb-4 block w-full rounded-sm border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+							id="role"
+							name="role"
+						>
+							<option
+								disabled
+								selected
+							>Choose your account type</option>
+							<option
+								name="role"
+								value="RENTEE"
+							>Rentee</option>
+							<option
+								name="role"
+								value="RENTER"
+							>Renter</option>
+						</select>
+						<x-forms.input-error :messages="$errors->get('role')" />
+					</div>
+					<div>
+						<x-forms.input-label
+							:value="__('Profile Picture')"
+							for="image_path"
+						/>
+
+						<x-forms.file-input
+							id="image_path"
+							name="image_path"
+						/>
+						<x-forms.input-error :messages="$errors->get('image_path')" />
+					</div>
+				</div>
+
 				<div class="mb-6 grid gap-6 md:grid-cols-2">
 					<div>
 						<x-forms.input-label
@@ -184,7 +227,7 @@
 				<div class="mb-6 flex items-start">
 					<div class="flex h-5 items-center">
 						<input
-							class="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+							class="focus:ring-3 h-4 w-4 rounded border border-neutral-300 bg-neutral-50 focus:ring-blue-300 dark:border-neutral-600 dark:bg-neutral-700 dark:ring-offset-neutral-800 dark:focus:ring-blue-600"
 							id="remember"
 							required
 							type="checkbox"
@@ -192,7 +235,7 @@
 						>
 					</div>
 					<x-forms.input-label
-						class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+						class="ml-2 text-sm font-medium text-neutral-900 dark:text-neutral-300"
 						for="remember"
 					>
 						{{ config('constants.FORM_LABELS.AGREE_T&C') }}
@@ -202,7 +245,11 @@
 					<x-forms.primary-button>
 						{{ config('constants.BUTTON_LABELS.SUBMIT') }}
 					</x-forms.primary-button>
-					<x-forms.cancel-button href="{{ route('homepage') }}">
+					<x-forms.cancel-button
+						data-modal-hide="registration-modal"
+						data-modal-target="authentication-modal"
+						data-modal-toggle="authentication-modal"
+					>
 						{{ config('constants.BUTTON_LABELS.CANCEL') }}
 					</x-forms.cancel-button>
 				</div>

@@ -37,7 +37,11 @@ class AuthenticatedSessionController extends Controller
             return redirect('/login')
                 ->withErrors(['email' => __('auth.failed')])
                 ->withInput()
-                ->with(['email' => $request->email]);
+                ->with([
+                    'status' => 'Danger',
+                    'message' => 'Invalid Values!',
+                    'email' => $request->email
+                ]);
         }
 
         RateLimiter::clear($request->throttleKey());

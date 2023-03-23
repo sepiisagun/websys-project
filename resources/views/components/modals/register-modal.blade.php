@@ -109,22 +109,45 @@
 						<x-forms.input-error :messages="$errors->get('address')" />
 					</div>
 
-					<label
-						class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-						for="role"
-					>Select
-						role</label>
-					<select
-						class="mb-4 block w-full rounded-sm border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-						id="role"
-					>
-						<option
-							disabled
-							selected
-						>Choose your role</option>
-						<option value="RENTEE">Rentee</option>
-						<option value="RENTER">Renter</option>
-					</select>
+					<div class="mb-6 grid gap-6 md:grid-cols-2">
+						<div>
+							<x-forms.input-label
+								:value="__('Select account type')"
+								for="role"
+							/>
+							<select
+								class="mb-4 block w-full rounded-sm border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+								id="role"
+								name="role"
+							>
+								<option
+									disabled
+									selected
+								>Choose your role</option>
+								<option
+									name="role"
+									value="RENTEE"
+								>Rentee</option>
+								<option
+									name="role"
+									value="RENTER"
+								>Renter</option>
+							</select>
+							<x-forms.input-error :messages="$errors->get('role')" />
+						</div>
+						<div>
+							<x-forms.input-label
+								:value="__('Profile Picture')"
+								for="image_path"
+							/>
+
+							<x-forms.file-input
+								id="image_path"
+								name="image_path"
+							/>
+							<x-forms.input-error :messages="$errors->get('image_path')" />
+						</div>
+					</div>
 
 					<div class="mb-6 grid gap-6 md:grid-cols-2">
 						<div>
@@ -215,19 +238,6 @@
 						>
 							{{ config('constants.FORM_LABELS.AGREE_T&C') }}
 						</x-forms.input-label>
-					</div>
-					<div class="mb-6 flex items-start">
-
-						<label
-							class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-							for="file_input"
-						>Upload file</label>
-						<input
-							class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
-							id="file_input"
-							name="file_input"
-							type="file"
-						>
 					</div>
 					<div class="mb-6 flex items-end">
 						<x-forms.primary-button>
