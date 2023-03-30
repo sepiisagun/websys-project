@@ -55,10 +55,16 @@
 			>
 			<div class="mb-1 flex items-center">
 				${{ $item['price'] }}/night |
-				@for ($i = 0; $i < $item['rating']; $i++)
-					<x-icons.rating-star>
-						{{ $i + 1 }}
-					</x-icons.rating-star>
+				@for ($i = 0; $i < 5; $i++)				
+					@if ($item['rating'] >= $i + 1)
+						<x-icons.rating-star>
+							{{ $i + 1 }}
+						</x-icons.rating-star>
+					@else
+						<x-icons.empty-star>
+							{{ $i + 1 }}
+						</x-icons.empty-star>
+					@endif
 				@endfor
 			</div>
 			</p>

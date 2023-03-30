@@ -151,7 +151,11 @@ class UserController extends Controller
                 'password' => Hash::make($request->new_password),
             ]);
 
-        return Redirect::route('account.editCredentials', $user->id)->with('status', 'Password Updated!');
+        return Redirect::route('account.editCredentials', $user->id)
+                        ->with([
+                            'status' => 'Success!',
+                            'message' => 'Your password has been updated!'
+                        ]);
     }
 
     /**
@@ -178,7 +182,7 @@ class UserController extends Controller
                             ->withErrors($validator)
                             ->withInput()
                             ->with([
-                                'status' => 'Danger',
+                                'status' => 'Attention!',
                                 'message' => 'Invalid Values!'
                             ]);
         }
@@ -201,8 +205,8 @@ class UserController extends Controller
             // Return to dashboard with updated values
             return Redirect::route('account.dashboard', $user->id)
                             ->with([
-                                'status' => 'Success',
-                                'message' => 'You have edited your info.'
+                                'status' => 'Success!',
+                                'message' => 'You have edited your personal info.'
                             ]);
             // If no changes, return
         } else {

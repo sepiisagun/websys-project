@@ -1,4 +1,4 @@
-@props([ 'house' ])
+@props(['house'])
 
 <tr class="border-b dark:border-gray-700">
 	<th

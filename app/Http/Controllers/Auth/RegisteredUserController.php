@@ -51,7 +51,7 @@ class RegisteredUserController extends Controller
                 ->withErrors($validator)
                 ->withInput()
                 ->with([
-                    'status' => 'Danger',
+                    'status' => 'Attention!',
                     'message' => 'Invalid values!'
                 ]);
         }

@@ -68,9 +68,6 @@
 				<p class="mb-4 text-lg font-light text-neutral-500 dark:text-neutral-400">
 					Sorry, we can't find that page. You'll find lots to explore on the home
 					page. </p>
-				{{-- <x-forms.primary-button d>
-                    Go back to homepage
-                </x-forms.primary-button> --}}
 				<a href="{{ route('homepage') }}">
 					<x-forms.primary-button>
 						Back to Homepage

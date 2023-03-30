@@ -1,9 +1,5 @@
 @inject('carbon', 'Carbon\Carbon')
-@props([
-	'reservation',
-	'past' => false,
-	'hasRating' => false
-])
+@props(['reservation', 'past' => false, 'hasRating' => false])
 
 <article
 	class="min-w-20 h-64 w-auto rounded-md border border-gray-200 bg-gray-400 bg-opacity-90 bg-cover bg-center bg-blend-darken shadow-md dark:border-gray-700"

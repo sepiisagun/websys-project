@@ -143,7 +143,7 @@
 						</div>
 
 						<h3 class="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
-						Thinking to buy
+							Thinking to buy
 							another one!</h3>
 						<p class="mb-3 font-light text-gray-500 dark:text-gray-400">It is
 							obviously not the same

@@ -1,7 +1,5 @@
-{{-- for cover --}}
 <div class="mx-auto max-w-full">
 	<div class="relative h-[500px]">
-		{{-- overlay --}}
 		<div
 			class="absolute flex h-[500px] max-h-[500px] w-full flex-col justify-center bg-black/70 text-center text-gray-200"
 		>
@@ -17,7 +15,6 @@
 				Book unique homes & experience a city like a local.
 			</p>
 
-			{{-- div for buttons --}}
 			<div class="mt-8 flex flex-wrap justify-center gap-6 px-6">
 				<button
 					class="btn btn-sky"
@@ -30,7 +27,6 @@
 			</div>
 		</div>
 
-		{{-- for cover img --}}
 		<div
 			class="h-[500px] w-full bg-cover bg-fixed bg-no-repeat"
 			style="background-image: url('/img/cover1.png');"

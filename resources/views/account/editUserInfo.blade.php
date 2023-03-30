@@ -54,10 +54,10 @@
 						for="phone_number"
 					/>
 					<x-forms.text-input
-						:value="$user->phone_number"
 						:class="$errors->get('phone_number')
 						    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 						    : 'block mt-1 w-full'"
+						:value="$user->phone_number"
 						id="phone_number"
 						name="phone_number"
 						pattern="[0-9]{11}"
