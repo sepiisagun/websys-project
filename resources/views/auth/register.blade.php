@@ -6,10 +6,6 @@
 			<a href="/">
 				<x-icons.application-logo class="h-20 w-20 fill-current text-gray-500" />
 			</a>
-			<x-auth-session-status
-				:status="session('status')"
-				class="mb-4"
-			/>
 		</div>
 		<div class="my-6 w-2/5 overflow-hidden bg-white px-6 py-4 shadow-md">
 			<form

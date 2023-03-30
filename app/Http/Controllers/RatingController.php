@@ -67,7 +67,11 @@ class RatingController extends Controller
             'reservation_id' => $reservationId,
         ]);
 
-        return Redirect::route('account.dashboard', Auth::user()->id)->with('status', 'House successfully rated!');
+        return Redirect::route('account.dashboard', Auth::user()->id)
+                        ->with([
+                            'status' => 'Success!',
+                            'message' => 'You have successfully rated your reservation!'
+                        ]);
     }
 
     /**

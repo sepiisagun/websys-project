@@ -1,7 +1,4 @@
-@props([
-    'd',
-	'href' => '#'
-])
+@props(['d', 'href' => '#'])
 <a
 	class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
 	href="{{ $href }}"
@@ -19,6 +16,6 @@
 		/>
 	</svg>
 	<span class="sr-only">
-        {{ $slot }}
-    </span>
+		{{ $slot }}
+	</span>
 </a>

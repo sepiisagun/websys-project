@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
                 ->withErrors(['email' => __('auth.failed')])
                 ->withInput()
                 ->with([
-                    'status' => 'Danger',
+                    'status' => 'Attention!',
                     'message' => 'Invalid Values!',
                     'email' => $request->email
                 ]);

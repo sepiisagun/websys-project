@@ -65,7 +65,7 @@ class HousesController extends Controller
                 ->withErrors($validator)
                 ->withInput()
                 ->with([
-                    'status' => 'Danger!',
+                    'status' => 'Attention!',
                     'message' => 'Invalid values.'
                 ]);
         }
@@ -144,7 +144,7 @@ class HousesController extends Controller
                 ->withErrors($validator)
                 ->withInput()
                 ->with([
-                    'status' => 'Danger!',
+                    'status' => 'Attention!',
                     'message' => 'Invalid values.'
                 ]);
         }
@@ -178,7 +178,7 @@ class HousesController extends Controller
             // If no changes, return to dashboard
             return Redirect::route('account.dashboard', Auth::user()->id)
                             ->with([
-                                'status' => 'Notice!',
+                                'status' => 'Notice:',
                                 'message' => 'You have not made any changes to your listed house.'
                             ]);
         }
@@ -197,7 +197,7 @@ class HousesController extends Controller
 
         return Redirect::route('account.dashboard', Auth::user()->id)
                         ->with([
-                            'status' => 'Attention!',
+                            'status' => 'Success!',
                             'message' => 'House has been deleted.'
                         ]);
     }

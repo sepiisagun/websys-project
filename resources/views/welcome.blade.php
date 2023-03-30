@@ -54,19 +54,22 @@
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="dark:bg-neutral-900 ">
+<body class="dark:bg-neutral-900">
 	<div class="flex flex-col">
 		<x-header.header />
-		<div class="mx-auto max-w-2xl lg:max-w-none" id="alert">
+		<div
+			class="mx-auto max-w-2xl lg:max-w-none"
+			id="alert"
+		>
 			@if (session()->has('status') && session()->get('message'))
 				<div
-					class=" mt-4 {{ session()->get('status') === 'Attention!'
-					    ? 'text-red-800 bg-red-50 dark:text-red-400'
+					class="{{ session()->get('status') === 'Attention!'
+					? 'text-red-800 bg-red-50 dark:text-red-400'
 					    : (session()->get('status') === 'Success!'
 					        ? 'text-green-800 bg-green-50 dark:text-green-400'
-					        : (session()->get('status') === 'Warning!'
+					        : (session()->get('status') === 'Warning:'
 					            ? 'text-yellow-800 bg-yellow-50 dark:text-yellow-400'
-					            : 'text-blue-800 bg-blue-50 dark:text-blue-400')) }} mb-4 rounded-md p-4 text-sm dark:bg-gray-800"
+					            : 'text-blue-800 bg-blue-50 dark:text-blue-400')) }} mt-4 mb-4 rounded-md p-4 text-sm dark:bg-gray-800"
 					role="alert"
 				>
 					<svg
