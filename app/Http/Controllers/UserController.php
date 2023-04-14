@@ -57,6 +57,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if (!Auth::user() || $id != Auth::user()->id) return view('fallback.index');
         $user = User::find($id);
         if ($user->role === "RENTER") {
             $houses = DB::table('houses')
@@ -94,23 +95,36 @@ class UserController extends Controller
      */
     public function edit()
     {
-        return view('account.edit');
+        if (Auth::user()) {
+            return view('account.edit');
+        } else {
+            return view('fallback.index');
+        }
+        
     }
 
     public function editCredentials($id)
     {
-
-        return view('account.editCredentials', [
-            'user' => DB::table('users')
-                ->where('id', $id)
-                ->select('email')
-                ->first(),
-        ]);
+        if (Auth::user()) {
+            return view('account.editCredentials', [
+                'user' => DB::table('users')
+                    ->where('id', $id)
+                    ->select('email')
+                    ->first(),
+            ]);
+        } else {
+            return view('fallback.index');
+        }
+         
     }
 
     public function editUserInfo($id)
     {
-        return view('account.editUserInfo', ['user' => User::find($id)]);
+        if (Auth::user()) {
+            return view('account.editUserInfo', ['user' => User::find($id)]);
+        } else {
+            return view('fallback.index');
+        }
     }
 
     /**
@@ -136,7 +150,6 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $request->validate([
-            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
                 if (!Hash::check($value, $user->password)) {
                     return $fail(__('The current password is incorrect.'));

@@ -29,19 +29,23 @@ class RatingController extends Controller
      */
     public function create($reservationId)
     {
-        $house = DB::table('houses')
-            ->join('reservations', 'houses.id', '=', 'reservations.house_id')
-            ->where('reservations.id', '=', $reservationId)
-            ->select(
-                'reservations.created_at',
-                'houses.address',
-                'houses.name',
-                'houses.image_path',
-                'houses.id AS house_id',
-                'reservations.id AS reservation_id'
-            )
-            ->first();
-        return view('ratings.create', ['house' => $house]);
+        if (Auth::user()) {
+            $house = DB::table('houses')
+                ->join('reservations', 'houses.id', '=', 'reservations.house_id')
+                ->where('reservations.id', '=', $reservationId)
+                ->select(
+                    'reservations.created_at',
+                    'houses.address',
+                    'houses.name',
+                    'houses.image_path',
+                    'houses.id AS house_id',
+                    'reservations.id AS reservation_id'
+                )
+                ->first();
+            return view('ratings.create', ['house' => $house]);
+        } else {
+            return view('fallback.index');
+        }
     }
 
     /**

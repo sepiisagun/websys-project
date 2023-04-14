@@ -54,7 +54,7 @@
 				class="text-md inline-block align-bottom font-normal text-neutral-700 dark:text-white"
 			>
 			<div class="mb-1 flex items-center">
-				${{ $item['price'] }}/night |
+				₱{{ $item['price'] }}/night |
 				@for ($i = 0; $i < 5; $i++)				
 					@if ($item['rating'] >= $i + 1)
 						<x-icons.rating-star>
