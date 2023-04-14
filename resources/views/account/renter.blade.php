@@ -70,9 +70,9 @@
 											fill-rule="evenodd"
 										/>
 									</svg>
-									Add product
+									Add Listing
 								</a>
-								<div class="flex w-full items-center space-x-3 md:w-auto">
+								{{-- <div class="flex w-full items-center space-x-3 md:w-auto">
 									<button
 										class="hover:text-primary-700 flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
 										data-dropdown-toggle="actionsDropdown"
@@ -116,7 +116,7 @@
 											>Delete all</a>
 										</div>
 									</div>
-								</div>
+								</div> --}}
 							</div>
 						</div>
 						<div class="overflow-x-auto">
@@ -150,9 +150,36 @@
 											:value="$house->name"
 											route="house.destroy"
 										>
-											Are you sure you want to remove
-											the listing for <span
-												class="text-md font-semibold">{{ $house->name }}</span>?
+											<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+												Are you sure you want to remove
+												the listing for 
+												<span
+													class="text-md font-semibold"
+												>
+													{{ $house->name }}
+												</span>?
+											</h3>
+											
+											<div class="mb-6">
+												<x-forms.input-label
+													for="deleteProceed"
+												>
+													<p>Type <span
+													class="text-md font-semibold">{{ $house->name }}</span> to proceed.</p>
+												</x-forms.input-label>
+												<x-forms.text-input
+													:class="$errors->get('deleteProceed')
+														? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+														: 'block mt-1 w-full'"
+													autocomplete="deleteProceed"
+													data-tooltip-placement="bottom"
+													data-tooltip-target="tooltip-light"
+													id="deleteProceed"
+													name="deleteProceed"
+													placeholder=""
+													type="deleteProceed"
+												/>
+											</div>
 										</x-modals.delete-modal>
 									@empty
 										<tr class="border-b dark:border-gray-700">

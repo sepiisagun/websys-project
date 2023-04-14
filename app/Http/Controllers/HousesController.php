@@ -37,9 +37,12 @@ class HousesController extends Controller
      */
     public function create()
     {
-        //create add form
-        $users = User::all();
-        return view('house.house-create', compact('users'));
+        if (Auth::user()) {
+            $users = User::all();
+            return view('house.house-create', compact('users'));
+        } else {
+            return view('fallback.index');
+        }
     }
 
     /**
@@ -115,9 +118,13 @@ class HousesController extends Controller
      */
     public function edit($id)
     {
-        return view('house.house-edit', [
-            'house' => House::find($id)
-        ]);
+        if (Auth::user()) {
+            return view('house.house-edit', [
+                'house' => House::find($id)
+            ]);
+        } else {
+            return view('fallback.index');
+        }
     }
 
     /**
@@ -191,15 +198,26 @@ class HousesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        House::destroy($id);
+        // dd($request, $id);
+        $house = House::find($id);
+        if ($request->deleteProceed == $house->name) {
+            House::destroy($id);
 
-        return Redirect::route('account.dashboard', Auth::user()->id)
-                        ->with([
-                            'status' => 'Success!',
-                            'message' => 'House has been deleted.'
-                        ]);
+            return Redirect::route('account.dashboard', Auth::user()->id)
+                            ->with([
+                                'status' => 'Success!',
+                                'message' => 'House has been deleted.'
+                            ]);
+        } else {
+            return Redirect::route('account.dashboard', Auth::user()->id)
+                ->with([
+                    'status' => 'Attention!',
+                    'message' => 'Deletion of record failed. Delete confirmation validation incorrect!'
+                ]);
+        }
+        
     }
 
     // Use function below to store images
