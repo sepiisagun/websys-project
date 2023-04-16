@@ -32,7 +32,7 @@ Route::get('/', function () {
     return view('homepage.index', ['houses' => $houses]);
 })->name('homepage');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','nocache'])->group(function(){
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -51,14 +51,20 @@ Route::post('/rate/{houseId}/{reservationId}', [RatingController::class, 'store'
 Route::resource('rate', RatingController::class);
 
 // Account Related Routes
+Route::middleware(['auth','nocache'])->group(function(){
 Route::get('/dashboard/{id}', [UserController::class, 'show'])->name('account.dashboard');
 Route::get('/settings/{id}', [UserController::class, 'edit'])->name('account.settings');
-Route::prefix('/account')->group(function () {
-    Route::get('/edit/credentials/{id}', [UserController::class, 'editCredentials'])->name('account.editCredentials');
-    Route::get('/edit/user/{id}', [UserController::class, 'editUserInfo'])->name('account.editInfo');
-    Route::patch('/update/credentials', [UserController::class, 'updateCredentials'])->name('account.updateCredentials');
-    Route::patch('/update/user', [UserController::class, 'updateUserInfo'])->name('account.updateInfo');
 });
+
+Route::middleware(['auth','nocache'])->group(function(){
+    Route::prefix('/account')->group(function () {
+        Route::get('/edit/credentials/{id}', [UserController::class, 'editCredentials'])->name('account.editCredentials');
+        Route::get('/edit/user/{id}', [UserController::class, 'editUserInfo'])->name('account.editInfo');
+        Route::patch('/update/credentials', [UserController::class, 'updateCredentials'])->name('account.updateCredentials');
+        Route::patch('/update/user', [UserController::class, 'updateUserInfo'])->name('account.updateInfo');
+    });
+});
+
 Route::resource('account', UserController::class);
 
 require __DIR__ . '/auth.php';
