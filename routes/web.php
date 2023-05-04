@@ -40,9 +40,12 @@ Route::middleware(['auth','nocache'])->group(function(){
 
 // House Related Routes
 Route::get('/house/listings', [HousesController::class, 'index'])->name('house.index');
+Route::get('/house/search', [HousesController::class, 'search'])->name('house.search');
+Route::get('/house/filter', [HousesController::class, 'filter'])->name('house.filter');
 Route::resource('/house', HousesController::class);
 
 //Reservation Related Routes
+Route::post('/reserve/create', [ReservationController::class, 'create'])->name('reserve.create');
 Route::resource('/reserve', ReservationController::class);
 
 // Rating Related Routes
@@ -54,6 +57,7 @@ Route::resource('rate', RatingController::class);
 Route::middleware(['auth','nocache'])->group(function(){
 Route::get('/dashboard/{id}', [UserController::class, 'show'])->name('account.dashboard');
 Route::get('/settings/{id}', [UserController::class, 'edit'])->name('account.settings');
+Route::get('/search', [UserController::class, 'search'])->name('account.search');
 });
 
 Route::middleware(['auth','nocache'])->group(function(){

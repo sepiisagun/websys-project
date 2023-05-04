@@ -7,10 +7,14 @@ use App\Models\House;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use App\Models\Reservation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\View\Components\ListingsItem;
+use Illuminate\Support\Arr;
 
 class HousesController extends Controller
 {
@@ -28,6 +32,64 @@ class HousesController extends Controller
         }
 
         return view('house.index', ['houses' => $houses]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $houses = House::where('name', 'like', "%$search%")
+            ->paginate(12);
+        $output = "";
+
+        // append avg rating of each house and make output instance
+        foreach ($houses as $house) {
+            $rating = Rating::where('house_id', $house->id)->avg('rating');
+            $house->rating = $rating;
+            $outputHouse = new ListingsItem($house);
+            $output .= $outputHouse->render()->with($outputHouse->data());
+        }
+
+        $paginate = '<div id="tbody-pages" class="mx-auto w-4/5 pb-10">' . $houses->links() . '</div>';
+
+        return Response([$output, $paginate]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request)
+    {
+        $category = $request->input('category');
+        $ratings = $request->input('rating');
+        $houses = House::where('category', 'like', $category)
+            ->paginate(12);
+        $output = "";
+
+        // append avg ratings of each house
+        foreach ($houses as $key => $house) {
+            $rating = Rating::where('house_id', $house->id)->avg('rating');
+            $houses[$key]->rating = $rating;
+        }
+
+        // filter houses using ratings
+        $filteredHouses = $houses->filter(function ($value, $key) use ($ratings) {
+            return $value['rating'] == $ratings;
+        });
+
+        // make output instance
+        foreach ($filteredHouses as $filteredHouse) {
+            $outputHouse = new ListingsItem($filteredHouse);
+            $output .= $outputHouse->render()->with($outputHouse->data());
+        }
+        $paginate = '<div id="tbody-pages" class="mx-auto w-4/5 pb-10">' . $houses->links() . '</div>';
+        return Response([$output, $paginate]);
     }
 
     /**
@@ -86,12 +148,12 @@ class HousesController extends Controller
 
         // Redirect to house view with details of new record
         return Redirect::route('house.show', [
-                                'house' => $house,
-                            ])
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'You have listed a new house.'
-                            ]);
+            'house' => $house,
+        ])
+            ->with([
+                'status' => 'Success!',
+                'message' => 'You have listed a new house.'
+            ]);
     }
 
     /**
@@ -168,28 +230,27 @@ class HousesController extends Controller
         $house->image_path = $request->image_path ? $this->storeImage($request) : $house->image_path;
 
         // Check if there are changes between record and form value
-        if($house->isDirty()) {
+        if ($house->isDirty()) {
             // Save values if there are changes
             $house->save();
 
             // Return house view with updated details
             return Redirect::route('house.show', [
-                                'house' => $house,
-                                'avgRating' => $avgRating
-                            ])
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'Your house details has been changed.'
-                            ]);
+                'house' => $house,
+                'avgRating' => $avgRating
+            ])
+                ->with([
+                    'status' => 'Success!',
+                    'message' => 'Your house details has been changed.'
+                ]);
         } else {
             // If no changes, return to dashboard
             return Redirect::route('account.dashboard', Auth::user()->id)
-                            ->with([
-                                'status' => 'Notice:',
-                                'message' => 'You have not made any changes to your listed house.'
-                            ]);
+                ->with([
+                    'status' => 'Notice:',
+                    'message' => 'You have not made any changes to your listed house.'
+                ]);
         }
-        
     }
 
     /**
@@ -206,10 +267,10 @@ class HousesController extends Controller
             House::destroy($id);
 
             return Redirect::route('account.dashboard', Auth::user()->id)
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'House has been deleted.'
-                            ]);
+                ->with([
+                    'status' => 'Success!',
+                    'message' => 'House has been deleted.'
+                ]);
         } else {
             return Redirect::route('account.dashboard', Auth::user()->id)
                 ->with([
@@ -217,7 +278,6 @@ class HousesController extends Controller
                     'message' => 'Deletion of record failed. Delete confirmation validation incorrect!'
                 ]);
         }
-        
     }
 
     // Use function below to store images

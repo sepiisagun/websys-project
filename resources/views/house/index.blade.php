@@ -1,5 +1,5 @@
 @extends('welcome')
 
 @section('content')
-	<x-listings.listings-body :items="$houses" />
+    <x-listings.listings-body :houses="$houses" />
 @endsection

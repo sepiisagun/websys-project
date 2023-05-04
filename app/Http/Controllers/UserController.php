@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
+use App\View\Components\RenteeTable;
 
 class UserController extends Controller
 {
@@ -52,6 +53,29 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $user = Auth::user();
+
+        $houses = DB::table('houses')
+            ->where('user_id', $user->id)
+            ->where('name', 'like', "%$search%")
+            ->get();
+
+        $output = "";
+        foreach ($houses as $house) {
+            $outputHouse = new RenteeTable($house);
+            $output .= $outputHouse->render()->with($outputHouse->data());
+        }
+
+        return Response($output);
+    }
+    /**
+     * Display the specified resource.
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -61,8 +85,8 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user->role === "RENTER") {
             $houses = DB::table('houses')
-                        ->where('user_id', $id)
-                        ->paginate(10);
+                ->where('user_id', $id)
+                ->paginate(10);
             return view('account.renter', ['houses' => $houses]);
         } else {
             $upcomingReservations = DB::table('reservations')
@@ -100,7 +124,6 @@ class UserController extends Controller
         } else {
             return view('fallback.index');
         }
-        
     }
 
     public function editCredentials($id)
@@ -115,7 +138,6 @@ class UserController extends Controller
         } else {
             return view('fallback.index');
         }
-         
     }
 
     public function editUserInfo($id)
@@ -165,10 +187,10 @@ class UserController extends Controller
             ]);
 
         return Redirect::route('account.editCredentials', $user->id)
-                        ->with([
-                            'status' => 'Success!',
-                            'message' => 'Your password has been updated!'
-                        ]);
+            ->with([
+                'status' => 'Success!',
+                'message' => 'Your password has been updated!'
+            ]);
     }
 
     /**
@@ -192,12 +214,12 @@ class UserController extends Controller
         // Return edit view if validation fails
         if ($validator->fails()) {
             return Redirect::route('account.editInfo')
-                            ->withErrors($validator)
-                            ->withInput()
-                            ->with([
-                                'status' => 'Attention!',
-                                'message' => 'Invalid Values!'
-                            ]);
+                ->withErrors($validator)
+                ->withInput()
+                ->with([
+                    'status' => 'Attention!',
+                    'message' => 'Invalid Values!'
+                ]);
         }
 
         // Get user record
@@ -217,17 +239,17 @@ class UserController extends Controller
 
             // Return to dashboard with updated values
             return Redirect::route('account.dashboard', $user->id)
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'You have edited your personal info.'
-                            ]);
+                ->with([
+                    'status' => 'Success!',
+                    'message' => 'You have edited your personal info.'
+                ]);
             // If no changes, return
         } else {
             return Redirect::route('account.settings', $user->id)
-                            ->with([
-                                'status' => 'Notice',
-                                'message' => 'You have not made any changes to your info.'
-                            ]);
+                ->with([
+                    'status' => 'Notice',
+                    'message' => 'You have not made any changes to your info.'
+                ]);
         }
     }
 

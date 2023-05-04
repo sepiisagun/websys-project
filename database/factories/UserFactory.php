@@ -20,7 +20,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $fakerPH = Maker::create('en_PH');
-        $fakerPH->addProvider(new \Mmo\Faker\LoremSpaceProvider($fakerPH));
+        $fakerPH->addProvider(new \Mmo\Faker\PicsumProvider($fakerPH));
         return [
             'username' => $this->faker->unique()->safeEmail(),
             'email' => $this->faker->unique()->email(),
@@ -31,8 +31,8 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'birth_date' => $this->faker->date('Y-m-d'),
             'phone_number' => $fakerPH->mobileNumber(),
-            'address' => $fakerPH->municipality().', '.$fakerPH->province(),
-            'image_path' => $fakerPH->loremSpace('face', public_path('img'), 640, 480, false),
+            'address' => $fakerPH->municipality() . ', ' . $fakerPH->province(),
+            'image_path' => $fakerPH->picsum(public_path('img'), 640, 480, false),
         ];
     }
 

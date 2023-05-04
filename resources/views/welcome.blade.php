@@ -10,6 +10,7 @@
 		content="ie=edge"
 		http-equiv="X-UA-Compatible"
 	>
+	<meta name="_token" content="{{ csrf_token() }}">
 	<title>WebSys Project</title>
 
 	<link
@@ -37,6 +38,9 @@
 	></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+	></script>
+	<script
+		src=" https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"
 	></script>
 
 	<script>

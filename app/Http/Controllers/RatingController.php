@@ -52,7 +52,6 @@ class RatingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $houseId, $reservationId)
     {
@@ -72,10 +71,10 @@ class RatingController extends Controller
         ]);
 
         return Redirect::route('account.dashboard', Auth::user()->id)
-                        ->with([
-                            'status' => 'Success!',
-                            'message' => 'You have successfully rated your reservation!'
-                        ]);
+            ->with([
+                'status' => 'Success!',
+                'message' => 'You have successfully rated your reservation!'
+            ]);
     }
 
     /**
