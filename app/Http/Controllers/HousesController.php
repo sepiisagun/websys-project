@@ -7,10 +7,12 @@ use App\Models\House;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use App\Models\Reservation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class HousesController extends Controller
 {
@@ -86,12 +88,12 @@ class HousesController extends Controller
 
         // Redirect to house view with details of new record
         return Redirect::route('house.show', [
-                                'house' => $house,
-                            ])
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'You have listed a new house.'
-                            ]);
+            'house' => $house,
+        ])
+            ->with([
+                'status' => 'Success!',
+                'message' => 'You have listed a new house.'
+            ]);
     }
 
     /**
@@ -105,7 +107,7 @@ class HousesController extends Controller
         $avgRating = Rating::where('house_id', $id)->avg('rating');
         return view('house.show', [
             'house' => House::findOrFail($id),
-            'ratings' => Rating::where('house_id', $id)->get(),
+            'ratings' => Rating::where('house_id', $id)->take(5)->get(),
             'avgRating' => $avgRating
         ]);
     }
@@ -168,28 +170,27 @@ class HousesController extends Controller
         $house->image_path = $request->image_path ? $this->storeImage($request) : $house->image_path;
 
         // Check if there are changes between record and form value
-        if($house->isDirty()) {
+        if ($house->isDirty()) {
             // Save values if there are changes
             $house->save();
 
             // Return house view with updated details
             return Redirect::route('house.show', [
-                                'house' => $house,
-                                'avgRating' => $avgRating
-                            ])
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'Your house details has been changed.'
-                            ]);
+                'house' => $house,
+                'avgRating' => $avgRating
+            ])
+                ->with([
+                    'status' => 'Success!',
+                    'message' => 'Your house details has been changed.'
+                ]);
         } else {
             // If no changes, return to dashboard
             return Redirect::route('account.dashboard', Auth::user()->id)
-                            ->with([
-                                'status' => 'Notice:',
-                                'message' => 'You have not made any changes to your listed house.'
-                            ]);
+                ->with([
+                    'status' => 'Notice:',
+                    'message' => 'You have not made any changes to your listed house.'
+                ]);
         }
-        
     }
 
     /**
@@ -200,24 +201,24 @@ class HousesController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // dd($request, $id);
         $house = House::find($id);
-        if ($request->deleteProceed == $house->name) {
-            House::destroy($id);
+        $reservations = Reservation::where('house_id', $house->id)->where('status', '!=', 'ENDED')->count();
 
-            return Redirect::route('account.dashboard', Auth::user()->id)
-                            ->with([
-                                'status' => 'Success!',
-                                'message' => 'House has been deleted.'
-                            ]);
-        } else {
+        if ($reservations > 0) {
             return Redirect::route('account.dashboard', Auth::user()->id)
                 ->with([
                     'status' => 'Attention!',
-                    'message' => 'Deletion of record failed. Delete confirmation validation incorrect!'
+                    'message' => 'Deletion of house failed. House has been reserved!'
+                ]);
+        } else {
+            House::destroy($id);
+
+            return Redirect::route('account.dashboard', Auth::user()->id)
+                ->with([
+                    'status' => 'Success!',
+                    'message' => 'House has been deleted.'
                 ]);
         }
-        
     }
 
     // Use function below to store images
@@ -227,6 +228,7 @@ class HousesController extends Controller
         $newImageName = uniqid() . '-' . Str::replace('/\s+/', '_', $request->name) . '.' . $request->image_path->extension();
         // Store image in public/img folder
         $request->image_path->move(public_path('img'), $newImageName);
+
 
         return $newImageName;
     }

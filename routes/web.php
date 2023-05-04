@@ -43,6 +43,7 @@ Route::get('/house/listings', [HousesController::class, 'index'])->name('house.i
 Route::resource('/house', HousesController::class);
 
 //Reservation Related Routes
+Route::post('/reserve/create', [ReservationController::class, 'create'])->name('reserve.create');
 Route::resource('/reserve', ReservationController::class);
 
 // Rating Related Routes
