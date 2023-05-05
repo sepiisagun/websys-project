@@ -51,25 +51,10 @@ themeToggleBtn.addEventListener('click', function() {
     }
     
 });
-
-// const tabElements = [
-//     {
-//         id: 'rentee',
-//         triggerEl: document.querySelector('#rentee-tab'),
-//         targetEl: document.querySelector('#rentee')
-//     },
-//     {
-//         id: 'renter',
-//         triggerEl: document.querySelector('#renter-tab'),
-//         targetEl: document.querySelector('#renter')
-//     },
-// ];
-
-// // options with default values
-// const options = {
-//     defaultTabId: 'rentee',
-//     activeClasses: 'text-red-600 hover:text-blue-600 dark:text-red-100 dark:hover:text-red-400 border-red-600 dark:border-red-500',
-//     inactiveClasses: 'text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 border-neutral-100 hover:border-neutral-300 dark:border-neutral-700 dark:hover:text-neutral-300',
-// };
-
-// const tabs = new Tabs(tabElements, options);
+var rad = document.getElementsByName('helper-radio');
+var prev = null;
+// for (var i = 0; i < rad.length; i++) {
+//     rad[i].addEventListener('change', function() {
+//         console.log(this.value);
+//     });
+// }

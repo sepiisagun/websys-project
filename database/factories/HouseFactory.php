@@ -20,9 +20,9 @@ class HouseFactory extends Factory
         $fakerPH = Maker::create('en_PH');
         $fakerPH->addProvider(new \Mmo\Faker\PicsumProvider($fakerPH));
         return [
-            'name' => $fakerPH->streetName().' '.$fakerPH->streetSuffix(),
+            'name' => $fakerPH->streetName() . ' ' . $fakerPH->streetSuffix(),
             'description' => $this->faker->realText($maxNbChars = 100),
-            'address' => $fakerPH->municipality().', '.$fakerPH->province(),
+            'address' => $fakerPH->municipality() . ', ' . $fakerPH->province(),
             'capacity' => $this->faker->numberBetween(8, 15),
             'price' => $this->faker->regexify('[1-9]{1}[0-9]{1}[0]{2}'),
             'image_path' => $fakerPH->picsum(public_path('img'), 640, 480, false),

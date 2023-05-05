@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'birth_date' => $this->faker->date('Y-m-d'),
             'phone_number' => $fakerPH->mobileNumber(),
-            'address' => $fakerPH->municipality().', '.$fakerPH->province(),
+            'address' => $fakerPH->municipality() . ', ' . $fakerPH->province(),
             'image_path' => $fakerPH->picsum(public_path('img'), 640, 480, false),
         ];
     }

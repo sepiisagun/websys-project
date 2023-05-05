@@ -10,9 +10,11 @@ use App\Models\Rating;
 use App\Models\Reservation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
+use App\View\Components\ListingsItem;
+use Illuminate\Support\Arr;
 
 class HousesController extends Controller
 {
@@ -30,6 +32,64 @@ class HousesController extends Controller
         }
 
         return view('house.index', ['houses' => $houses]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $houses = House::where('name', 'like', "%$search%")
+            ->paginate(12);
+        $output = "";
+
+        // append avg rating of each house and make output instance
+        foreach ($houses as $house) {
+            $rating = Rating::where('house_id', $house->id)->avg('rating');
+            $house->rating = $rating;
+            $outputHouse = new ListingsItem($house);
+            $output .= $outputHouse->render()->with($outputHouse->data());
+        }
+
+        $paginate = '<div id="tbody-pages" class="mx-auto w-4/5 pb-10">' . $houses->links() . '</div>';
+
+        return Response([$output, $paginate]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request)
+    {
+        $category = $request->input('category');
+        $ratings = $request->input('rating');
+        $houses = House::where('category', 'like', $category)
+            ->paginate(12);
+        $output = "";
+
+        // append avg ratings of each house
+        foreach ($houses as $key => $house) {
+            $rating = Rating::where('house_id', $house->id)->avg('rating');
+            $houses[$key]->rating = $rating;
+        }
+
+        // filter houses using ratings
+        $filteredHouses = $houses->filter(function ($value, $key) use ($ratings) {
+            return $value['rating'] == $ratings;
+        });
+
+        // make output instance
+        foreach ($filteredHouses as $filteredHouse) {
+            $outputHouse = new ListingsItem($filteredHouse);
+            $output .= $outputHouse->render()->with($outputHouse->data());
+        }
+        $paginate = '<div id="tbody-pages" class="mx-auto w-4/5 pb-10">' . $houses->links() . '</div>';
+        return Response([$output, $paginate]);
     }
 
     /**
