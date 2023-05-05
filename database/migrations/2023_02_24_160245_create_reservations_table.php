@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('guest_count');
             $table->unsignedBigInteger('house_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('house_id')->references('id')->on('houses');
+            $table->foreign('house_id')->references('id')->on('houses')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

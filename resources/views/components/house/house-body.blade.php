@@ -1,4 +1,4 @@
-@props(['house', 'avgRating'])
+@props(['house', 'avgRating', 'ratings'])
 <div class="bg-white dark:bg-neutral-900">
 	<div
 		class="py-30 lg:py-30 mx-auto grid max-w-2xl grid-cols-1 items-center gap-9 px-4 sm:px-6 sm:py-20 lg:max-w-7xl lg:grid-cols-2 lg:px-8"
@@ -77,6 +77,35 @@
 					</li>
 				</ul>
 			</dl>
+			<div class="ml-auto flex pt-2">
+				{{-- <span class="title-font font-semibold text-2xl text-black">$58.00</span> --}}
+				<form
+					action="{{ route('reserve.create', ['house_id' => $house->id]) }}"
+					method="POST"
+				>
+					@csrf
+					<x-forms.primary-button>
+						{{ __('Reserve') }}
+					</x-forms.primary-button>
+				</form>
+				<button
+					class="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-800 p-0 text-gray-500 hover:border-gray-300"
+				>
+					<svg
+						class="h-5 w-5"
+						fill="white"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<path
+							d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+						>
+						</path>
+					</svg>
+				</button>
+			</div>
 
 			<div id="myTabContent">
 				<!--Description--->
@@ -114,66 +143,70 @@
 					id="reviews"
 					role="tabpanel"
 				>
-					<article>
-						<div class="mb-4 flex items-center space-x-4">
-							<img
-								alt=""
-								class="h-10 w-10 rounded-full"
-								src="https://flowbite.com/docs/images/logo.svg"
-							>
-							<div class="font-medium dark:text-white">
-								<p>Jese Leos <time
-										atetime="2014-08-16 19:00"
-										class="block text-sm text-gray-500 dark:text-gray-400"
-									>Joined on August 2014</time></p>
-							</div>
-						</div>
-						<div class="mt-10 flex flex-row">
-							@for ($i = 0; $i < 5; $i++)
-								@if ($avgRating >= $i + 1)
-									<x-icons.rating-star>
-										{{ $avgRating + 1 }}
-									</x-icons.rating-star>
-								@else
-									<x-icons.empty-star>
-										{{ $avgRating + 1 }}
-									</x-icons.empty-star>
-								@endif
-							@endfor
-						</div>
+					@foreach ($ratings as $rating)
+						<article>
+							<div class="mb-4 flex items-center space-x-4">
+								<img
+									alt=""
+									class="h-10 w-10 rounded-full"
+									src="https://flowbite.com/docs/images/logo.svg"
+								>
 
-						<h3 class="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
-							Thinking to buy
-							another one!</h3>
-						<p class="mb-3 font-light text-gray-500 dark:text-gray-400">It is
-							obviously not the same
-							build quality as those very expensive watches. But that is like
-							comparing a Citroën to a
-							Ferrari. This watch was well under £100! An absolute bargain.</p>
-						<a
-							class="mb-5 block text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-							href="#"
-						>Read
-							more</a>
-						<aside>
-							<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people
-								found this helpful
-							</p>
-							<div
-								class="mt-3 flex items-center space-x-3 divide-x divide-gray-200 dark:divide-gray-600"
-							>
-								<a
-									class="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-									href="#"
-								>Helpful</a>
-								<a
-									class="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-									href="#"
-								>Report
-									abuse</a>
+								<div class="font-medium dark:text-white">
+
+									<p>{{ $rating->user->first_name . ' ' . $rating->user->last_name }}
+										<time
+											atetime="2014-08-16 19:00"
+											class="block text-sm text-gray-500 dark:text-gray-400"
+										>Joined on August 2014</time></p>
+
+								</div>
+
 							</div>
-						</aside>
-					</article>
+							<div class="mt-10 flex flex-row">
+								@for ($i = 0; $i < 5; $i++)
+									@if ($avgRating >= $i + 1)
+										<x-icons.rating-star>
+											{{ $avgRating + 1 }}
+										</x-icons.rating-star>
+									@else
+										<x-icons.empty-star>
+											{{ $avgRating + 1 }}
+										</x-icons.empty-star>
+									@endif
+								@endfor
+							</div>
+
+							<h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+								{{ $rating['excerpt'] }}</h3>
+							<p class="mb-3 text-sm font-light text-gray-500 dark:text-gray-400">
+								{{ $rating['remark'] }}
+							</p>
+
+							<a
+								class="mb-5 block text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+								href="#"
+							>Read more</a>
+							<aside>
+								<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people
+									found this helpful
+								</p>
+								<div
+									class="mt-3 flex items-center space-x-3 divide-x divide-gray-200 dark:divide-gray-600"
+								>
+									<a
+										class="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+										href="#"
+									>Helpful</a>
+									<a
+										class="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+										href="#"
+									>Report
+										abuse</a>
+								</div>
+							</aside>
+						</article>
+					@endforeach
 				</div>
 
 				<!--Details--->
@@ -192,36 +225,6 @@
 						next. The tab JavaScript swaps classes to control the content visibility
 						and styling.</p>
 				</div>
-			</div>
-			<!--Total Price, Reserve Button, Wishlist--->
-			<div class="ml-auto flex pt-2">
-				{{-- <span class="title-font font-semibold text-2xl text-black">$58.00</span> --}}
-				<form
-					action="{{ route('reserve.create') }}"
-					method="GET"
-				>
-					@csrf
-					<x-forms.primary-button>
-						{{ __('Reserve') }}
-					</x-forms.primary-button>
-				</form>
-				<button
-					class="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-800 p-0 text-gray-500 hover:border-gray-300"
-				>
-					<svg
-						class="h-5 w-5"
-						fill="white"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						viewBox="0 0 24 24"
-					>
-						<path
-							d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
-						>
-						</path>
-					</svg>
-				</button>
 			</div>
 		</div>
 		<div>
