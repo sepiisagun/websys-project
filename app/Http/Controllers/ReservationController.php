@@ -22,7 +22,11 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        
+        return view('reservations.index', [
+            'reservations' => Reservation::where('user_id', Auth::user()->id)
+                                        ->paginate(10),
+            ]);
     }
 
     /**
@@ -78,16 +82,47 @@ class ReservationController extends Controller
                 'message' => 'You have reserved a house.'
             ]);
     }
+    
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function checkin($id)
+    {
+        // dd("test", $id);
+        $reservation = Reservation::find($id);
+        $reservation->status = "ONGOING";
+        $reservation->save();
+        return Redirect::route('reserve.show',  $reservation->id);
+    }
 
     /**
-     * Display the specified resource.
+     * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id)
+    {
+        dd("er", $id);
+        $reservation = Reservation::find($id);
+        return Redirect::route('reserve.show', $reservation->id);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $reservation = Reservation::find($id);
+        return view('reservations.show', ['house' => House::findOrFail($reservation->house_id), 'reservation' => $reservation]);
     }
 
     /**

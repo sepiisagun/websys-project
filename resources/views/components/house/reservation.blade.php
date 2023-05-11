@@ -1,6 +1,5 @@
 @inject('carbon', 'Carbon\Carbon')
 @props(['reservation', 'past' => false, 'hasRating' => false])
-
 <article
 	class="min-w-20 h-64 w-auto rounded-md border border-gray-200 bg-gray-400 bg-opacity-90 bg-cover bg-center bg-blend-darken shadow-md dark:border-gray-700"
 	style="background-image: url(/img/{{ $reservation->image_path }});"
@@ -25,7 +24,7 @@
 				</a>
 			@endif
 		</div>
-		<a href="{{ route('house.show', $reservation->house_id) }}">
+		<a href="{{ route('reserve.show', $reservation->id) }}">
 			<div class="flex h-full flex-col justify-between">
 				<h2 class="mb-2 text-2xl font-bold tracking-tight text-white drop-shadow">
 					{{ $reservation->name }}

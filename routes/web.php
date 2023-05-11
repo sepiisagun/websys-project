@@ -46,6 +46,8 @@ Route::resource('/house', HousesController::class);
 
 //Reservation Related Routes
 Route::post('/reserve/create', [ReservationController::class, 'create'])->name('reserve.create');
+Route::patch('/reserve/{id}/checkin', [ReservationController::class, 'checkin'])->name('reserve.checkin');
+Route::patch('/reserve/{id}/cancel', [ReservationController::class, 'cancel'])->name('reserve.cancel');
 Route::resource('/reserve', ReservationController::class);
 
 // Rating Related Routes

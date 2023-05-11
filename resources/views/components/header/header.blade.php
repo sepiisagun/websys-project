@@ -66,13 +66,15 @@
 							class="py-2 text-sm text-neutral-700 dark:text-neutral-200"
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
-								<li>
-									<x-header.profile-link
-										href="{{ $link['link'] ? route($link['link'], Auth::user()->id) : '#' }}"
-									>
-										{{ $link['label'] }}
-									</x-header.profile-link>
-								</li>
+								@if(in_array(Auth::user()->role, $link['role']))
+									<li>
+										<x-header.profile-link
+											href="{{ count($link['role']) > 1 ? route($link['link'], Auth::user()->id) : route($link['link']) }}"
+										>
+											{{ $link['label'] }}
+										</x-header.profile-link>
+									</li>
+								@endif
 							@endforeach
 							<li>
 								<x-header.profile-link
