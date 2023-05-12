@@ -6,7 +6,7 @@
 			<h2 class="mb-4 text-xl font-bold text-neutral-900 dark:text-white">Reserve
 				this property</h2>
 			<form
-				action="{{ route('reserve.store', ['house_id' => $house_id]) }}"
+				action="{{ route('reserve.store', ['house_id' => $house->id]) }}"
 				method="POST"
 			>
 				@csrf
@@ -59,12 +59,12 @@
 						    : 'block mt-1 w-full'"
 						:value="old('guest_count')"
 						id="guest_count"
-						max=15
+						max="{{ $house->capacity }}"
 						min=1
 						name="guest_count"
-						onchange="multiply()"
 						required
 						type="number"
+						placeholder="Max: {{ $house->capacity }} "
 					/>
 					<x-forms.input-error :messages="$errors->get('guest_count')" />
 				</div>
@@ -78,10 +78,20 @@
 						:class="$errors->get('amount')
 						    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 						    : 'block mt-1 w-full'"
-						disabled
+						type="hidden"
 						id="amount"
 						name="amount"
+						value="{{ $house->price }}"
 					/>
+					<x-forms.text-input
+					:class="$errors->get('amount')
+						? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
+						: 'block mt-1 w-full'"
+					disabled
+					id="amountdisabled"
+					name="amount"
+					value="{{ $house->price }}"
+				/>
 					<x-forms.input-error :messages="$errors->get('amount')" />
 				</div>
 
@@ -94,4 +104,14 @@
 
 		</div>
 	</section>
+
+	<script>
+		$('#guest_count').on('keyup', function() {
+			var house = {!! json_encode($house) !!};
+			var guest_count = $(this).val();
+			var total_amount  = guest_count * house['price'];
+			$('#amount').val(total_amount);
+			$('#amountdisabled').val(total_amount);
+		})
+	</script>
 @endsection

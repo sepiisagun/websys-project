@@ -3,7 +3,8 @@
 	'name',
 	'placeholder' => Str::replace('_', ' ', Str::title($name)),
 	'disabled' => false,
-	'required' => false
+	'required' => false,
+	'value' => ''
 ])
 
 <input
@@ -32,5 +33,6 @@
 	]) !!}
 	id="{{ $id }}",
 	name="{{ $name }}",
-	placeholder="{{ $placeholder }}"
+	placeholder="{{ $placeholder }}",
+	value="{{ $value }}"
 />

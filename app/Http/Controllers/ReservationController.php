@@ -36,8 +36,8 @@ class ReservationController extends Controller
      */
     public function create(Request $request)
     {
-            $users = User::all();
-            return view('house.reserve-create', ['users' =>  $users, 'house_id' => $request -> house_id]);
+        $house = House::find($request->house_id);
+        return view('reservations.create', ['house' => $house ]);
     }
 
     /**
@@ -71,6 +71,7 @@ class ReservationController extends Controller
             'guest_count' => $request->guest_count,
             'house_id' => $request->house_id,
             'user_id'=>Auth::user()->id,
+            'amount'=> $request->amount
         ]);
 
         // Redirect to house view with details of new record
