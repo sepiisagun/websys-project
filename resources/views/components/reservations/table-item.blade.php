@@ -14,6 +14,8 @@
             Upcoming
         @elseif ($reservation->status == "ONGOING")
             Ongoing
+        @elseif ($reservation->status == "CANCELLED")
+            Cancelled
         @else
             Ended
         @endif

@@ -60,7 +60,7 @@ return [
         ],
         'Transactions' => [
             'label' => 'Transactions',
-            'link' => 'homepage',
+            'link' => 'account.showTransaction',
             'role' => [
                 'RENTER'
             ],

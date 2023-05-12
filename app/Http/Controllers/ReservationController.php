@@ -91,9 +91,23 @@ class ReservationController extends Controller
      */
     public function checkin($id)
     {
-        // dd("test", $id);
         $reservation = Reservation::find($id);
         $reservation->status = "ONGOING";
+        $reservation->save();
+        return Redirect::route('reserve.show',  $reservation->id);
+    }
+        
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function checkout($id)
+    {
+        $reservation = Reservation::find($id);
+        $reservation->status = "ENDED";
+        $reservation->check_out = Carbon::now()->setTimezon('Asia/Manila')->toDateString();
         $reservation->save();
         return Redirect::route('reserve.show',  $reservation->id);
     }
@@ -107,8 +121,9 @@ class ReservationController extends Controller
      */
     public function cancel($id)
     {
-        dd("er", $id);
         $reservation = Reservation::find($id);
+        $reservation->status = "CANCELLED";
+        $reservation->save();
         return Redirect::route('reserve.show', $reservation->id);
     }
 

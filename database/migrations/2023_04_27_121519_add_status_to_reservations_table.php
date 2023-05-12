@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->enum('status', ['PENDING','ONGOING', 'ENDED'])->default('PENDING');
+            $table->enum('status', ['PENDING','ONGOING', 'ENDED', 'CANCELLED'])->default('PENDING');
         });
     }
 

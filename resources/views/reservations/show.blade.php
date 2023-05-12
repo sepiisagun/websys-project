@@ -17,6 +17,12 @@
                         {{ $carbon::now()->setTimezone('Asia/Manila')->toDateString() == $reservation->check_in ? 'Awaiting check-in' : 'In ' . $carbon::now()->diffInDays($reservation->check_in) . ' days' }}
                     </span>
                 </h3>
+            @elseif ($reservation->status == "CANCELLED")
+                <h3 class="text-xs dark:text-white italic">
+                    <span class="drop-shadow">
+                        Cancelled
+                    </span>
+                </h3>
             @endif
 			<dl
 				class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 sm:gap-y-16 lg:gap-x-8 {{ $carbon::now()->toDateString() != $reservation->check_in ? "mt-8" : "" }}"
@@ -79,14 +85,26 @@
                                         {{ $reservation->guest_count }}
                                     </td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Hosted by
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ $house->user->first_name . ' ' . $house->user->last_name }}
-                                    </td>
-                                </tr>
+                                @if (Auth::user()->role == "RENTEE")
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Hosted by
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $house->user->first_name . ' ' . $house->user->last_name }}
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Reserved by
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $reservation->user->first_name . ' ' . $reservation->user->last_name }}
+                                        </td>
+                                    </tr>
+                                @endif
+                                
                                 <tr class="bg-white dark:bg-gray-800">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         Total Amount
@@ -96,36 +114,56 @@
                                     </td>
                                 </tr>
                                 @if($carbon::now()->setTimezone('Asia/Manila')->toDateString() <= $reservation->check_in)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            @if($carbon::now()->setTimezone('Asia/Manila')->toDateString() < $reservation->check_in)
-                                                <form
-                                                    action="{{ route('reserve.cancel', $reservation->id) }}"
-                                                    method="POST"
-                                                >
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <x-forms.danger-button>
-                                                        {{ __('Cancel') }}
-                                                    </x-forms.danger-button>
-                                                    
-                                                </form>
-                                            @elseif ($carbon::now()->setTimezone('Asia/Manila')->toDateString() == $reservation->check_in && $reservation->status == "PENDING")
-                                                <form
-                                                    action="{{ route('reserve.checkin', $reservation->id) }}"
-                                                    method="POST"
-                                                >
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <x-forms.primary-button>
-                                                        {{ __('Check In') }}
-                                                    </x-forms.primary-button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                    @if (Auth::user()->role == "RENTEE" && $reservation->status == "PENDING")
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6 py-4">
+                                                @if($carbon::now()->setTimezone('Asia/Manila')->toDateString() < $reservation->check_in)
+                                                    <form
+                                                        action="{{ route('reserve.cancel', $reservation->id) }}"
+                                                        method="POST"
+                                                    >
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <x-forms.danger-button>
+                                                            {{ __('Cancel') }}
+                                                        </x-forms.danger-button>
+                                                        
+                                                    </form>
+                                                @elseif ($carbon::now()->setTimezone('Asia/Manila')->toDateString() == $reservation->check_in)
+                                                    <form
+                                                        action="{{ route('reserve.checkin', $reservation->id) }}"
+                                                        method="POST"
+                                                    >
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <x-forms.primary-button>
+                                                            {{ __('Check In') }}
+                                                        </x-forms.primary-button>
+                                                    </form>
+                                                @endif
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    @else
+                                        @if ($reservation->status == "ONGOING")
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    <form
+                                                        action="{{ route('reserve.checkin', $reservation->id) }}"
+                                                        method="POST"
+                                                    >
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <x-forms.primary-button>
+                                                            {{ __('Check Out') }}
+                                                        </x-forms.primary-button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endif
                                 @endif
                             </tbody>
                         </table>

@@ -1,6 +1,6 @@
 @props([
     'onclick' => '',
-	'disabled' => false,
+	// 'disabled' => false,
 ])
 
 <button
@@ -27,7 +27,7 @@
 	            dark:focus:ring-sky-800',
 	]) }}
 	onclick="{{ $onclick }}"
-	{{ $disabled ? 'disabled' : '' }}
+	{{-- {{ $disabled ? 'disabled' : '' }} --}}
 >
 	{{ $slot }}
 </button>
