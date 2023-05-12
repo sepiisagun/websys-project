@@ -197,7 +197,7 @@
 									>Report
 										abuse</a>
 								</div>
-							</aside>
+							</aside>-
 						</article>
 					@endforeach
 				</div>

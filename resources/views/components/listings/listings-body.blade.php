@@ -35,59 +35,69 @@
 
             <x-listings.listing-search />
 
-            <div id="tbody-house"
-                class="mt-12 grid grid-cols-1 gap-x-6 gap-y-5 dark:text-slate-300 sm:grid-cols-2 sm:gap-y-8 lg:grid-cols-4 lg:gap-x-8">
-                @foreach ($houses as $house)
-                    <x-listings.listing-item :house="$house" />
-                @endforeach
+            <div id="test">
+                @include('house.index_table')
             </div>
-        </div>
-        <div id="tbody-pages" class="mx-auto w-4/5 pb-10">
-            {{ $houses->links() }}
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     // search
-    $('#search-house').on('keyup', function() {
+    function search_data(page, searchValue) {
+        $.ajax({
+            type: 'get',
+            url: "/house/search?page="+page+"&searchValue="+searchValue,
+            data: {
+                'page': page,
+                'search': searchValue
+            },
+            success: function(data) {
+                $('#test').html(data);
+            }
+        });
+    }
+    $('#search-house').on('keyup', function(page, searchValue) {
         $value = $(this).val();
-        $.ajax({
-            type: 'get',
-            url: '{{ URL::to('house/search') }}',
-            data: {
-                'search': $value
-            },
-            success: function(data) {
-                $('#tbody-house').html(data[0]);
-                $('#tbody-pages').html(data[1])
-            }
-        });
+        search_data(1, $value);
     });
-    // filter
-    $category = null;
-    $rating = null;
-    // assign category value
-    $('input[name="category-radio"]').change(function() {
-        $category = $(this).val();
+
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        $('@hidden_page').val(page);
+        var searchValue = $('#search-house').val();
+        $('li').removeClass('active');
+        $(this).parent().addClass('active');
+        search_data(page, searchValue);
     })
-    // assign ratings value
-    $('input[name="rating-radio"]').change(function() {
-        $rating = $(this).val();
-    })
-    // on button click 
-    $('#filter-button').on('click', function() {
-        $.ajax({
-            type: 'get',
-            url: '{{ URL::to('house/filter') }}',
-            data: {
-                'category': $category,
-                'rating': $rating,
-            },
-            success: function(data) {
-                $('#tbody-house').html(data[0]);
-                $('#tbody-pages').html(data[1]);
-            }
-        });
-    });
+
+
+
+    // // filter
+    // $category = null;
+    // $rating = null;
+    // // assign category value
+    // $('input[name="category-radio"]').change(function() {
+    //     $category = $(this).val();
+    // })
+    // // assign ratings value
+    // $('input[name="rating-radio"]').change(function() {
+    //     $rating = $(this).val();
+    // })
+    // // on button click 
+    // $('#filter-button').on('click', function() {
+    //     $.ajax({
+    //         type: 'get',
+    //         url: '{{ URL::to('house/filter') }}',
+    //         data: {
+    //             'category': $category,
+    //             'rating': $rating,
+    //         },
+    //         success: function(data) {
+    //             $('#tbody-house').html(data[0]);
+    //             $('#tbody-pages').html(data[1]);
+    //         }
+    //     });
+    // });
 </script>

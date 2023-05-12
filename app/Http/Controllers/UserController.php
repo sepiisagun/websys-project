@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\House;
-use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,7 +13,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
-use App\View\Components\RenteeTable;
 
 class UserController extends Controller
 {
@@ -63,15 +60,9 @@ class UserController extends Controller
         $houses = DB::table('houses')
             ->where('user_id', $user->id)
             ->where('name', 'like', "%$search%")
-            ->get();
+            ->paginate(10);
 
-        $output = "";
-        foreach ($houses as $house) {
-            $outputHouse = new RenteeTable($house);
-            $output .= $outputHouse->render()->with($outputHouse->data());
-        }
-
-        return Response($output);
+        return view('account.renter_table', ["houses" => $houses])->render();
     }
     /**
      * Display the specified resource.
@@ -95,6 +86,7 @@ class UserController extends Controller
                 ->where('users.id', '=', $user->id)
                 ->where('check_in', '>', Carbon::now()->toDateString())
                 ->select('reservations.*', 'houses.*')
+                ->take(5)
                 ->get();
             $pastReservations = DB::table('reservations')
                 ->join('houses', 'reservations.house_id', '=', 'houses.id')
@@ -103,6 +95,7 @@ class UserController extends Controller
                 ->where('users.id', '=', $user->id)
                 ->where('check_out', '<', Carbon::now()->toDateString())
                 ->select('reservations.*', 'houses.*', 'ratings.id AS rating', 'reservations.id AS reservation_id')
+                ->take(5)
                 ->get();
             return view('account.rentee', [
                 'upcomingReservations' => $upcomingReservations,

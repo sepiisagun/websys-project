@@ -6,7 +6,7 @@
 			<div class="mx-auto mb-8 max-w-screen-sm text-center lg:mb-16">
 				<h2
 					class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white lg:text-4xl"
-				>Your Reservations</h2>
+				>Hello, {{ Auth::user()->first_name .' '. Auth::user()->last_name }}</h2>
 			</div>
 			<p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl">Upcoming
 				Reservations</p>

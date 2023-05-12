@@ -10,11 +10,9 @@ use App\Models\Rating;
 use App\Models\Reservation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\View\Components\ListingsItem;
-use Illuminate\Support\Arr;
 
 class HousesController extends Controller
 {
@@ -41,22 +39,15 @@ class HousesController extends Controller
      */
     public function search(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->input('searchValue');
         $houses = House::where('name', 'like', "%$search%")
             ->paginate(12);
-        $output = "";
-
         // append avg rating of each house and make output instance
         foreach ($houses as $house) {
             $rating = Rating::where('house_id', $house->id)->avg('rating');
             $house->rating = $rating;
-            $outputHouse = new ListingsItem($house);
-            $output .= $outputHouse->render()->with($outputHouse->data());
         }
-
-        $paginate = '<div id="tbody-pages" class="mx-auto w-4/5 pb-10">' . $houses->links() . '</div>';
-
-        return Response([$output, $paginate]);
+        return view('house.index_table', ["houses" => $houses])->render();
     }
 
     /**
