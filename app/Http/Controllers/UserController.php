@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
+use App\View\Components\RenteeTable;
+use PDF;
+
 
 class UserController extends Controller
 {
@@ -104,6 +107,41 @@ class UserController extends Controller
         }
     }
 
+    public function showTransaction()
+    {
+
+        if (!Auth::user()) return view('fallback.index');
+        $user = Auth::user();
+        if ($user->role === "RENTER") {
+            $reservations = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where('houses.user_id', '=', $user->id)
+                // ->select('reservations.*', 'houses.*')
+                ->paginate(10);
+            return view('account.showTransactions', ['reservations' => $reservations]);
+        } else {
+        }
+    }
+
+    // public function generateTransaction(int $id)
+    public function generateTransaction()
+    {
+        $houses = DB::table('reservations')
+        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+        ->join('users', 'reservations.user_id', '=', 'users.id')
+        ->where('houses.user_id', '=', Auth::user()->id)
+        ->select('reservations.*', 'houses.*', 'users.*')
+        ->get();
+
+        $data = [
+            'houses' => $houses
+        ]; 
+        
+        $pdf = PDF::loadView('pdf.transaction-pdf', $data);
+        return $pdf->download('transaction.pdf');
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *

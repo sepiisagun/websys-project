@@ -235,6 +235,13 @@ return [
         'capacity' => 'Capacity',
         'price' => 'Price',
     ],
+    'RENTER_TABLE_TRANSACTION_COLUMN_TITLE' => [
+        'username' => 'Rentee Name',
+        'house' => 'House Name',
+        'check_in' => 'Transaction Date',
+        'total' => 'Total Amount',
+        'status' => 'Status',
+    ],
     'ACCOUNT_SETTINGS_CARD' => [
         'security' => [
             'title' => 'Account Security',
