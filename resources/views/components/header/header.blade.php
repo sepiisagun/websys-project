@@ -66,7 +66,7 @@
 							class="py-2 text-sm text-neutral-700 dark:text-neutral-200"
 						>
 							@foreach (config('constants.USER_DROPDOWN_LINKS') as $link)
-								@if(in_array(Auth::user()->role, $link['role']))
+								@if (in_array(Auth::user()->role, $link['role']))
 									<li>
 										<x-header.profile-link
 											href="{{ count($link['role']) > 1 ? route($link['link'], Auth::user()->id) : route($link['link']) }}"
@@ -187,9 +187,22 @@
 							href="{{ $link['link'] ? route($link['link']) : '#' }}"
 						>
 							{{ $link['label'] }}
+							{{-- if (link['label'] == Approval Requests){
+							line of code
+							} --}}
 						</x-header.nav-link>
 					</li>
 				@endforeach
+				@if (Auth::check() && Auth::user()->role == 'RENTER')
+					<x-header.nav-link href="{{ route('reserve.approvalRequests') }}">
+						{{ 'Approval Requests' }}
+						<span
+							class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900"
+							name="requestCount"
+						></span>
+					</x-header.nav-link>
+				@endif
+
 			</ul>
 		</div>
 	</div>

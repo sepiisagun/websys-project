@@ -18,7 +18,7 @@
 							:value="__('Property Name')"
 							for="name"
 						/>
-						<x-forms.text-input
+						<x-forms.input-disabled
 							:class="$errors->get('name')
 							    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
 							    : 'block mt-1 w-full'"

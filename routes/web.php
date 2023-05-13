@@ -49,7 +49,11 @@ Route::post('/reserve/create', [ReservationController::class, 'create'])->name('
 Route::patch('/reserve/{id}/checkin', [ReservationController::class, 'checkin'])->name('reserve.checkin');
 Route::patch('/reserve/{id}/checkout', [ReservationController::class, 'checkout'])->name('reserve.checkout');
 Route::patch('/reserve/{id}/cancel', [ReservationController::class, 'cancel'])->name('reserve.cancel');
+Route::patch('/reserve/{id}/approverequest', [ReservationController::class, 'approveRequest'])->name('reserve.approveRequest');
+Route::patch('/reserve/{id}/rejectrequest', [ReservationController::class, 'rejectRequest'])->name('reserve.rejectRequest');
+Route::get('/reserve/count', [ReservationController::class, 'requestCount'])->name('reserve.count');
 Route::resource('/reserve', ReservationController::class);
+
 
 // Rating Related Routes
 Route::get('/house/rate/{reservationId}', [RatingController::class, 'create'])->name('house.rate');
@@ -59,12 +63,20 @@ Route::resource('rate', RatingController::class);
 // Account Related Routes
 Route::middleware(['auth','nocache'])->group(function(){
 Route::get('/dashboard/{id}', [UserController::class, 'show'])->name('account.dashboard');
-Route::get('/transaction', [UserController::class, 'showTransaction'])->name('account.showTransaction');
-Route::get('/transaction/generate', [UserController::class, 'generateTransaction'])->name('account.generateTransaction');;
 Route::get('/settings/{id}', [UserController::class, 'edit'])->name('account.settings');
 Route::get('/search', [UserController::class, 'search'])->name('account.search');
 });
 
+// Transaction Related Routes
+Route::middleware(['auth','nocache'])->group(function(){
+    Route::get('/transaction', [UserController::class, 'showTransaction'])->name('account.showTransaction');
+    Route::get('/transaction/generate', [UserController::class, 'generateTransaction'])->name('account.generateTransaction');;
+});
+
+// Approval Request Related Routes
+Route::middleware(['auth','nocache'])->group(function(){
+    Route::get('/approvalrequests', [ReservationController::class, 'approvalRequests'])->name('reserve.approvalRequests');
+});
 
 Route::middleware(['auth','nocache'])->group(function(){
     Route::prefix('/account')->group(function () {

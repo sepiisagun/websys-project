@@ -5,5 +5,6 @@
 		:house="$house"
 		:avgRating="$avgRating"
 		:ratings="$ratings"
+		:reserved="$reserved"
 	/>
 @endsection

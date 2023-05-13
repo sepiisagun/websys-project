@@ -65,6 +65,14 @@ return [
                 'RENTER'
             ],
         ],
+        'Approval Requests' => [
+            'label' => 'Approval Requests',
+            'link' => 'reserve.approvalRequests',
+            'value' => '',
+            'role' => [
+                'RENTER'
+            ],
+        ],
         'Reservations' => [
             'label' => 'Reservations',
             'link' => 'reserve.index',
@@ -241,6 +249,14 @@ return [
         'check_in' => 'Transaction Date',
         'total' => 'Total Amount',
         'status' => 'Status',
+    ],
+    'RENTER_APPROVAL_TABLE_COLUMN_TITLE' => [
+        'house' => 'House Name',
+        'username' => 'Rentee Name',
+        'check_in' => 'Check In',
+        'check_out' => 'Check Out',
+        'capacity' => 'Capacity',
+        'amount' => 'Total Amount',
     ],
     'ACCOUNT_SETTINGS_CARD' => [
         'security' => [
