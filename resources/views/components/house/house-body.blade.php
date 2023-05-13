@@ -1,27 +1,29 @@
-@props(['house', 'avgRating', 'ratings'])
+@props(['house', 'avgRating', 'ratings', 'reserved'])
 <div class="bg-white dark:bg-neutral-900">
-    <div
-        class="py-30 lg:py-30 mx-auto grid max-w-2xl grid-cols-1 items-center gap-9 px-4 sm:px-6 sm:py-20 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
-        <div>
-            <h1 class="title-font mb-1 mt-5 text-3xl font-semibold text-black"><span
-                    class="bg-gradient-to-r from-slate-600 to-neutral-800 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-200 dark:to-blue-500">{{ $house['name'] }}
-            </h1></span>
-            <h2 class="title-font text-sm tracking-widest text-black dark:text-slate-400">
-                {{ $house['address'] }}</h2>
+	<div
+		class="py-30 lg:py-30 mx-auto grid max-w-2xl grid-cols-1 items-center gap-9 px-4 sm:px-6 sm:py-20 lg:max-w-7xl lg:grid-cols-2 lg:px-8"
+	>
+		<div>
+			<h1 class="title-font mb-1 mt-5 text-3xl font-semibold text-black"><span
+					class="bg-gradient-to-r from-slate-600 to-neutral-800 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-cyan-200 dark:to-blue-500"
+				>{{ $house['name'] }}
+			</h1></span>
+			<h2 class="title-font text-sm tracking-widest text-black dark:text-slate-400">
+				{{ $house['address'] }}</h2>
 
-            <div class="mt-10 flex flex-row">
-                @for ($i = 0; $i < 5; $i++)
-                    @if ($avgRating >= $i + 1)
-                        <x-icons.rating-star>
-                            {{ $avgRating + 1 }}
-                        </x-icons.rating-star>
-                    @else
-                        <x-icons.empty-star>
-                            {{ $avgRating + 1 }}
-                        </x-icons.empty-star>
-                    @endif
-                @endfor
-            </div>
+			<div class="mt-10 flex flex-row">
+				@for ($i = 0; $i < 5; $i++)
+					@if ($avgRating >= $i + 1)
+						<x-icons.rating-star>
+							{{ $avgRating + 1 }}
+						</x-icons.rating-star>
+					@else
+						<x-icons.empty-star>
+							{{ $avgRating + 1 }}
+						</x-icons.empty-star>
+					@endif
+				@endfor
+			</div>
 
 			<dl
 				class="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 sm:gap-y-16 lg:gap-x-8"
@@ -78,56 +80,47 @@
 			</dl>
 			<div class="ml-auto flex pt-2">
 				{{-- <span class="title-font font-semibold text-2xl text-black">$58.00</span> --}}
-				<form
-					action="{{ route('reserve.create', ['house_id' => $house->id]) }}"
-					method="POST"
-				>
-					@csrf
-					<x-forms.primary-button>
-						{{ __('Reserve') }}
-					</x-forms.primary-button>
-				</form>
-				<button
-					class="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-800 p-0 text-gray-500 hover:border-gray-300"
-				>
-					<svg
-						class="h-5 w-5"
-						fill="white"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						viewBox="0 0 24 24"
+				@if ($reserved)
+					<form
+						action="{{ route('reserve.create', ['house_id' => $house->id]) }}"
+						method="POST"
 					>
-						<path
-							d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
-						>
-						</path>
-					</svg>
-				</button>
+						@csrf
+						<x-forms.primary-button>
+							{{ __('Reserve') }}
+						</x-forms.primary-button>
+					</form>
+				@endif
 			</div>
 
-            <div id="myTabContent">
-                <!--Description--->
-                <div aria-labelledby="profile-tab" class="hidden h-96 rounded-sm bg-gray-50 p-4 dark:bg-gray-800"
-                    id="profile" role="tabpanel">
-                    <p class="mb-2 leading-relaxed text-gray-500 dark:text-gray-200">
-                        {{ $house['description'] }}</p>
-                    <div class="flex border-t border-gray-300 py-2">
-                        <span class="text-gray-500 dark:text-gray-400">House ID</span>
-                        <span class="ml-auto text-gray-500 dark:text-gray-400">{{ $house['id'] }}</span>
-                    </div>
+			<div id="myTabContent">
+				<!--Description--->
+				<div
+					aria-labelledby="profile-tab"
+					class="hidden h-96 rounded-sm bg-gray-50 p-4 dark:bg-gray-800"
+					id="profile"
+					role="tabpanel"
+				>
+					<p class="mb-2 leading-relaxed text-gray-500 dark:text-gray-200">
+						{{ $house['description'] }}</p>
+					<div class="flex border-t border-gray-300 py-2">
+						<span class="text-gray-500 dark:text-gray-400">House ID</span>
+						<span
+							class="ml-auto text-gray-500 dark:text-gray-400">{{ $house['id'] }}</span>
+					</div>
 
-                    <div class="flex border-t border-gray-300 py-2">
-                        <span class="text-gray-500 dark:text-gray-400">Capacity</span>
-                        <span class="ml-auto text-gray-500 dark:text-gray-400">For
-                            {{ $house['capacity'] }} persons</span>
-                    </div>
+					<div class="flex border-t border-gray-300 py-2">
+						<span class="text-gray-500 dark:text-gray-400">Capacity</span>
+						<span class="ml-auto text-gray-500 dark:text-gray-400">For
+							{{ $house['capacity'] }} persons</span>
+					</div>
 
-                    <div class="mb-6 flex border-t border-b border-gray-300 py-2">
-                        <span class="text-gray-500 dark:text-gray-400">Price</span>
-                        <span class="ml-auto text-gray-500 dark:text-gray-400">${{ $house['price'] }}</span>
-                    </div>
-                </div>
+					<div class="mb-6 flex border-t border-b border-gray-300 py-2">
+						<span class="text-gray-500 dark:text-gray-400">Price</span>
+						<span
+							class="ml-auto text-gray-500 dark:text-gray-400">${{ $house['price'] }}</span>
+					</div>
+				</div>
 
 				<!--Reviews--->
 				<div
@@ -151,7 +144,8 @@
 										<time
 											atetime="2014-08-16 19:00"
 											class="block text-sm text-gray-500 dark:text-gray-400"
-										>Joined on August 2014</time></p>
+										>Joined on August 2014</time>
+									</p>
 
 								</div>
 
@@ -236,46 +230,61 @@
 									>
 								</div>
 
-                                <div class="house-small-img">
-                                    <div class="mx-5 grid grid-cols-5 gap-2 px-5">
-                                        <div>
-                                            <img alt="" class="h-auto max-w-full rounded-sm"
-                                                onclick="myFunction(this)"
-                                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg">
-                                        </div>
-                                        <div>
-                                            <img alt="" class="h-auto max-w-full rounded-sm"
-                                                onclick="myFunction(this)"
-                                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg">
-                                        </div>
-                                        <div>
-                                            <img alt="" class="h-auto max-w-full rounded-sm"
-                                                onclick="myFunction(this)"
-                                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg">
-                                        </div>
-                                        <div>
-                                            <img alt="" class="h-auto max-w-full rounded-sm"
-                                                onclick="myFunction(this)"
-                                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg">
-                                        </div>
-                                        <div>
-                                            <img alt="" class="h-auto max-w-full rounded-sm"
-                                                onclick="myFunction(this)"
-                                                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <script>
-                                function myFunction(smallImg) {
-                                    var fullImg = document.getElementById("imageBox");
-                                    fullImg.src = smallImg.src;
-                                }
-                            </script>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								<div class="house-small-img">
+									<div class="mx-5 grid grid-cols-5 gap-2 px-5">
+										<div>
+											<img
+												alt=""
+												class="h-auto max-w-full rounded-sm"
+												onclick="myFunction(this)"
+												src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+											>
+										</div>
+										<div>
+											<img
+												alt=""
+												class="h-auto max-w-full rounded-sm"
+												onclick="myFunction(this)"
+												src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+											>
+										</div>
+										<div>
+											<img
+												alt=""
+												class="h-auto max-w-full rounded-sm"
+												onclick="myFunction(this)"
+												src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+											>
+										</div>
+										<div>
+											<img
+												alt=""
+												class="h-auto max-w-full rounded-sm"
+												onclick="myFunction(this)"
+												src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+											>
+										</div>
+										<div>
+											<img
+												alt=""
+												class="h-auto max-w-full rounded-sm"
+												onclick="myFunction(this)"
+												src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+											>
+										</div>
+									</div>
+								</div>
+							</div>
+							<script>
+								function myFunction(smallImg) {
+									var fullImg = document.getElementById("imageBox");
+									fullImg.src = smallImg.src;
+								}
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

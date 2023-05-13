@@ -10,7 +10,10 @@
 		content="ie=edge"
 		http-equiv="X-UA-Compatible"
 	>
-	<meta name="_token" content="{{ csrf_token() }}">
+	<meta
+		content="{{ csrf_token() }}"
+		name="_token"
+	>
 	<title>WebSys Project</title>
 
 	<link
@@ -39,9 +42,8 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
 	></script>
-	<script
-		src=" https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"
-	></script>
+	<script src=" https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js">
+	</script>
 
 	<script>
 		if (
@@ -68,7 +70,7 @@
 			@if (session()->has('status') && session()->get('message'))
 				<div
 					class="{{ session()->get('status') === 'Attention!'
-					? 'text-red-800 bg-red-50 dark:text-red-400'
+					    ? 'text-red-800 bg-red-50 dark:text-red-400'
 					    : (session()->get('status') === 'Success!'
 					        ? 'text-green-800 bg-green-50 dark:text-green-400'
 					        : (session()->get('status') === 'Warning:'
@@ -141,4 +143,17 @@
 	};
 
 	var loginModal = new Modal($targetEl, options);
+	var requestCount = 0;
+	$(document).ready(function() {
+		$.ajax({
+			type: 'get',
+			url: "/reserve/count",
+
+			success: function(data) {
+				requestCount = data;
+				console.log(data);
+				// $('#requestCount').html('<span class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900" name="requestCount">data</span>');
+			}
+		});
+	})
 </script>

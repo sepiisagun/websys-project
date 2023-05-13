@@ -155,11 +155,18 @@ class HousesController extends Controller
      */
     public function show($id)
     {
+        $reservations = Reservation::where('house_id', '=', $id)
+                                    ->where(function($query){
+                                        $query->where('status', '=', 'ONGOING')
+                                                ->orWhere('status', '=', 'PENDING');
+                                    })
+                                    ->count();
         $avgRating = Rating::where('house_id', $id)->avg('rating');
         return view('house.show', [
             'house' => House::findOrFail($id),
             'ratings' => Rating::where('house_id', $id)->take(5)->get(),
-            'avgRating' => $avgRating
+            'avgRating' => $avgRating,
+            'reserved' => $reservations < 1
         ]);
     }
 
@@ -279,8 +286,7 @@ class HousesController extends Controller
         $newImageName = uniqid() . '-' . Str::replace('/\s+/', '_', $request->name) . '.' . $request->image_path->extension();
         // Store image in public/img folder
         $request->image_path->move(public_path('img'), $newImageName);
-
-
+        
         return $newImageName;
     }
 }

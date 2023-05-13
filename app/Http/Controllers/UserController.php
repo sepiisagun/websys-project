@@ -83,33 +83,34 @@ class UserController extends Controller
                 ->paginate(10);
             return view('account.renter', ['houses' => $houses]);
         } else {
-            $upcomingReservations = DB::table('reservations')
-                ->join('houses', 'reservations.house_id', '=', 'houses.id')
-                ->join('users', 'reservations.user_id', '=', 'users.id')
-                ->where('users.id', '=', $user->id)
-                ->where('check_in', '>', Carbon::now()->toDateString())
-                ->select('reservations.*', 'houses.*')
-                ->take(5)
-                ->get();
-            $pastReservations = DB::table('reservations')
-                ->join('houses', 'reservations.house_id', '=', 'houses.id')
-                ->join('users', 'reservations.user_id', '=', 'users.id')
-                ->leftJoin('ratings', 'reservations.id', '=', 'ratings.reservation_id')
-                ->where('users.id', '=', $user->id)
-                ->where('check_out', '<', Carbon::now()->toDateString())
-                ->select('reservations.*', 'houses.*', 'ratings.id AS rating', 'reservations.id AS reservation_id')
-                ->take(5)
-                ->get();
-            return view('account.rentee', [
-                'upcomingReservations' => $upcomingReservations,
-                'pastReservations' => $pastReservations,
-            ]);
+            if ('approval_status' === 'APPROVED') {
+                $upcomingReservations = DB::table('reservations')
+                    ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                    ->join('users', 'reservations.user_id', '=', 'users.id')
+                    ->where('users.id', '=', $user->id)
+                    ->where('check_in', '>', Carbon::now()->toDateString())
+                    ->select('reservations.*', 'houses.*')
+                    ->take(5)
+                    ->get();
+                $pastReservations = DB::table('reservations')
+                    ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                    ->join('users', 'reservations.user_id', '=', 'users.id')
+                    ->leftJoin('ratings', 'reservations.id', '=', 'ratings.reservation_id')
+                    ->where('users.id', '=', $user->id)
+                    ->where('check_out', '<', Carbon::now()->toDateString())
+                    ->select('reservations.*', 'houses.*', 'ratings.id AS rating', 'reservations.id AS reservation_id')
+                    ->take(5)
+                    ->get();
+                return view('account.rentee', [
+                    'upcomingReservations' => $upcomingReservations,
+                    'pastReservations' => $pastReservations,
+                ]);
+            }
         }
     }
 
     public function showTransaction()
     {
-
         if (!Auth::user()) return view('fallback.index');
         $user = Auth::user();
         if ($user->role === "RENTER") {
@@ -128,20 +129,20 @@ class UserController extends Controller
     public function generateTransaction()
     {
         $houses = DB::table('reservations')
-        ->join('houses', 'reservations.house_id', '=', 'houses.id')
-        ->join('users', 'reservations.user_id', '=', 'users.id')
-        ->where('houses.user_id', '=', Auth::user()->id)
-        ->select('reservations.*', 'houses.*', 'users.*')
-        ->get();
+            ->join('houses', 'reservations.house_id', '=', 'houses.id')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->where('houses.user_id', '=', Auth::user()->id)
+            ->select('reservations.*', 'houses.*', 'users.*')
+            ->get();
 
         $data = [
             'houses' => $houses
-        ]; 
-        
+        ];
+
         $pdf = PDF::loadView('pdf.transaction-pdf', $data);
         return $pdf->download('transaction.pdf');
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -18,7 +18,7 @@
 						:value="__('Email')"
 						for="email"
 					/>
-					<x-forms.text-input
+					<x-forms.input-disabled
 						:value="$user->email"
 						:class="$errors->get('email')
 						    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'

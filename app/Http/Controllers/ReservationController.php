@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReservationStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Reservation;
 use App\Models\House;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class ReservationController extends Controller
 {
@@ -22,11 +24,11 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        
+
         return view('reservations.index', [
             'reservations' => Reservation::where('user_id', Auth::user()->id)
-                                        ->paginate(10),
-            ]);
+                ->paginate(10),
+        ]);
     }
 
     /**
@@ -37,7 +39,7 @@ class ReservationController extends Controller
     public function create(Request $request)
     {
         $house = House::find($request->house_id);
-        return view('reservations.create', ['house' => $house ]);
+        return view('reservations.create', ['house' => $house]);
     }
 
     /**
@@ -53,7 +55,7 @@ class ReservationController extends Controller
             'check_out' => ['required'],
             'guest_count' => ['required', 'numeric', 'between:1,15']
         ]);
-        
+
         // Return create view if validation fails
         if ($validator->fails()) {
             return Redirect::route('reserve.create')
@@ -70,8 +72,8 @@ class ReservationController extends Controller
             'check_out' => Carbon::createFromFormat('d/m/Y', $request->check_out)->format('Y-m-d'),
             'guest_count' => $request->guest_count,
             'house_id' => $request->house_id,
-            'user_id'=>Auth::user()->id,
-            'amount'=> $request->amount
+            'user_id' => Auth::user()->id,
+            'amount' => $request->amount
         ]);
 
         // Redirect to house view with details of new record
@@ -83,7 +85,7 @@ class ReservationController extends Controller
                 'message' => 'You have reserved a house.'
             ]);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -97,7 +99,7 @@ class ReservationController extends Controller
         $reservation->save();
         return Redirect::route('reserve.show',  $reservation->id);
     }
-        
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -161,7 +163,6 @@ class ReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
@@ -173,5 +174,67 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approvalRequests()
+    {
+        if (!Auth::user()) return view('fallback.index');
+        $user = Auth::user();
+        if ($user->role === "RENTER") {
+            $reservations = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where([
+                    ['houses.user_id', '=', $user->id],
+                    ['approval_status', '=', 'PENDING']
+                ])
+                ->select('houses.name', 'users.first_name', 'users.last_name', 'reservations.check_in', 'reservations.check_out', 'reservations.amount', 'reservations.guest_count', 'reservations.id')
+                ->paginate(10);
+            return view('requests.approval-requests', ['reservations' => $reservations]);
+        }
+    }
+
+    public function approveRequest($id)
+    {
+        $reservations = Reservation::find($id);
+
+        $reservations->approval_status = "APPROVED";
+        $reservations->save();
+        return Redirect::route('reserve.approvalRequests')
+            ->with([
+                'status' => 'Success!',
+                'message' => 'You have just approved a new reservation.'
+            ]);
+    }
+
+    public function rejectRequest($id)
+    {
+        $reservations = Reservation::find($id);
+
+        $reservations->approval_status = "REJECTED";
+        $reservations->save();
+        return Redirect::route('reserve.approvalRequests')
+            ->with([
+                'status' => 'Attention!',
+                'message' => 'You have just rejected a reservation request.'
+            ]);
+    }
+
+    public function requestCount()
+    {
+        $reservations = null;
+        if (!Auth::user()) return view('fallback.index');
+        $user = Auth::user();
+        if ($user->role === "RENTER") {
+            $reservations = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where([
+                    ['houses.user_id', '=', $user->id],
+                    ['approval_status', '=', 'PENDING']
+                ])
+                ->count();
+        }
+        return Response($reservations);
     }
 }

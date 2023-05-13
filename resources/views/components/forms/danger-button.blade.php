@@ -19,7 +19,7 @@
 	            py-2.5
 	            mx-2
 	            text-center
-				hover:bg-sky-600
+				hover:bg-red-800
 	            dark:bg-red-600
 				dark:text-white
 	            dark:hover:bg-red-800
