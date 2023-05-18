@@ -182,27 +182,23 @@
 				class="bg-zince-50 mt-4 flex flex-col rounded-lg border border-neutral-100 p-4 dark:border-zinc-900 dark:bg-zinc-900 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium md:dark:bg-zinc-900"
 			>
 				@foreach (config('constants.NAV_LINKS') as $link)
-					<li>
-						<x-header.nav-link
-							href="{{ $link['link'] ? route($link['link']) : '#' }}"
-						>
-							{{ $link['label'] }}
-							{{-- if (link['label'] == Approval Requests){
-							line of code
-							} --}}
-						</x-header.nav-link>
-					</li>
+					@if ((Auth::user() && Auth::user()->role == $link['role']) || $link['role'] == "PUBLIC")
+						<li>
+							<x-header.nav-link
+								href="{{ $link['link'] ? route($link['link']) : '#' }}"
+							>
+								{{ $link['label'] }}
+								@if ($link['label'] == 'Reservations' && Auth::user()->role == 'RENTER')
+									<span
+										class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900"
+									>
+										<p id="requestCount"></p>
+									</span>
+								@endif
+							</x-header.nav-link>
+						</li>
+					@endif
 				@endforeach
-				@if (Auth::check() && Auth::user()->role == 'RENTER')
-					<x-header.nav-link href="{{ route('reserve.approvalRequests') }}">
-						{{ 'Approval Requests' }}
-						<span
-							class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900"
-							name="requestCount"
-						></span>
-					</x-header.nav-link>
-				@endif
-
 			</ul>
 		</div>
 	</div>

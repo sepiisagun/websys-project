@@ -63,6 +63,9 @@ Route::resource('rate', RatingController::class);
 // Account Related Routes
 Route::middleware(['auth','nocache'])->group(function(){
 Route::get('/dashboard/{id}', [UserController::class, 'show'])->name('account.dashboard');
+Route::get('/transaction', [UserController::class, 'showTransaction'])->name('account.showTransaction');
+Route::get('/transaction/generate', [UserController::class, 'generateTransaction'])->name('account.generateTransaction');
+Route::get('/transaction/search', [UserController::class, 'search'])->name('account.searchTransaction');
 Route::get('/settings/{id}', [UserController::class, 'edit'])->name('account.settings');
 Route::get('/search', [UserController::class, 'search'])->name('account.search');
 });

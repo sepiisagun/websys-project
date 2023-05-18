@@ -16,28 +16,15 @@
 						<div
 							class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-y-0 md:space-x-4"
 						>
-							{{-- <x-search-bar /> --}}
 							<div
 								class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-y-0 md:space-x-3"
 							>
-                            {{-- <a
-                            class="hover:text-primary-700 flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
-                            href="{{ url('/transaction/'.$reservations->id.'/generate' )}}"
-                        >
-                            Export PDF
-                        </a> --}}
 						<a
                             class="hover:text-primary-700 flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
                             href="{{ route('account.generateTransaction') }}"
                         >
                             Export PDF
                         </a>
-								{{-- <a
-									class="hover:text-primary-700 flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
-									href="{{ url('/transaction/'.$reservation->id.'/generate') }}" target="_blank"
-								>
-									View PDF
-								</a> --}}
 							</div>
 						</div>
 						<div class="overflow-x-auto">
@@ -65,40 +52,6 @@
 								<tbody>
 									@forelse ($reservations as $reservation)
 										<x-account.renter-transaction-table :reservation="$reservation" />
-
-										<x-modals.delete-modal
-											:id="$reservation->id"
-											:value="$reservation->name"
-											route="house.destroy"
-										>
-											<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-												Are you sure you want to remove
-												the listing for
-												<span class="text-md font-semibold">
-													{{ $reservation->name }}
-												</span>?
-											</h3>
-
-											<div class="mb-6">
-												<x-forms.input-label for="deleteProceed">
-													<p>Type <span
-															class="text-md font-semibold">{{ $reservation->name }}</span> to
-														proceed.</p>
-												</x-forms.input-label>
-												<x-forms.text-input
-													:class="$errors->get('deleteProceed')
-													    ? 'bg-red-50 border border-red-500 focus:ring-red-500 focus:border-red-500  dark:border-red-400'
-													    : 'block mt-1 w-full'"
-													autocomplete="deleteProceed"
-													data-tooltip-placement="bottom"
-													data-tooltip-target="tooltip-light"
-													id="deleteProceed"
-													name="deleteProceed"
-													placeholder=""
-													type="deleteProceed"
-												/>
-											</div>
-										</x-modals.delete-modal>
 									@empty
 										<tr class="border-b dark:border-gray-700">
 											<td

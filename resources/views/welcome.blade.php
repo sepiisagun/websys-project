@@ -68,53 +68,17 @@
 			id="alert"
 		>
 			@if (session()->has('status') && session()->get('message'))
-				<div
-					class="{{ session()->get('status') === 'Attention!'
-					    ? 'text-red-800 bg-red-50 dark:text-red-400'
-					    : (session()->get('status') === 'Success!'
-					        ? 'text-green-800 bg-green-50 dark:text-green-400'
-					        : (session()->get('status') === 'Warning:'
-					            ? 'text-yellow-800 bg-yellow-50 dark:text-yellow-400'
-					            : 'text-blue-800 bg-blue-50 dark:text-blue-400')) }} mt-4 mb-4 rounded-md p-4 text-sm dark:bg-gray-800"
-					role="alert"
-				>
-					<svg
-						aria-hidden="true"
-						class="mr-3 inline h-5 w-5 flex-shrink-0"
-						fill="currentColor"
-						viewBox="0 0 20 20"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							clip-rule="evenodd"
-							d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-							fill-rule="evenodd"
-						></path>
-					</svg>
-					<span class="font-medium">{{ session()->get('status') }}</span>
-					{{ session()->get('message') }}
-
-					<button
-						aria-label="Close"
-						data-dismiss-target="#alert"
-						type="button"
-					>
-						<span class="sr-only">Dismiss</span>
-						<svg
-							aria-hidden="true"
-							class="ml-10 inline h-5 w-5 flex-shrink-0"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								clip-rule="evenodd"
-								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-								fill-rule="evenodd"
-							></path>
-						</svg>
-					</button>
-				</div>
+				@if (is_array(session()->get('status')))
+					@foreach (session()->get('status') as $status)
+						@if (count(session()->get('id')) > $loop->index)
+							<x-alert :status="$status" :message="session()->get('message')[$loop->index]" :link="session()->get('link')[$loop->index]" :linkname="session()->get('linkName')[$loop->index]" :id="session()->get('id')[$loop->index]"/>
+						@else
+							<x-alert :status="$status" :message="session()->get('message')[$loop->index]" :link="session()->get('link')[$loop->index]" :linkname="session()->get('linkName')[$loop->index]"/>
+						@endif
+					@endforeach
+				@else
+					<x-alert :status="session()->get('status')" :message="session()->get('message')" :link="session()->get('link')" :linkname="session()->get('linkName')" :id="session()->get('id')"/>
+				@endif
 			@endif
 		</div>
 
@@ -143,16 +107,13 @@
 	};
 
 	var loginModal = new Modal($targetEl, options);
-	var requestCount = 0;
 	$(document).ready(function() {
 		$.ajax({
 			type: 'get',
 			url: "/reserve/count",
 
 			success: function(data) {
-				requestCount = data;
-				console.log(data);
-				// $('#requestCount').html('<span class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900" name="requestCount">data</span>');
+				$('#requestCount').html(data);
 			}
 		});
 	})

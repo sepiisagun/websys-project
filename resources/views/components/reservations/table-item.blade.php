@@ -10,14 +10,25 @@
 	<td class="px-4 py-3">{{ $carbon::create($reservation->check_in)->toFormattedDateString() }}</td>
 	<td class="px-4 py-3">{{ $carbon::create($reservation->check_out)->toFormattedDateString() }}</td>
     <td class="px-4 py-3">
-        @if($reservation->status == "PENDING")
-            Upcoming
-        @elseif ($reservation->status == "ONGOING")
-            Ongoing
-        @elseif ($reservation->status == "CANCELLED")
-            Cancelled
+        @if ($reservation->rating)
+            {{ $reservation->rating }}
         @else
-            Ended
+            Unrated
+        @endif
+    </td>
+    <td class="px-4 py-3">
+        @if ($reservation->approval_status == "PENDING")
+            Pending Approval
+        @elseif ($reservation->approval_status == "REJECTED")
+            Rejected
+        @else
+            @if ($reservation->status == "PENDING")
+                Upcoming
+            @elseif ($reservation->status == "ONGOING")
+                Ongoing
+            @else
+                Ended
+            @endif
         @endif
     </td>
 	<td class="flex items-center justify-end px-4 py-3 relative">

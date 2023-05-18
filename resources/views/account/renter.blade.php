@@ -46,7 +46,6 @@
                     },
                     success: function(data) {
                         $('#tester').html(data);
-                        // $('#pagination').html(data);
                     }
                 });
             })

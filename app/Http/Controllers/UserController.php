@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Rating;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,31 +82,173 @@ class UserController extends Controller
             $houses = DB::table('houses')
                 ->where('user_id', $id)
                 ->paginate(10);
-            return view('account.renter', ['houses' => $houses]);
+            $reservationRequest = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where([
+                    ['houses.user_id', '=', $user->id],
+                    ['approval_status', '=', 'PENDING']
+                ])
+                ->count();
+
+            $recentRated = Rating::join('houses', 'ratings.house_id', '=', 'houses.id')
+                                ->where([
+                                    ['houses.user_id', $id],
+                                    ['ratings.created_at', '>' , Carbon::now()->subDays(2)]
+                                ])
+                                ->select('ratings.house_id')
+                                ->get();
+
+            $message = ['status' => [], 'message' => [], 'link' => [], 'linkName' => [], 'id' => []];
+            if (count($recentRated) > 0){
+                array_push($message['status'], 'Notice:');
+                array_push($message['message'], "You have ". count($recentRated) ." new ratings for your house.");
+                if (count($recentRated) == 1) {
+                    array_push($message['link'], 'house.show');
+                    array_push($message['id'], $recentRated[0]->house_id);
+                } else {
+                    array_push($message['link'], 'reserve.index');
+                }
+                array_push($message['linkName'], 'Check it here');
+            }
+            if ($reservationRequest > 0){
+                array_push($message['status'], 'Notice:');
+                array_push($message['message'], "You have $reservationRequest pending reservation requests.");
+                array_push($message['link'], 'reserve.approvalRequests');
+                array_push($message['linkName'], 'Check it here');
+            }
+            foreach($message as $key => $item){
+                session()->flash($key, $item);
+            }
+ 
+            return view('account.renter', [
+                'houses' => $houses
+                ]);
         } else {
-            if ('approval_status' === 'APPROVED') {
+
+                $reservationApproved = DB::table('reservations')
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->where([
+                                            ['reservations.user_id', '=', $user->id],
+                                            ['approval_status', '=', 'APPROVED'],
+                                            ['reservations.status', '=', 'PENDING'],
+                                        ])
+                                        ->select('reservations.id')
+                                        ->whereDate('reservations.updated_at', '>' , Carbon::now()->subDays(2))
+                                        ->get();
+                $reservationRejected = DB::table('reservations')
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->where([
+                                            ['reservations.user_id', '=', $user->id],
+                                            ['approval_status', '=', 'REJECTED'],
+                                        ])
+                                        ->select('reservations.id')
+                                        ->whereDate('reservations.updated_at', '>' , Carbon::now()->subDays(2))
+                                        ->get();
+                $recentEnded = DB::table('reservations')
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->where([
+                                            ['reservations.user_id', '=', $user->id],
+                                            ['approval_status', '=', 'APPROVED'],
+                                            ['reservations.status', '=', 'ENDED'],
+                                        ])
+                                        ->whereDate('reservations.updated_at', '>' , Carbon::now()->subDays(2))
+                                        ->select('reservations.id')
+                                        ->get();
+
+                $message = ['status' => [], 'message' => [], 'link' => [], 'linkName' => [], 'id' => []];
+                if (count($reservationApproved) > 0){
+                    array_push($message['status'], 'Notice:');
+                    array_push($message['message'], "You have ". count($reservationApproved) ." approved reservation requests.");
+                    if (count($reservationApproved) == 1) {
+                        array_push($message['link'], 'reserve.show');
+                        array_push($message['id'], $reservationApproved[0]->id);
+                    } else {
+                        array_push($message['link'], 'reserve.index');
+                    }
+                    array_push($message['linkName'], 'Check it here');
+                }
+                if (count($reservationRejected) > 0){
+                    array_push($message['status'], 'Attention!');
+                    array_push($message['message'], "You have ". count($reservationRejected) ." rejected reservation requests.");
+                    if (count($reservationRejected) == 1) {
+                        array_push($message['link'], 'reserve.show');
+                        array_push($message['id'], $reservationRejected[0]->id);
+                    } else {
+                        array_push($message['link'], 'reserve.index');
+                    }
+                    array_push($message['linkName'], 'Check it here');
+                }
+                if (count($recentEnded) > 0) {
+                    $noRatings = [];
+                    foreach ($recentEnded as $item) {
+                        if (Rating::find($item->id) == null) {
+                            array_push($noRatings, $item->id);
+                        }
+                    }
+                    if (count($noRatings) > 0) {
+                        array_push($message['status'], 'Notice:');
+                        array_push($message['message'], "You have ". count($noRatings) ." past reservation without ratings.");
+                        if (count($noRatings) == 1) {
+                            array_push($message['link'], 'house.rate');
+                            array_push($message['id'], $noRatings);
+                        } else {
+                            array_push($message['link'], 'reserve.index');
+                        }
+                        array_push($message['linkName'], 'Rate it here!');
+                    };
+
+                }
+                foreach($message as $key => $item){
+                    session()->flash($key, $item);
+                }
+
+
+                $pendingReservations = DB::table('reservations')
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->where([
+                                            ['users.id', '=', $user->id],
+                                            ['reservations.approval_status', '=', 'PENDING']
+                                        ])
+                                        ->select('reservations.*', 'houses.*')
+                                        ->take(5)
+                                        ->get();
                 $upcomingReservations = DB::table('reservations')
-                    ->join('houses', 'reservations.house_id', '=', 'houses.id')
-                    ->join('users', 'reservations.user_id', '=', 'users.id')
-                    ->where('users.id', '=', $user->id)
-                    ->where('check_in', '>', Carbon::now()->toDateString())
-                    ->select('reservations.*', 'houses.*')
-                    ->take(5)
-                    ->get();
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->where([
+                                            ['users.id', '=', $user->id],
+                                            ['check_in', '>', Carbon::now()->toDateString()],
+                                            ['reservations.approval_status', '=', 'APPROVED'],
+                                            ['reservations.status', '=', 'PENDING'],
+                                        ])
+                                        ->select('reservations.*', 'houses.*')
+                                        ->take(5)
+                                        ->get();
                 $pastReservations = DB::table('reservations')
-                    ->join('houses', 'reservations.house_id', '=', 'houses.id')
-                    ->join('users', 'reservations.user_id', '=', 'users.id')
-                    ->leftJoin('ratings', 'reservations.id', '=', 'ratings.reservation_id')
-                    ->where('users.id', '=', $user->id)
-                    ->where('check_out', '<', Carbon::now()->toDateString())
-                    ->select('reservations.*', 'houses.*', 'ratings.id AS rating', 'reservations.id AS reservation_id')
-                    ->take(5)
-                    ->get();
+                                        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                                        ->join('users', 'reservations.user_id', '=', 'users.id')
+                                        ->leftJoin('ratings', 'reservations.id', '=', 'ratings.reservation_id')
+                                        ->where([
+                                            ['users.id', '=', $user->id],
+                                            ['check_out', '<', Carbon::now()->toDateString()],
+                                            ['reservations.approval_status', '=', 'APPROVED'],
+                                            ['reservations.status', '=', 'ENDED']
+                                        ])
+                                        ->select('reservations.*', 'houses.*', 'ratings.id AS rating', 'reservations.id AS reservation_id')
+                                        ->orderBy('reservations.check_out', 'desc')
+                                        ->take(5)
+                                        ->get();
                 return view('account.rentee', [
+                    'pendingReservations' => $pendingReservations,
                     'upcomingReservations' => $upcomingReservations,
                     'pastReservations' => $pastReservations,
                 ]);
-            }
+            // }
         }
     }
 
@@ -118,22 +261,37 @@ class UserController extends Controller
                 ->join('houses', 'reservations.house_id', '=', 'houses.id')
                 ->join('users', 'reservations.user_id', '=', 'users.id')
                 ->where('houses.user_id', '=', $user->id)
-                // ->select('reservations.*', 'houses.*')
+                ->select('reservations.id', 'reservations.amount', 'reservations.status', 'reservations.check_in', 'houses.name', 'users.first_name', 'users.last_name')
                 ->paginate(10);
             return view('account.showTransactions', ['reservations' => $reservations]);
         } else {
         }
     }
 
+    public function searchTransaction(Request $request)
+    {
+        $search = $request->input('search');
+        $user = Auth::user();
+
+        $reservations = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where('houses.user_id', '=', $user->id)
+                ->where('name', 'like', "%$search%")
+                ->paginate(10);
+
+        return view('account.renter_table', ["reservations" => $reservations])->render();
+    }
+
     // public function generateTransaction(int $id)
     public function generateTransaction()
     {
         $houses = DB::table('reservations')
-            ->join('houses', 'reservations.house_id', '=', 'houses.id')
-            ->join('users', 'reservations.user_id', '=', 'users.id')
-            ->where('houses.user_id', '=', Auth::user()->id)
-            ->select('reservations.*', 'houses.*', 'users.*')
-            ->get();
+        ->join('houses', 'reservations.house_id', '=', 'houses.id')
+        ->join('users', 'reservations.user_id', '=', 'users.id')
+        ->where('houses.user_id', '=', Auth::user()->id)
+        ->select('reservations.id', 'reservations.amount', 'reservations.status', 'reservations.check_in', 'houses.name', 'users.first_name', 'users.last_name')
+        ->get();
 
         $data = [
             'houses' => $houses

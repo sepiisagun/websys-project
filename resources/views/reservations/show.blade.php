@@ -11,7 +11,13 @@
             </h1></span>
             <h2 class="title-font text-sm tracking-widest text-black dark:text-slate-400">
                 {{ $house['address'] }}</h2>
-            @if($reservation->status == "PENDING" && $carbon::now()->toDateString() <= $reservation->check_in)
+            @if ($reservation->approval_status == "REJECTED")
+                <h3 class="text-xs dark:text-white italic">
+                    <span class="drop-shadow">
+                        Rejected
+                    </span>
+                </h3>
+            @elseif($reservation->status == "PENDING" && $carbon::now()->toDateString() <= $reservation->check_in)
                 <h3 class="text-xs dark:text-white">
                     <span class="drop-shadow">
                         {{ $carbon::now()->setTimezone('Asia/Manila')->toDateString() == $reservation->check_in ? 'Awaiting check-in' : 'In ' . $carbon::now()->diffInDays($reservation->check_in) . ' days' }}
@@ -24,6 +30,37 @@
                     </span>
                 </h3>
             @endif
+            
+            <div class="mt-10 flex flex-row">
+                @if ($reservation->approval_status == "APPROVED" && $reservation->status == "ENDED")
+                    @if ($reservation->rating != null) 
+                        <div class="mt-10 flex flex-row">
+                            @for ($i = 0; $i < 5; $i++)
+                                @if ($reservation->rating >= $i + 1)
+                                    <x-icons.rating-star>
+                                        {{ $reservation->rating + 1 }}
+                                    </x-icons.rating-star>
+                                @else
+                                    <x-icons.empty-star>
+                                        {{ $reservation->rating + 1 }}
+                                    </x-icons.empty-star>
+                                @endif
+                            @endfor
+                        </div>
+                    @else
+                        <a href="{{ route('house.rate', $reservation->id) }}">
+                            <span
+                                class="bg-primary-100 text-primary-800 dark:bg-primary-200 dark:text-primary-800 inline-flex items-center rounded px-2.5 text-xs font-light drop-shadow"
+                            >
+                                <x-icons.rating-star />
+                                Rate experience
+                            </span>
+                        </a>
+                    @endif
+                @endif
+            </div>
+            
+
 			<dl
 				class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 sm:gap-y-16 lg:gap-x-8 {{ $carbon::now()->toDateString() != $reservation->check_in ? "mt-8" : "" }}"
 			>
@@ -113,7 +150,7 @@
                                         {{ $reservation->amount }}
                                     </td>
                                 </tr>
-                                @if($carbon::now()->setTimezone('Asia/Manila')->toDateString() <= $reservation->check_in)
+                                @if($carbon::now()->setTimezone('Asia/Manila')->toDateString() <= $reservation->check_in && $reservation->approval_status == "APPROVED")
                                     @if (Auth::user()->role == "RENTEE" && $reservation->status == "PENDING")
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td class="px-6 py-4">
@@ -144,14 +181,14 @@
                                             </td>
                                             <td></td>
                                         </tr>
-                                    @else
+                                    @elseif (Auth::user()->role == "RENTER")
                                         @if ($reservation->status == "ONGOING")
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 </th>
                                                 <td class="px-6 py-4">
                                                     <form
-                                                        action="{{ route('reserve.checkin', $reservation->id) }}"
+                                                        action="{{ route('reserve.checkout', $reservation->id) }}"
                                                         method="POST"
                                                     >
                                                         @csrf

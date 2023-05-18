@@ -16,7 +16,7 @@
 					class="px-4 py-3"
 					scope="col"
 				>
-					Reservation Approval
+					Actions
 				</th>
 			</tr>
 		</thead>

@@ -6,10 +6,6 @@
 			</x-modals.modal-header>
 			<x-forms.close-button data-modal-hide="registration-modal" />
 			<x-modals.modal-body>
-				<x-auth-session-status
-					:status="session('status')"
-					class="mb-4"
-				/>
 				<form
 					action="{{ route('register') }}"
 					enctype="multipart/form-data"

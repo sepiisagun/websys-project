@@ -39,14 +39,22 @@ return [
         'Home' => [
             'label' => 'Home',
             'link' => 'homepage',
+            'role' => 'PUBLIC',
         ],
         'Listings' => [
             'label' => 'Listings',
             'link' => 'house.index',
+            'role' => 'PUBLIC',
         ],
         'Contact' => [
             'label' => 'Contact',
             'link' => '',
+            'role' => 'PUBLIC',
+        ],
+        'Approval' => [
+            'label' => 'Reservations',
+            'link' => 'reserve.approvalRequests',
+            'role' => 'RENTER'
         ]
     ],
     'USER_DROPDOWN_LINKS' => [
@@ -65,8 +73,8 @@ return [
                 'RENTER'
             ],
         ],
-        'Approval Requests' => [
-            'label' => 'Approval Requests',
+        'Approvals' => [
+            'label' => 'Reservations',
             'link' => 'reserve.approvalRequests',
             'value' => '',
             'role' => [
@@ -277,6 +285,7 @@ return [
         'address' => 'Address',
         'check_in' => 'Check In',
         'check_out' => 'Check Out',
+        'ratings' => 'Ratings',
         'status' => 'Status',
     ],
 ];

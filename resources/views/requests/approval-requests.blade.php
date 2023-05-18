@@ -7,7 +7,7 @@
 				<div class="mx-auto mb-2 max-w-screen-sm text-center">
 					<h2
 						class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white lg:text-4xl"
-					>Approval Requests</h2>
+					>Reservation Requests</h2>
 				</div>
 				<div class="mx-auto w-4/5 py-8 px-4 lg:py-8 lg:px-6">
 					<div

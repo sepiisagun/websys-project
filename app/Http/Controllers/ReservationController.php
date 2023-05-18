@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReservationStoreRequest;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Reservation;
 use App\Models\House;
+use App\Models\Rating;
 use Carbon\Carbon;
-use Illuminate\Http\Response;
 
 class ReservationController extends Controller
 {
@@ -24,10 +22,18 @@ class ReservationController extends Controller
      */
     public function index()
     {
-
+        $reservations = Reservation::where('reservations.user_id', Auth::user()->id)
+                            ->paginate(10);
+        foreach ($reservations as $key => $reservation) {
+            $rating = Rating::find($reservation->id);
+            if (!empty($rating)) {
+                $reservations[$key]->rating = $rating->rating;
+            } else {
+                $reservations[$key]->rating = null;
+            }
+        }
         return view('reservations.index', [
-            'reservations' => Reservation::where('user_id', Auth::user()->id)
-                ->paginate(10),
+            'reservations' => $reservations,
         ]);
     }
 
@@ -96,6 +102,7 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::find($id);
         $reservation->status = "ONGOING";
+        $reservation->updated_at = Carbon::now();
         $reservation->save();
         return Redirect::route('reserve.show',  $reservation->id);
     }
@@ -110,7 +117,7 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::find($id);
         $reservation->status = "ENDED";
-        $reservation->check_out = Carbon::now()->setTimezon('Asia/Manila')->toDateString();
+        $reservation->updated_at = Carbon::now();
         $reservation->save();
         return Redirect::route('reserve.show',  $reservation->id);
     }
@@ -140,6 +147,12 @@ class ReservationController extends Controller
     public function show($id)
     {
         $reservation = Reservation::find($id);
+        if (empty(Rating::find($reservation->id))) {
+            $reservation->rating = null;
+        } else {
+            $rating = Rating::find($reservation->id);
+            $reservation->rating = $rating->rating;
+        }
         return view('reservations.show', ['house' => House::findOrFail($reservation->house_id), 'reservation' => $reservation]);
     }
 
@@ -199,6 +212,7 @@ class ReservationController extends Controller
         $reservations = Reservation::find($id);
 
         $reservations->approval_status = "APPROVED";
+        $reservations->updated_at = Carbon::now();
         $reservations->save();
         return Redirect::route('reserve.approvalRequests')
             ->with([
@@ -212,6 +226,7 @@ class ReservationController extends Controller
         $reservations = Reservation::find($id);
 
         $reservations->approval_status = "REJECTED";
+        $reservations->updated_at = Carbon::now();
         $reservations->save();
         return Redirect::route('reserve.approvalRequests')
             ->with([
