@@ -199,7 +199,7 @@
 						<span
 							class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900"
 							name="requestCount"
-						></span>
+						>1</span>
 					</x-header.nav-link>
 				@endif
 

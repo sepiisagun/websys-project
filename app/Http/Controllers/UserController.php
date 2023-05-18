@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+    }
+
+    public function filter(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $user = Auth::user();
+        $reservations = Reservation::join('houses', 'reservations.house_id', '=', 'houses.id')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->whereBetween('reservations.check_in', [$start_date, $end_date])
+            ->where('houses.user_id', $user->id)
+            ->paginate(10);
+        return view('account.showTransactions', compact('reservations'));
     }
 
     /**
@@ -140,7 +153,7 @@ class UserController extends Controller
         ];
 
         $pdf = PDF::loadView('pdf.transaction-pdf', $data);
-        return $pdf->download('transaction.pdf');
+        return $pdf->stream('transaction.pdf');
     }
 
     /**

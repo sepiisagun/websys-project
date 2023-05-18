@@ -1,4 +1,4 @@
-<div class="bg-slate-50 dark:bg-neutral-900">
+<div class="bg-white dark:bg-neutral-900">
 	<div
 		class="gap-y-15 mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 py-10 px-5 sm:gap-y-12 sm:px-7 lg:max-w-7xl lg:grid-cols-1 lg:px-8 lg:py-10"
 	>

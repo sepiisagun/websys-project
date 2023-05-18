@@ -70,7 +70,8 @@ Route::get('/search', [UserController::class, 'search'])->name('account.search')
 // Transaction Related Routes
 Route::middleware(['auth','nocache'])->group(function(){
     Route::get('/transaction', [UserController::class, 'showTransaction'])->name('account.showTransaction');
-    Route::get('/transaction/generate', [UserController::class, 'generateTransaction'])->name('account.generateTransaction');;
+    Route::get('/transaction/generate', [UserController::class, 'generateTransaction'])->name('account.generateTransaction');
+    Route::get('/transaction/filter', [UserController::class, 'filter'])->name('account.filter');
 });
 
 // Approval Request Related Routes
