@@ -30,8 +30,8 @@
 												class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 												id="start_date"
 												name="start_date"
-												required
 												type="date"
+												{{-- value="{{ $start_date }}" --}}
 											>
 										</div>
 									</div>
@@ -42,30 +42,24 @@
 												class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 												id="end_date"
 												name="end_date"
-												required
 												type="date"
+												{{-- value="{{ $end_date }}" --}}
 											>
 										</div>
 									</div>
 
-									<div class="col-md-6">
-										<button
-											class="my-2 mx-4 mb-2 rounded-full bg-blue-700 px-10 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-											id="filterbtn"
-											onclick="getData(); return false"
-											type="submit"
-										>Filter</button>
-									</div>
-									<div
-										class="md:items-right flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:space-y-0 md:space-x-3"
-									>
-										<a
-											class="my-2 mb-2 rounded-full bg-blue-700 px-10 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-											href="{{ route('account.generateTransaction') }}"
-										>
-											Export PDF
-										</a>
-									</div>
+									<button
+										class="my-2 mx-2 mb-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+										name="action"
+										type="submit"
+										value="filterbtn"
+									>Filter Report</button>
+									<button
+										class="my-2 ml-0 mb-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+										name="action"
+										type="submit"
+										value="generatebtn"
+									>Generate PDF</button>
 								</div>
 							</form>
 						</div>
