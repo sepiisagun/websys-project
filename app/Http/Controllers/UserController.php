@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Rating;
+use Illuminate\Database\Query\Builder;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -463,5 +465,71 @@ class UserController extends Controller
         $request->image_path->move(public_path('img'), $newImageName);
 
         return $newImageName;
+    }
+
+    
+    public function showTransaction()
+    {
+        if (!Auth::user()) return view('fallback.index');
+        $user = Auth::user();
+        if ($user->role === "RENTER") {
+            $reservations = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where('houses.user_id', '=', $user->id)
+                // ->select('reservations.*', 'houses.*')
+                ->paginate(10);
+            return view('account.showTransactions', ['reservations' => $reservations]);
+        } else {
+        }
+    }
+
+    public function filter_transaction(Request $request)
+    {
+        if ($request->input('action') === 'generatebtn') {
+            $start_date = $request->start_date;
+            $end_date = $request->end_date;
+
+            // if(empty($request)) {
+            //     $houses = DB::table('reservations')
+            //     ->join('houses', 'reservations.house_id', '=', 'houses.id')
+            //     ->join('users', 'reservations.user_id', '=', 'users.id')
+            //     ->where('houses.user_id', '=', Auth::user()->id)
+            //     ->select('reservations.*', 'houses.*', 'users.*')
+            //     ->get();
+            //     $pdf = PDF::loadView('pdf.transaction-pdf', compact('houses', 'start_date', 'end_date'));
+            //     return $pdf->stream('transaction.pdf');
+
+            // }else{
+                $houses = DB::table('reservations')
+                ->join('houses', 'reservations.house_id', '=', 'houses.id')
+                ->join('users', 'reservations.user_id', '=', 'users.id')
+                ->where('houses.user_id', '=', Auth::user()->id)
+                ->select('reservations.*', 'houses.*', 'users.*')
+                ->where(function (Builder $query) use ($start_date, $end_date) {
+                    $query->whereBetween('reservations.check_in', [$start_date, $end_date]);
+                })
+                ->get();
+                $pdf = PDF::loadView('pdf.transaction-pdf', compact('houses', 'start_date', 'end_date'));
+                return $pdf->stream('transaction.pdf');
+            // }
+
+        } elseif ($request->input('action') === 'filterbtn') {
+            // if(empty($request)){
+            //     $start_date = '';
+            //     $end_date = '';
+            //     return view('account.showTransactions');
+            // }else{
+                $start_date = $request->start_date;
+                $end_date = $request->end_date;
+                $user = Auth::user();
+                $reservations = Reservation::join('houses', 'reservations.house_id', '=', 'houses.id')
+                    ->join('users', 'reservations.user_id', '=', 'users.id')
+                    ->whereBetween('reservations.check_in', [$start_date, $end_date])
+                    ->where('houses.user_id', $user->id)
+                    ->paginate(10);
+                return view('account.showTransactions', compact('reservations', 'start_date', 'end_date'));
+            // }
+        }
     }
 }

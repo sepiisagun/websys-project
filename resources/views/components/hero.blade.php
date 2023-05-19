@@ -16,14 +16,18 @@
 			</p>
 
 			<div class="mt-8 flex flex-wrap justify-center gap-6 px-6">
-				<button
-					class="btn btn-sky"
-					type="button"
-				>Book Now</button>
-				<button
-					class="btn btn-white"
-					type="button"
-				>Learn More</button>
+				<a
+					class="btn btn-sky mx-2 px-5 py-2.5 text-center text-sm font-medium hover:bg-sky-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-white dark:text-black dark:hover:bg-sky-800 dark:hover:text-white dark:focus:ring-sky-800"
+					href="{{ route('house.index') }}"
+				>
+					{{ config('constants.BUTTON_LABELS.BOOK') }}
+				</a>
+				<a
+					class="btn dark:focus:ring-sky-800' mx-2 bg-white px-5 py-2.5 text-center text-sm font-medium text-black hover:bg-sky-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-sky-900 dark:text-white dark:hover:bg-sky-700 dark:hover:text-white"
+					href="{{ route('house.index') }}"
+				>
+					{{ config('constants.BUTTON_LABELS.LEARN_MORE') }}
+				</a>
 			</div>
 		</div>
 

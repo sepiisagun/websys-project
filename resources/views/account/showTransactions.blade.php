@@ -7,8 +7,10 @@
 				<div class="mx-auto mb-2 max-w-screen-sm text-center">
 					<h2
 						class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white lg:text-4xl"
-					>Transactions</h2>
+					>Transactions
+					</h2>
 				</div>
+
 				<div class="mx-auto w-4/5 py-8 px-4 lg:py-8 lg:px-6">
 					<div
 						class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-md"
@@ -16,16 +18,50 @@
 						<div
 							class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-y-0 md:space-x-4"
 						>
-							<div
-								class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-y-0 md:space-x-3"
+							<form
+								action="/transaction/filter"
+								id="transaction_form"
+								method="GET"
 							>
-						<a
-                            class="hover:text-primary-700 flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
-                            href="{{ route('account.generateTransaction') }}"
-                        >
-                            Export PDF
-                        </a>
-							</div>
+								<div class="flex items-center px-4">
+									<div class="relative max-w-sm">
+										<div class="col-sm-3">
+											<input
+												class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+												id="start_date"
+												name="start_date"
+												type="date"
+												{{-- value="{{ $start_date }}" --}}
+											>
+										</div>
+									</div>
+									<span class="mx-4 text-gray-500">to</span>
+									<div class="relative max-w-sm">
+										<div class="col-sm-3">
+											<input
+												class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+												id="end_date"
+												name="end_date"
+												type="date"
+												{{-- value="{{ $end_date }}" --}}
+											>
+										</div>
+									</div>
+
+									<button
+										class="my-2 mx-2 mb-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+										name="action"
+										type="submit"
+										value="filterbtn"
+									>Filter Report</button>
+									<button
+										class="my-2 ml-0 mb-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+										name="action"
+										type="submit"
+										value="generatebtn"
+									>Generate PDF</button>
+								</div>
+							</form>
 						</div>
 						<div class="overflow-x-auto">
 							<table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
@@ -97,6 +133,23 @@
 					'csrftoken': '{{ csrf_token() }}'
 				}
 			});
+			// $(document).ready(function() {
+			// 	// Listen to click event on the submit button
+			// 	$('#filterbtn').click(function(e) {
+
+			// 		e.preventDefault();
+
+			// 		var start_date = $("#start_date").val();
+			// 		var end_date = $("#end_date").val();
+
+			// 		$.post("/transaction", {
+			// 			start_date: start_date,
+			// 			end_date: end_date
+			// 		}).complete(function() {
+			// 			console.log("Success");
+			// 		});
+			// 	});
+			// });
 		</script>
 	@endauth
 @endsection

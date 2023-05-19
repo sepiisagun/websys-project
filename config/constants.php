@@ -9,6 +9,9 @@ return [
         'SUBMIT' => 'Submit',
         'CANCEL' => 'Cancel',
         'LOGIN' => 'Login to your account',
+        'EXPLORE' => 'Explore Now!',
+        'BOOK' => 'Book Now',
+        'LEARN_MORE' => 'Learn More',
     ],
     'FORM_LABELS' => [
         'USERNAME' => [

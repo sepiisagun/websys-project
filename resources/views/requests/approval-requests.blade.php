@@ -16,7 +16,7 @@
 						<div
 							class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-y-0 md:space-x-4"
 						>
-							<x-search-bar />
+							{{-- <x-search-bar /> --}}
 						</div>
 						<div id="tester">
 							@include('requests.requests-table', [

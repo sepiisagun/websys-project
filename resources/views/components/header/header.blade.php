@@ -199,6 +199,16 @@
 						</li>
 					@endif
 				@endforeach
+				@if (Auth::check() && Auth::user()->role == 'RENTER')
+					<x-header.nav-link href="{{ route('reserve.approvalRequests') }}">
+						{{ 'Approval Requests' }}
+						<span
+							class="btn-sky -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-lg border-2 border-white text-xs font-bold text-white dark:border-gray-900"
+							name="requestCount"
+						>1</span>
+					</x-header.nav-link>
+				@endif
+
 			</ul>
 		</div>
 	</div>
