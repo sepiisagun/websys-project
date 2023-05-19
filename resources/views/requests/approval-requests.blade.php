@@ -7,7 +7,8 @@
 				<div class="mx-auto mb-2 max-w-screen-sm text-center">
 					<h2
 						class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white lg:text-4xl"
-					>Approval Requests</h2>
+					>Approval
+						Requests</h2>
 				</div>
 				<div class="mx-auto w-4/5 py-8 px-4 lg:py-8 lg:px-6">
 					<div
@@ -16,7 +17,7 @@
 						<div
 							class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-y-0 md:space-x-4"
 						>
-							<x-search-bar />
+							{{-- <x-search-bar /> --}}
 						</div>
 						<div id="tester">
 							@include('requests.requests-table', [
